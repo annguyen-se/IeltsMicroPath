@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from './api/apiClient';
 import AppHeader from './components/layout/AppHeader';
-import DailyMissionCard from './features/dashboard/DailyMissionCard';
-import LeitnerBoxGrid from './features/dashboard/LeitnerBoxGrid';
-import LevelProgressCard from './features/dashboard/LevelProgressCard';
+import StudentDashboard from './features/dashboard/StudentDashboard';
 import MissionRunner from './features/mission/MissionRunner';
 import SessionSummaryModal from './features/mission/SessionSummaryModal';
 import SrsReviewRoom from './features/srs/SrsReviewRoom';
@@ -17,18 +15,40 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [summaryData, setSummaryData] = useState(null);
+  const [theme, setTheme] = useState(() => localStorage.getItem('ieltstrain_theme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('ieltstrain_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const [dashboardData, setDashboardData] = useState({
-    user: { email: 'learner@ielts.local', currentLevel: 0, targetBand: 6.5, streak: 5 },
-    metrics: { srsDueCount: 12, unresolvedMistakesCount: 3, masteredNodesCount: 14, totalLevelNodesCount: 25, levelProgressPercent: 56 },
-    dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: 25 }
+    user: { email: '', currentLevel: 0, targetBand: null, streak: 0 },
+    metrics: { srsDueCount: 0, unresolvedMistakesCount: 0, masteredNodesCount: 0, totalLevelNodesCount: 0, levelProgressPercent: 0 },
+    dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: null }
   });
 
-  const [srsStats, setSrsStats] = useState({ 1: 3, 2: 4, 3: 5, 4: 2, 5: 8 });
+  const [srsStats, setSrsStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
   const [missionPayload, setMissionPayload] = useState(null);
 
   useEffect(() => {
-    fetchDashboard();
+    if (isAuthenticated) {
+      fetchDashboard();
+    } else {
+      setDashboardData({
+        user: { email: '', currentLevel: 0, targetBand: null, streak: 0 },
+        metrics: { srsDueCount: 0, unresolvedMistakesCount: 0, masteredNodesCount: 0, totalLevelNodesCount: 0, levelProgressPercent: 0 },
+        dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: null }
+      });
+      setSrsStats({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
+      if (currentView === 'admin') {
+        setCurrentView('dashboard');
+      }
+    }
   }, [isAuthenticated]);
 
   const fetchDashboard = async () => {
@@ -39,16 +59,21 @@ export default function App() {
       const stats = await api.get('/reviews/stats');
       if (stats?.boxDistribution) setSrsStats(stats.boxDistribution);
     } catch (err) {
-      console.warn('[Offline / Local State Fallback]:', err.message);
+      console.warn('[Fetch Dashboard Warning]:', err.message);
     }
   };
 
   const handleStartMission = async () => {
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
     try {
       const data = await api.get('/learning/today');
-      if (data) setMissionPayload(data);
+      setMissionPayload(data || null);
     } catch (err) {
-      console.warn('[Using Local Mission Fallback]:', err.message);
+      console.warn('[Fetch Mission Warning]:', err.message);
+      setMissionPayload(null);
     }
     setCurrentView('mission');
   };
@@ -72,30 +97,27 @@ export default function App() {
         setCurrentView={setCurrentView}
         dashboardData={dashboardData}
         isAuthenticated={isAuthenticated}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         onOpenAuth={() => setShowAuthModal(true)}
         onLogout={() => {
           api.setToken(null);
           setIsAuthenticated(false);
+          setCurrentView('dashboard');
         }}
       />
 
       {/* ─── Main Content Views ─── */}
       <main className="app-main">
         {currentView === 'dashboard' && (
-          <div className="stack">
-            <DailyMissionCard
-              metrics={dashboardData.metrics}
-              onStartMission={handleStartMission}
-            />
-            <div className="grid-dashboard">
-              <LeitnerBoxGrid srsStats={srsStats} />
-              <LevelProgressCard
-                levelProgressPercent={dashboardData.metrics.levelProgressPercent}
-                masteredCount={dashboardData.metrics.masteredNodesCount}
-                totalCount={dashboardData.metrics.totalLevelNodesCount}
-              />
-            </div>
-          </div>
+          <StudentDashboard
+            dashboardData={dashboardData}
+            srsStats={srsStats}
+            isAuthenticated={isAuthenticated}
+            onStartMission={handleStartMission}
+            onSwitchView={(view) => setCurrentView(view)}
+            onOpenAuth={() => setShowAuthModal(true)}
+          />
         )}
 
         {currentView === 'mission' && (
@@ -106,11 +128,23 @@ export default function App() {
           />
         )}
 
-        {currentView === 'srs' && <SrsReviewRoom />}
+        {currentView === 'srs' && (
+          <SrsReviewRoom
+            isAuthenticated={isAuthenticated}
+            onBack={() => setCurrentView('dashboard')}
+            onOpenAuth={() => setShowAuthModal(true)}
+          />
+        )}
 
-        {currentView === 'mistakes' && <MistakeVault />}
+        {currentView === 'mistakes' && (
+          <MistakeVault
+            isAuthenticated={isAuthenticated}
+            onBack={() => setCurrentView('dashboard')}
+            onOpenAuth={() => setShowAuthModal(true)}
+          />
+        )}
 
-        {currentView === 'admin' && <AdminCms />}
+        {currentView === 'admin' && <AdminCms onBackToStudent={() => setCurrentView('dashboard')} />}
       </main>
 
       {/* ─── Modals ─── */}

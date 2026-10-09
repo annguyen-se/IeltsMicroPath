@@ -21,8 +21,8 @@ const register = async ({ email, password, targetBand, initialLevel }) => {
     email,
     password,
     profile: {
-      targetBand: targetBand !== undefined ? targetBand : 6.5,
-      currentLevel: initialLevel !== undefined ? initialLevel : 0
+      targetBand: targetBand ? Number(targetBand) : undefined,
+      currentLevel: initialLevel !== undefined ? Number(initialLevel) : 0
     }
   });
 

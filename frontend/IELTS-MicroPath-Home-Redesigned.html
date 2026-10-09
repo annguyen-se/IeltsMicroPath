@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
-<head><script type="application/json" data-od-external-dependencies>["https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap","https://unpkg.com/lucide@latest"]</script>
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IELTS MicroPath · Prerequisite-Based Micro-Learning System</title>
+  <title>IELTS MicroPath · Your IELTS Learning Companion</title>
 
   <!-- Google Fonts (Typography Spec: Lexend, Be Vietnam Pro, Noto Sans, IBM Plex Mono) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -984,6 +984,64 @@
       display: grid;
       place-items: center;
     }
+
+    /* ─── IELTS-first Home redesign ─── */
+    .home-welcome { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:4px; }
+    .home-welcome h1 { font-size:clamp(28px,3.4vw,38px); line-height:1.18; margin:5px 0 10px; }
+    .home-welcome p { max-width:650px; color:var(--fg-muted); }
+    .home-overview { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .home-stat { display:flex; align-items:center; gap:9px; border:1px solid var(--border); background:var(--surface); border-radius:12px; padding:10px 13px; }
+    .home-stat-icon { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background:var(--surface-subtle); }
+    .home-stat strong { display:block; font-family:var(--font-display); font-size:17px; line-height:1.2; }
+    .home-stat small { color:var(--fg-muted); font-size:11px; }
+    .home-hero { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(220px,.65fr); gap:28px; align-items:center; overflow:hidden; background:linear-gradient(120deg,#f5f7ff 0%,#fff 65%,#eafaf8 100%); border-color:#dce4ff; }
+    .home-hero h2 { font-size:clamp(23px,2.6vw,30px); line-height:1.25; margin:10px 0; }
+    .home-hero-copy { color:var(--fg-muted); max-width:58ch; font-size:14px; }
+    .home-hero-art { min-height:185px; border-radius:16px; background:linear-gradient(145deg,#e2e9ff,#f2f5ff 55%,#d9f7f1); position:relative; display:grid; place-items:center; overflow:hidden; }
+    .hero-orbit { position:absolute; width:170px; height:170px; border:1px solid #aabaff; border-radius:50%; }
+    .hero-orbit:before,.hero-orbit:after { content:''; position:absolute; border:1px solid #c2ccfa; border-radius:50%; inset:18px; }
+    .hero-orbit:after { inset:40px; }
+    .hero-book { position:relative; z-index:1; width:82px; height:96px; border-radius:9px 13px 13px 9px; display:grid; place-items:center; background:#fff; color:var(--color-cobalt); box-shadow:0 12px 25px #4458a52a; transform:rotate(-7deg); }
+    .hero-floating { position:absolute; z-index:2; padding:8px 10px; border-radius:10px; background:#fff; border:1px solid #e1e6f7; box-shadow:0 5px 18px #1b2b4b0d; font-size:11px; font-weight:700; display:flex; align-items:center; gap:6px; }
+    .hero-floating.one { top:20px; right:15px; }.hero-floating.two { bottom:20px; left:14px; }
+    .home-section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:14px; }
+    .home-section-head h2 { font-size:20px; }
+    .home-section-head p { font-size:13px; color:var(--fg-muted); margin-top:3px; }
+    .home-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr); gap:22px; align-items:start; }
+    .home-column { display:flex; flex-direction:column; gap:22px; min-width:0; }
+    .next-action { border:1px solid var(--color-cobalt-border); background:linear-gradient(135deg,#fff 0%,#f7f8ff 100%); }
+    .next-action-top { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; }
+    .lesson-icon { width:48px; height:48px; display:grid; place-items:center; border-radius:13px; background:#e8edff; color:var(--color-cobalt); flex-shrink:0; }
+    .lesson-row { display:flex; gap:14px; align-items:flex-start; }
+    .lesson-meta { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .soft-pill { display:inline-flex; align-items:center; gap:5px; border:1px solid var(--border); background:#fff; color:var(--fg-muted); padding:4px 8px; border-radius:99px; font-size:11px; font-weight:600; }
+    .next-action-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; border-top:1px solid var(--border); margin-top:20px; padding-top:16px; }
+    .today-list { display:flex; flex-direction:column; gap:0; }
+    .today-task { display:flex; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); }
+    .today-task:last-child { border-bottom:0; padding-bottom:0; }
+    .task-icon { width:40px; height:40px; border-radius:11px; display:grid; place-items:center; flex-shrink:0; }
+    .task-copy { flex:1; min-width:0; }
+    .task-copy strong { display:block; font-size:14px; }
+    .task-copy p { color:var(--fg-muted); font-size:12px; line-height:1.5; margin-top:2px; }
+    .task-count { font-size:12px; color:var(--fg-muted); white-space:nowrap; font-weight:600; }
+    .skill-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .skill-card { text-align:left; width:100%; min-width:0; border:1px solid var(--border); border-radius:13px; padding:16px; background:var(--surface); cursor:pointer; transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease; }
+    .skill-card:hover { transform:translateY(-2px); border-color:var(--border-strong); box-shadow:0 5px 18px #1b2b4b0b; }
+    .skill-card .skill-icon { width:38px; height:38px; display:grid; place-items:center; border-radius:11px; margin-bottom:12px; }
+    .skill-card strong { display:block; font-size:14px; margin-bottom:3px; }
+    .skill-card p { color:var(--fg-muted); font-size:12px; line-height:1.45; min-height:35px; }
+    .skill-card .skill-link { display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; margin-top:12px; color:var(--color-cobalt); }
+    .focus-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+    .focus-row:last-child { border-bottom:0; padding-bottom:0; }
+    .focus-row:first-child { padding-top:0; }
+    .focus-row .focus-copy { flex:1; min-width:0; }
+    .focus-copy strong { font-size:13px; display:block; }
+    .focus-copy p { font-size:12px; color:var(--fg-muted); }
+    .mini-link { border:0; background:transparent; color:var(--color-cobalt); font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .home-note { background:#f7f8fc; border-left:3px solid var(--color-cobalt); }
+    @media(max-width:850px) { .home-hero { grid-template-columns:1fr; }.home-hero-art { display:none; }.home-grid { grid-template-columns:1fr; }.home-welcome { flex-direction:column; }.home-overview { width:100%; } }
+    @media(max-width:560px) { .home-stat { flex:1; min-width:125px; }.skill-grid { grid-template-columns:1fr 1fr; }.home-hero { padding:23px!important; }.home-section-head { align-items:flex-start; flex-direction:column; } }
+
   </style>
 </head>
 <body>
@@ -1034,11 +1092,11 @@
         </button>
         <button class="nav-tab" id="tab-srs" onclick="switchView('srs')">
           <i data-lucide="boxes" style="width:16px; height:16px;"></i>
-          <span>SRS Review (12)</span>
+          <span>Vocabulary</span>
         </button>
         <button class="nav-tab" id="tab-mistakes" onclick="switchView('mistakes')">
           <i data-lucide="shield-alert" style="width:16px; height:16px;"></i>
-          <span>Mistake Vault (3)</span>
+          <span>Mistakes</span>
         </button>
         <button class="nav-tab" id="tab-admin" onclick="switchView('admin')">
           <i data-lucide="settings" style="width:16px; height:16px;"></i>
@@ -1083,238 +1141,100 @@
       </button>
     </div>
 
-    <!-- VIEW 1: STU-02 STUDENT DASHBOARD -->
-    <div id="view-dashboard" class="stack" data-od-id="student-dashboard">
-
-      <!-- HERO: ZERO-FRICTION 1-CLICK DAILY MISSION -->
-      <section class="card mission-hero" data-od-id="hero-daily-mission">
-        <div class="row-between" style="margin-bottom: 8px;">
-          <p class="eyebrow">
-            <i data-lucide="zap" style="width:15px; height:15px;"></i>
-            <span>DAILY MISSION · 25 MIN</span>
-          </p>
-          <span class="pill pill-cobalt">
-            <i data-lucide="clock" style="width:12px; height:12px;"></i>
-            <span>Estimated: 25 min</span>
-          </span>
+    <!-- VIEW 1: IELTS-FIRST STUDENT HOME -->
+    <div id="view-dashboard" class="stack" data-od-id="student-dashboard" style="gap:26px;">
+      <section class="home-welcome" data-od-id="home-welcome">
+        <div>
+          <p class="eyebrow"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> YOUR IELTS LEARNING SPACE</p>
+          <h1>Make today count.</h1>
+          <p>Build your IELTS skills one focused session at a time. Review what matters, fix your weak spots, and keep moving toward your target band.</p>
         </div>
-
-        <h1>Day 15 · Your personalized lesson</h1>
-        <p class="card-subtitle" style="font-size: 16px; max-width: 62ch; color: var(--fg-muted);">
-          Your optimal spaced repetition path is calculated: reinforce due vocabulary, eliminate past mistake traps, and acquire 1 prerequisite micro-skill.
-        </p>
-
-        <!-- 3-Phase Color-Coded Process Blueprint -->
-        <div class="mission-pipeline">
-          <div class="phase-badge phase-1">
-            <span class="phase-step">
-              <i data-lucide="layers" style="width:14px; height:14px; color:var(--color-cyan);"></i>
-              <span>PHASE 1</span>
-            </span>
-            <span class="phase-name">Leitner SRS Review</span>
-            <span class="phase-count">12 cards due today (Box 1 & 2)</span>
-          </div>
-
-          <div class="phase-badge phase-2">
-            <span class="phase-step">
-              <i data-lucide="shield-alert" style="width:14px; height:14px; color:var(--color-rose);"></i>
-              <span>PHASE 2</span>
-            </span>
-            <span class="phase-name">Fix past mistakes</span>
-            <span class="phase-count">2 questions from Mistake Vault</span>
-          </div>
-
-          <div class="phase-badge phase-3">
-            <span class="phase-step">
-              <i data-lucide="book-open" style="width:14px; height:14px; color:var(--color-violet);"></i>
-              <span>PHASE 3</span>
-            </span>
-            <span class="phase-name">New micro-lesson</span>
-            <span class="phase-count">Reading: Paraphrase Detection</span>
-          </div>
+        <div class="home-overview" aria-label="Learning overview">
+          <div class="home-stat"><span class="home-stat-icon" style="color:#d97706;background:#fff4d9;"><i data-lucide="flame" style="width:19px;height:19px;"></i></span><span><strong>14 days</strong><small>Learning streak</small></span></div>
+          <div class="home-stat"><span class="home-stat-icon" style="color:#16805d;background:#e4f8ef;"><i data-lucide="target" style="width:19px;height:19px;"></i></span><span><strong>Band 7.0</strong><small>Your target</small></span></div>
         </div>
-
-        <!-- Single Primary CTA (Action Economy) -->
-        <button class="btn btn-primary btn-lg" onclick="startDailyMission()" data-od-id="btn-start-daily-mission">
-          <span>Start today's lesson</span>
-          <i data-lucide="arrow-right" style="width:18px; height:18px;"></i>
-        </button>
       </section>
 
-      <!-- Dashboard Secondary Columns -->
-      <div class="grid-dashboard">
+      <section class="card home-hero" data-od-id="hero-daily-mission">
+        <div>
+          <p class="eyebrow"><i data-lucide="zap" style="width:14px;height:14px;"></i> YOUR NEXT BEST STEP</p>
+          <h2>One lesson closer to your goal.</h2>
+          <p class="home-hero-copy">Pick up with a short, focused activity designed to strengthen your academic reading and help you recognize paraphrases in IELTS passages.</p>
+          <div class="lesson-meta" style="margin:16px 0 20px;">
+            <span class="soft-pill"><i data-lucide="book-open" style="width:13px;height:13px;"></i> Reading</span>
+            <span class="soft-pill"><i data-lucide="clock" style="width:13px;height:13px;"></i> About 10 min</span>
+            <span class="soft-pill"><i data-lucide="signal" style="width:13px;height:13px;"></i> Level 1</span>
+          </div>
+          <button class="btn btn-primary btn-lg" onclick="startDailyMission()" data-od-id="btn-start-daily-mission"><span>Continue learning</span><i data-lucide="arrow-right" style="width:18px;height:18px;"></i></button>
+        </div>
+        <div class="home-hero-art" aria-hidden="true">
+          <div class="hero-orbit"></div>
+          <div class="hero-book"><i data-lucide="book-open-check" style="width:40px;height:40px;"></i></div>
+          <div class="hero-floating one"><i data-lucide="check-circle-2" style="width:15px;height:15px;color:#16805d;"></i> Learn by doing</div>
+          <div class="hero-floating two"><i data-lucide="trending-up" style="width:15px;height:15px;color:var(--color-cobalt);"></i> Small daily wins</div>
+        </div>
+      </section>
 
-        <!-- Left: SRS Room & Mistake Quick Hub -->
-        <div class="stack">
+      <section data-od-id="daily-plan-section">
+        <div class="home-section-head"><div><h2>Today's learning plan</h2><p>A balanced routine: remember, improve, then learn something new.</p></div><span class="soft-pill"><i data-lucide="clock" style="width:13px;height:13px;"></i> 25–30 min</span></div>
+        <div class="card" style="padding:8px 24px;">
+          <div class="today-list">
+            <div class="today-task"><span class="task-icon" style="background:#e4f8ef;color:#16805d;"><i data-lucide="layers" style="width:20px;height:20px;"></i></span><div class="task-copy"><strong>Review vocabulary</strong><p>Revisit words scheduled for review to strengthen long-term memory.</p></div><span class="task-count">SRS</span><button class="mini-link" onclick="switchView('srs')">Review <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i></button></div>
+            <div class="today-task"><span class="task-icon" style="background:#fff0e9;color:#c85a30;"><i data-lucide="shield-alert" style="width:20px;height:20px;"></i></span><div class="task-copy"><strong>Repair a past mistake</strong><p>Turn an incorrect answer into a lesson you can remember.</p></div><span class="task-count">Practice</span><button class="mini-link" onclick="switchView('mistakes')">Fix <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i></button></div>
+            <div class="today-task"><span class="task-icon" style="background:#e8edff;color:var(--color-cobalt);"><i data-lucide="graduation-cap" style="width:20px;height:20px;"></i></span><div class="task-copy"><strong>Learn one new skill</strong><p>Continue to a lesson that matches your current learning level.</p></div><span class="task-count">Lesson</span><button class="mini-link" onclick="startDailyMission()">Start <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i></button></div>
+          </div>
+        </div>
+      </section>
 
-          <!-- STU-04 Preview: Leitner Spaced Repetition -->
-          <div class="card" data-od-id="card-srs-preview">
-            <div class="row-between">
-              <div>
-                <h2 class="card-title">
-                  <i data-lucide="boxes" style="width:20px; height:20px; color:var(--color-cobalt);"></i>
-                  <span>Leitner Box (5 levels)</span>
-                </h2>
-                <p class="card-subtitle">Ebbinghaus spaced repetition algorithm to prevent forgetting.</p>
-              </div>
-              <button class="btn btn-secondary" onclick="switchView('srs')" style="padding: 7px 14px; font-size: 13px;">
-                <span>Open SRS Room</span>
-                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
-              </button>
+      <div class="home-grid">
+        <div class="home-column">
+          <section data-od-id="skill-focus-section">
+            <div class="home-section-head"><div><h2>Choose your focus</h2><p>Practice the skill you want to improve today.</p></div><button class="btn btn-ghost" onclick="triggerToast('The full lesson library will be connected to published lessons.')">All lessons <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></button></div>
+            <div class="skill-grid">
+              <button class="skill-card" onclick="triggerToast('Listening lessons: connect this card to GET /api/v1/lessons?skill=listening')"><span class="skill-icon" style="background:#e8edff;color:#315bea;"><i data-lucide="headphones" style="width:20px;height:20px;"></i></span><strong>Listening</strong><p>Train your ear with audio and dictation practice.</p><span class="skill-link">Explore lessons <i data-lucide="arrow-up-right" style="width:13px;height:13px;"></i></span></button>
+              <button class="skill-card" onclick="triggerToast('Reading lessons: connect this card to GET /api/v1/lessons?skill=reading')"><span class="skill-icon" style="background:#e5f8f5;color:#078575;"><i data-lucide="book-open" style="width:20px;height:20px;"></i></span><strong>Reading</strong><p>Build comprehension and spot paraphrases.</p><span class="skill-link">Explore lessons <i data-lucide="arrow-up-right" style="width:13px;height:13px;"></i></span></button>
+              <button class="skill-card" onclick="triggerToast('Speaking lessons: connect this card to GET /api/v1/lessons?skill=speaking')"><span class="skill-icon" style="background:#f3e8ff;color:#8b42cb;"><i data-lucide="mic" style="width:20px;height:20px;"></i></span><strong>Speaking</strong><p>Strengthen pronunciation and spoken foundations.</p><span class="skill-link">Explore lessons <i data-lucide="arrow-up-right" style="width:13px;height:13px;"></i></span></button>
+              <button class="skill-card" onclick="triggerToast('Writing lessons: connect this card to GET /api/v1/lessons?skill=writing')"><span class="skill-icon" style="background:#fff2d9;color:#a36a00;"><i data-lucide="pen-line" style="width:20px;height:20px;"></i></span><strong>Writing</strong><p>Improve grammar, sentence structure and word choice.</p><span class="skill-link">Explore lessons <i data-lucide="arrow-up-right" style="width:13px;height:13px;"></i></span></button>
+              <button class="skill-card" onclick="triggerToast('Grammar lessons: connect this card to GET /api/v1/lessons?skill=grammar')"><span class="skill-icon" style="background:#f3e8ff;color:#7c3aed;"><i data-lucide="spell-check" style="width:20px;height:20px;"></i></span><strong>Grammar</strong><p>Make sentence patterns more accurate and flexible.</p><span class="skill-link">Explore lessons <i data-lucide="arrow-up-right" style="width:13px;height:13px;"></i></span></button>
+              <button class="skill-card" onclick="triggerToast('Phonetics lessons: connect this card to GET /api/v1/lessons?skill=phonetics')"><span class="skill-icon" style="background:#e0f2fe;color:#0369a1;"><i data-lucide="audio-lines" style="width:20px;height:20px;"></i></span><strong>Pronunciation</strong><p>Learn IPA and sound distinctions for clearer speech.</p><span class="skill-link">Explore lessons <i data-lucide="arrow-up-right" style="width:13px;height:13px;"></i></span></button>
             </div>
+          </section>
 
-            <!-- Colorful 5 Boxes Progression Grid -->
+          <section class="card" data-od-id="card-srs-preview">
+            <div class="home-section-head"><div><h2><i data-lucide="layers" style="width:19px;height:19px;color:var(--color-cobalt);vertical-align:-3px;"></i> Vocabulary memory</h2><p>Spaced repetition helps you remember words for longer.</p></div><button class="btn btn-secondary" onclick="switchView('srs')" style="padding:7px 12px;font-size:12px;">Open review <i data-lucide="chevron-right" style="width:13px;height:13px;"></i></button></div>
             <div class="leitner-grid" id="srs-boxes-container">
-              <div class="leitner-box-col box-1">
-                <span class="leitner-box-label">BOX 1</span>
-                <div class="leitner-box-count">12</div>
-                <span class="leitner-box-time">Daily</span>
-              </div>
-              <div class="leitner-box-col box-2">
-                <span class="leitner-box-label">BOX 2</span>
-                <div class="leitner-box-count">28</div>
-                <span class="leitner-box-time">3 days</span>
-              </div>
-              <div class="leitner-box-col box-3">
-                <span class="leitner-box-label">BOX 3</span>
-                <div class="leitner-box-count">45</div>
-                <span class="leitner-box-time">7 days</span>
-              </div>
-              <div class="leitner-box-col box-4">
-                <span class="leitner-box-label">BOX 4</span>
-                <div class="leitner-box-count">80</div>
-                <span class="leitner-box-time">14 days</span>
-              </div>
-              <div class="leitner-box-col box-5">
-                <span class="leitner-box-label">BOX 5</span>
-                <div class="leitner-box-count">142</div>
-                <span class="leitner-box-time">30 days</span>
-              </div>
+              <div class="leitner-box-col box-1"><span class="leitner-box-label">BOX 1</span><div class="leitner-box-count">12</div><span class="leitner-box-time">Daily</span></div>
+              <div class="leitner-box-col box-2"><span class="leitner-box-label">BOX 2</span><div class="leitner-box-count">28</div><span class="leitner-box-time">3 days</span></div>
+              <div class="leitner-box-col box-3"><span class="leitner-box-label">BOX 3</span><div class="leitner-box-count">45</div><span class="leitner-box-time">7 days</span></div>
+              <div class="leitner-box-col box-4"><span class="leitner-box-label">BOX 4</span><div class="leitner-box-count">80</div><span class="leitner-box-time">14 days</span></div>
+              <div class="leitner-box-col box-5"><span class="leitner-box-label">BOX 5</span><div class="leitner-box-count">142</div><span class="leitner-box-time">30 days</span></div>
             </div>
-
-            <!-- Empty State simulation placeholder -->
-            <div id="srs-empty-box" class="empty-state" style="display:none;">
-              <div class="empty-icon">
-                <i data-lucide="check-circle-2" style="width:28px; height:28px;"></i>
-              </div>
-              <p style="font-weight:700; color:var(--fg); margin-bottom:4px; font-size:16px;">No cards due today!</p>
-              <p style="font-size:13.5px; color:var(--fg-muted);">You have completed all scheduled SRS reviews.</p>
-            </div>
-          </div>
-
-          <!-- STU-05 Preview: Mistake Vault -->
-          <div class="card" data-od-id="card-mistake-preview">
-            <div class="row-between" style="margin-bottom: 18px;">
-              <div>
-                <h2 class="card-title">
-                  <i data-lucide="shield-alert" style="width:20px; height:20px; color:var(--color-rose);"></i>
-                  <span>Mistake Vault</span>
-                </h2>
-                <p class="card-subtitle">3 pedagogical trap questions requiring resolution.</p>
-              </div>
-              <button class="btn btn-secondary" onclick="switchView('mistakes')" style="padding: 7px 14px; font-size: 13px;">
-                <span>View all</span>
-                <i data-lucide="chevron-right" style="width:14px; height:14px;"></i>
-              </button>
-            </div>
-
-            <div class="stack" style="gap: 12px;">
-              <div class="mistake-card row-between" style="margin-bottom:0;">
-                <div>
-                  <div class="row" style="margin-bottom: 6px;">
-                    <span class="pill pill-err">
-                      <i data-lucide="alert-circle" style="width:12px; height:12px;"></i>
-                      <span>ERR_LEX</span>
-                    </span>
-                    <span style="font-weight: 700; font-size: 14.5px;">Partial Paraphrase Trap (Drastic vs Gradual)</span>
-                  </div>
-                  <p style="font-size: 13.5px; color: var(--fg-muted);">Cambridge IELTS 18 · Confused 'drastic' with 'gradual'.</p>
-                </div>
-                <button class="btn btn-ghost" onclick="retestMistake('ERR_LEX')" style="color:var(--color-rose); font-weight:600;">
-                  <span>Fix mistake</span>
-                  <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
-                </button>
-              </div>
-
-              <div class="mistake-card row-between" style="margin-bottom:0;">
-                <div>
-                  <div class="row" style="margin-bottom: 6px;">
-                    <span class="pill pill-violet">
-                      <i data-lucide="code" style="width:12px; height:12px;"></i>
-                      <span>ERR_SYN</span>
-                    </span>
-                    <span style="font-weight: 700; font-size: 14.5px;">Conditional Inversion Trap (Had + S + V3)</span>
-                  </div>
-                  <p style="font-size: 13.5px; color: var(--fg-muted);">Reading Passage 2 · Auxiliary inversion omitted.</p>
-                </div>
-                <button class="btn btn-ghost" onclick="retestMistake('ERR_SYN')" style="color:var(--color-violet); font-weight:600;">
-                  <span>Fix mistake</span>
-                  <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
+            <div id="srs-empty-box" class="empty-state" style="display:none;"><div class="empty-icon"><i data-lucide="check-circle-2" style="width:28px;height:28px;"></i></div><p style="font-weight:700;color:var(--fg);margin-bottom:4px;font-size:16px;">You're all caught up!</p><p style="font-size:13.5px;color:var(--fg-muted);">No vocabulary cards are due for review right now.</p></div>
+          </section>
         </div>
 
-        <!-- Right: Prerequisite Skill Tree Status -->
-        <div class="stack">
-          <div class="card" data-od-id="card-skill-tree">
-            <h2 class="card-title">
-              <i data-lucide="git-branch" style="width:20px; height:20px; color:var(--color-emerald);"></i>
-              <span>Skill Tree (Prerequisites)</span>
-            </h2>
-            <p class="card-subtitle" style="margin-bottom: 18px;">Prerequisites required to unlock the next level.</p>
+        <aside class="home-column">
+          <section class="card" data-od-id="card-mistake-preview">
+            <div class="home-section-head"><div><h2><i data-lucide="shield-alert" style="width:19px;height:19px;color:var(--color-rose);vertical-align:-3px;"></i> Mistakes to revisit</h2><p>Learn from errors instead of repeating them.</p></div></div>
+            <div class="focus-row"><span class="task-icon" style="background:#fff0e9;color:#c85a30;"><i data-lucide="text-search" style="width:19px;height:19px;"></i></span><div class="focus-copy"><strong>Vocabulary & paraphrases</strong><p>Review word-choice traps.</p></div><span class="pill pill-err">ERR_LEX</span></div>
+            <div class="focus-row"><span class="task-icon" style="background:#f3e8ff;color:#8b42cb;"><i data-lucide="git-branch" style="width:19px;height:19px;"></i></span><div class="focus-copy"><strong>Sentence structure</strong><p>Revisit syntax mistakes.</p></div><span class="pill pill-violet">ERR_SYN</span></div>
+            <button class="btn btn-secondary" style="width:100%;margin-top:16px;" onclick="switchView('mistakes')">Open mistake review <i data-lucide="arrow-right" style="width:15px;height:15px;"></i></button>
+          </section>
 
-            <div class="stack" style="gap: 12px;">
-              <div class="dag-node mastered">
-                <div>
-                  <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-emerald); font-weight: 600;">LEVEL 0 · COMPLETED</div>
-                  <div style="font-weight: 700; font-size: 14.5px; margin-top:2px;">Phonetics & IPA Fundamentals</div>
-                </div>
-                <span class="pill pill-success">
-                  <i data-lucide="check" style="width:12px; height:12px;"></i>
-                  <span>100%</span>
-                </span>
-              </div>
-
-              <div class="dag-node current">
-                <div>
-                  <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-cobalt); font-weight: 600;">LEVEL 1 · IN PROGRESS</div>
-                  <div style="font-weight: 700; font-size: 14.5px; margin-top:2px;">Academic Word List (Tier 1)</div>
-                </div>
-                <span class="pill pill-cobalt">
-                  <i data-lucide="loader" style="width:12px; height:12px;"></i>
-                  <span>68% / 80%</span>
-                </span>
-              </div>
-
-              <div class="dag-node locked">
-                <div>
-                  <div style="font-size: 11px; font-family: var(--font-mono); color: var(--fg-muted); font-weight: 600;">LEVEL 2 · LOCKED</div>
-                  <div style="font-weight: 700; font-size: 14.5px; margin-top:2px;">Complex Syntax & Clauses</div>
-                </div>
-                <span class="pill pill-muted">
-                  <i data-lucide="lock" style="width:12px; height:12px;"></i>
-                  <span>Requires L1 ≥ 80%</span>
-                </span>
-              </div>
+          <section class="card" data-od-id="card-learning-path">
+            <div class="home-section-head"><div><h2><i data-lucide="route" style="width:19px;height:19px;color:var(--color-emerald);vertical-align:-3px;"></i> Your learning path</h2><p>Move forward as you master each foundation.</p></div></div>
+            <div class="stack" style="gap:10px;">
+              <div class="dag-node mastered"><div><div style="font-size:10px;font-family:var(--font-mono);color:var(--color-emerald);font-weight:600;">FOUNDATION</div><div style="font-weight:700;font-size:13px;margin-top:2px;">Phonetics & IPA</div></div><span class="pill pill-success"><i data-lucide="check" style="width:12px;height:12px;"></i> Done</span></div>
+              <div class="dag-node current"><div><div style="font-size:10px;font-family:var(--font-mono);color:var(--color-cobalt);font-weight:600;">CURRENT FOCUS</div><div style="font-weight:700;font-size:13px;margin-top:2px;">Academic vocabulary</div></div><span class="pill pill-cobalt">In progress</span></div>
+              <div class="dag-node locked"><div><div style="font-size:10px;font-family:var(--font-mono);color:var(--fg-muted);font-weight:600;">UP NEXT</div><div style="font-weight:700;font-size:13px;margin-top:2px;">Complex syntax</div></div><span class="pill pill-muted"><i data-lucide="lock" style="width:12px;height:12px;"></i> Locked</span></div>
             </div>
-          </div>
+            <p style="font-size:11px;color:var(--fg-muted);margin-top:12px;">Illustrative path. Unlocking should be calculated from published lesson prerequisites and the learner's mastered lessons.</p>
+          </section>
 
-          <!-- Micro Learning Discipline Note -->
-          <div class="card" style="background: var(--surface-elev); border-left: 4px solid var(--color-cobalt);">
-            <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-cobalt); margin-bottom: 8px; display:flex; align-items:center; gap:6px;">
-              <i data-lucide="info" style="width:14px; height:14px;"></i>
-              <span>Learning Discipline</span>
-            </div>
-            <p style="font-size: 13.5px; color: var(--fg); line-height: 1.6;">
-              No uncurated mock exam dumps or distracting open-ended chatbots. Each session focuses exclusively on a single prerequisite micro-task.
-            </p>
-          </div>
-        </div>
-
+          <section class="card home-note"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-cobalt);margin-bottom:7px;display:flex;align-items:center;gap:6px;"><i data-lucide="lightbulb" style="width:14px;height:14px;"></i> A small reminder</div><p style="font-size:13px;line-height:1.6;">Consistency beats cramming. A focused 15-minute session is still progress — keep the habit realistic and repeatable.</p></section>
+        </aside>
       </div>
+      <p style="font-size:11px;color:var(--fg-muted);">Prototype note: sample counts, streaks, target band and learning-path states are illustrative UI data. Connect these components to authenticated API responses before production.</p>
     </div>
 
     <!-- VIEW 2: STU-03 DAILY MISSION RUNNER (Interactive Multi-stage loop) -->
@@ -2006,7 +1926,7 @@
     // UI States Matrix Controller
     function setUiState(state) {
       document.querySelectorAll('.state-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      if (typeof event !== 'undefined' && event.target && event.target.classList) event.target.classList.add('active');
 
       const banner = document.getElementById('network-banner');
       const errorView = document.getElementById('view-error-state');

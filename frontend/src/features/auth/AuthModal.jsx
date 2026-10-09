@@ -4,9 +4,9 @@ import api from '../../api/apiClient';
 export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
   const [authForm, setAuthForm] = useState({
-    email: 'learner@ielts.local',
-    password: 'Password123!',
-    targetBand: 6.5
+    email: '',
+    password: '',
+    targetBand: ''
   });
   const [authError, setAuthError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

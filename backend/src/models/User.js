@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const UserProfileSchema = new mongoose.Schema({
   targetBand: {
     type: Number,
-    default: 6.5,
     min: [4.0, 'Target band must be at least 4.0'],
     max: [9.0, 'Target band cannot exceed 9.0']
   },

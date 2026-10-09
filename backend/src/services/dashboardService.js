@@ -15,21 +15,20 @@ const getDashboardData = async (userId) => {
   const [srsDueCount, unresolvedMistakesCount, totalLevelLessons] = await Promise.all([
     UserSrsItem.countDocuments({
       userId,
-      nextReviewDate: { $lte: now }
+      nextReviewDate: { $lte: now },
     }),
     UserMistake.countDocuments({
       userId,
-      isResolved: false
+      isResolved: false,
     }),
     Lesson.countDocuments({
       level: currentLevel,
-      status: 'published'
-    })
+      status: 'published',
+    }),
   ]);
 
-  const levelProgressPercent = totalLevelLessons > 0
-    ? Math.min(100, Math.round((masteredNodeIds.length / totalLevelLessons) * 100))
-    : 0;
+  const levelProgressPercent =
+    totalLevelLessons > 0 ? Math.min(100, Math.round((masteredNodeIds.length / totalLevelLessons) * 100)) : 0;
 
   // Check if active today
   const lastActive = user.profile?.lastActiveDate ? new Date(user.profile.lastActiveDate) : null;
@@ -39,24 +38,25 @@ const getDashboardData = async (userId) => {
   return {
     user: {
       email: user.email,
+      role: user.role || 'student',
       currentLevel,
-      targetBand: user.profile?.targetBand ?? 6.5,
-      streak: user.profile?.streak ?? 0
+      targetBand: user.profile?.targetBand,
+      streak: user.profile?.streak ?? 0,
     },
     metrics: {
       srsDueCount,
       unresolvedMistakesCount,
       masteredNodesCount: masteredNodeIds.length,
       totalLevelNodesCount: totalLevelLessons,
-      levelProgressPercent
+      levelProgressPercent,
     },
     dailyMissionStatus: {
       isCompletedToday,
-      estimatedMinutes: user.profile?.dailyTimeBudget ?? 30
-    }
+      estimatedMinutes: user.profile?.dailyTimeBudget,
+    },
   };
 };
 
 module.exports = {
-  getDashboardData
+  getDashboardData,
 };

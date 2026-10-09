@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Flame, CheckCircle2, Award } from 'lucide-react';
+import { Trophy, Flame, ArrowRight } from 'lucide-react';
 
 export default function SessionSummaryModal({ isOpen, summaryData, onClose }) {
   if (!isOpen) return null;
@@ -7,42 +7,69 @@ export default function SessionSummaryModal({ isOpen, summaryData, onClose }) {
   return (
     <div className="modal-backdrop">
       <div className="modal-box">
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-          <Sparkles size={48} style={{ color: 'var(--color-amber)' }} />
-        </div>
-        <h2 style={{ fontSize: 24, marginBottom: 8 }}>Hoàn thành phiên học xuất sắc!</h2>
-        <p style={{ color: 'var(--fg-muted)', fontSize: 15, marginBottom: 24 }}>
-          Bạn đã hoàn thành đủ 3 giai đoạn của ngày hôm nay. Trí não của bạn đã củng cố thêm kiến thức mới!
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 28 }}>
-          <div className="card" style={{ padding: 14 }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--color-amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-              +{summaryData?.streak ?? 1}
-              <Flame size={18} />
-            </span>
-            <span style={{ fontSize: 12, display: 'block', color: 'var(--fg-muted)' }}>Ngày Streak</span>
-          </div>
-          <div className="card" style={{ padding: 14 }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--color-cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-              +{summaryData?.reviewedCount ?? 1}
-              <CheckCircle2 size={18} />
-            </span>
-            <span style={{ fontSize: 12, display: 'block', color: 'var(--fg-muted)' }}>Từ đã ôn</span>
-          </div>
-          <div className="card" style={{ padding: 14 }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--color-emerald)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-              {summaryData?.scorePercent ?? 100}%
-              <Award size={18} />
-            </span>
-            <span style={{ fontSize: 12, display: 'block', color: 'var(--fg-muted)' }}>Điểm bài mới</span>
-          </div>
-        </div>
-        <button
-          className="btn btn-primary btn-lg"
-          style={{ width: '100%' }}
-          onClick={onClose}
+        <div
+          style={{
+            width: 64,
+            height: 64,
+            margin: '0 auto 16px',
+            borderRadius: '50%',
+            background: 'var(--color-amber-surface)',
+            color: 'var(--color-amber)',
+            display: 'grid',
+            placeItems: 'center'
+          }}
         >
-          Trở về Dashboard
+          <Trophy size={36} />
+        </div>
+        <h2 style={{ fontSize: 24, marginBottom: 6 }}>Session Completed!</h2>
+        <p style={{ color: 'var(--fg-muted)', fontSize: 15, marginBottom: 24 }}>
+          You successfully completed all phases of today's learning session.
+        </p>
+
+        <div
+          style={{
+            background: 'var(--surface-subtle)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius)',
+            padding: 20,
+            marginBottom: 24,
+            textAlign: 'left'
+          }}
+          className="stack"
+        >
+          <div className="row-between">
+            <span style={{ fontSize: 14, fontWeigh: 500 }}>Continuous streak</span>
+            <span
+              className="pill"
+              style={{
+                background: 'var(--color-amber-surface)',
+                color: 'var(--color-amber)',
+                border: '1px solid var(--color-amber-border)'
+              }}
+            >
+              <Flame size={14} />
+              <span>+{summaryData?.streak ?? 0} days streak</span>
+            </span>
+          </div>
+
+          <div className="row-between">
+            <span style={{ fontSize: 14, fontWeight: 500 }}>Lesson accuracy score</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--color-emerald)', fontSize: 15 }}>
+              {summaryData?.scorePercent ?? 0}%
+            </span>
+          </div>
+
+          <div className="row-between">
+            <span style={{ fontSize: 14, fontWeight: 500 }}>Reviewed count</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-cobalt)' }}>
+              {summaryData?.reviewedCount ?? 0} items completed
+            </span>
+          </div>
+        </div>
+
+        <button className="btn btn-primary btn-lg" style={{ width: '100%' }} onClick={onClose}>
+          <span>Back to dashboard</span>
+          <ArrowRight size={18} />
         </button>
       </div>
     </div>
