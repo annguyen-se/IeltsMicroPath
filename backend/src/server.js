@@ -1,7 +1,6 @@
 const app = require('./app');
 const env = require('./config/env');
 const connectDB = require('./config/db');
-const seedInitialData = require('./utils/seedData');
 
 // Handle Uncaught Exceptions
 process.on('uncaughtException', (err) => {
@@ -11,10 +10,7 @@ process.on('uncaughtException', (err) => {
 
 // Connect Database & Start Server
 const startServer = async () => {
-  const dbConn = await connectDB();
-  if (dbConn) {
-    await seedInitialData();
-  }
+  await connectDB();
 
   const server = app.listen(env.port, () => {
     console.log(`[IELTS Backend] Server running in ${env.nodeEnv} mode on port ${env.port}`);
