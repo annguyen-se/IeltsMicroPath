@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   createVocabulary,
+  bulkCreateVocabularies,
   updateVocabulary,
   createLesson,
   updateLesson,
@@ -19,6 +20,7 @@ router.use(roleGuard('admin'));
 
 // Vocabulary CMS
 router.post('/vocabularies', createVocabulary);
+router.post('/vocabularies/batch', bulkCreateVocabularies);
 router.patch('/vocabularies/:id', updateVocabulary);
 
 // Lessons CMS

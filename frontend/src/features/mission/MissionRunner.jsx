@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import api from '../../api/apiClient';
-import { X, Volume2, AlertTriangle, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import { X, Volume2, AlertTriangle, CheckCircle, XCircle, ArrowRight, BookOpen } from 'lucide-react';
 
 export default function MissionRunner({ missionPayload, onFinish, onExit }) {
   const phase1Items = missionPayload?.phase1_srsReview || [];
   const phase2Items = missionPayload?.phase2_mistakeRemediation || [];
   const phase3Questions = missionPayload?.phase3_newLesson?.questions || [];
   const lessonMeta = missionPayload?.phase3_newLesson?.lesson || null;
+  const lessonVocabs = missionPayload?.phase3_newLesson?.vocabularies || [];
 
   // Build list of active phases with their items
   const activePhases = [];
@@ -19,6 +20,7 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
   const [userAnswer, setUserAnswer] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const [feedbackState, setFeedbackState] = useState(null);
+  const [phase3Stage, setPhase3Stage] = useState('study'); // 'study' | 'quiz'
 
   const [srsResults, setSrsResults] = useState([]);
   const [mistakeResults, setMistakeResults] = useState([]);
@@ -281,41 +283,150 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
           </div>
         )}
 
-        {/* Phase 3: Lesson Question */}
+        {/* Phase 3: Micro-Lesson (Theory & Vocabulary FIRST, Quiz SECOND) */}
         {currentPhase.type === 'lesson' && currentItem && (
           <div>
-            <span className="runner-phase-title" style={{ color: 'var(--color-violet)' }}>
-              PHASE 3: BÀI HỌC VI MÔ MỚI {lessonMeta?.title ? `(${lessonMeta.title.toUpperCase()})` : ''}
-            </span>
-            <div className="runner-card">
-              <p style={{ fontSize: 17, fontWeight: 600, marginBottom: 16 }}>
-                {currentItem.prompt}
-              </p>
-
-              {currentItem.type === 'choice' && currentItem.options ? (
-                <div className="option-grid">
-                  {currentItem.options.map((opt) => (
-                    <button
-                      key={opt}
-                      className={`option-btn ${selectedOption === opt ? 'selected' : ''}`}
-                      onClick={() => setSelectedOption(opt)}
-                    >
-                      <span>{opt}</span>
-                    </button>
-                  ))}
+            {phase3Stage === 'study' ? (
+              <div className="stack" style={{ gap: 20 }}>
+                <div>
+                  <span className="runner-phase-title" style={{ color: 'var(--color-violet)' }}>
+                    PHASE 3: BÀI HỌC VI MÔ MỚI {lessonMeta?.title ? `(${lessonMeta.title.toUpperCase()})` : ''}
+                  </span>
+                  <p style={{ color: 'var(--fg-muted)', fontSize: 14 }}>
+                    Nắm vững lý thuyết và phát âm từ vựng mới trước khi chuyển sang làm bài tập đánh giá.
+                  </p>
                 </div>
-              ) : (
-                <input
-                  type="text"
-                  className="input-text"
-                  placeholder="Nhập câu trả lời..."
-                  value={userAnswer}
-                  onChange={(e) => setUserAnswer(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && (!feedbackState ? checkAnswer() : nextQuestion())}
-                  autoFocus
-                />
-              )}
-            </div>
+
+                {/* Section A: Lesson Vocabularies */}
+                {lessonVocabs && lessonVocabs.length > 0 && (
+                  <div className="card" style={{ borderLeft: '4px solid var(--color-cobalt)' }}>
+                    <h3 style={{ fontSize: 17, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Volume2 size={18} style={{ color: 'var(--color-cobalt)' }} />
+                      <span>Từ vựng cốt lõi của bài ({lessonVocabs.length} từ)</span>
+                    </h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12 }}>
+                      {lessonVocabs.map((v) => (
+                        <div
+                          key={v._id || v.word}
+                          style={{
+                            padding: '12px 14px',
+                            background: 'var(--surface-subtle)',
+                            borderRadius: 'var(--radius)',
+                            border: '1px solid var(--border)'
+                          }}
+                        >
+                          <div className="row-between">
+                            <span style={{ fontSize: 17, fontWeight: 700 }}>{v.word}</span>
+                            {v.media?.url && (
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                style={{ padding: '4px 8px', fontSize: 11 }}
+                                onClick={() => playAudio(v.media.url)}
+                              >
+                                <Volume2 size={12} />
+                                <span>Nghe</span>
+                              </button>
+                            )}
+                          </div>
+                          <div className="ipa" style={{ color: 'var(--color-cobalt)', fontSize: 13, margin: '2px 0 6px' }}>
+                            {v.ipa} · {v.pos}
+                          </div>
+                          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg)' }}>{v.meaningVi}</p>
+                          {v.exampleSentence && (
+                            <p style={{ fontSize: 12, color: 'var(--fg-muted)', marginTop: 4 }}>Ví dụ: "{v.exampleSentence}"</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Section B: Lesson Theory */}
+                {lessonMeta?.contentMarkdown && (
+                  <div
+                    className="card"
+                    style={{
+                      background: 'var(--surface-subtle)',
+                      whiteSpace: 'pre-line',
+                      fontSize: 14,
+                      lineHeight: 1.7,
+                      borderLeft: '4px solid var(--color-violet)'
+                    }}
+                  >
+                    <h3 style={{ fontSize: 17, marginBottom: 12, color: 'var(--color-violet)' }}>
+                      Lý thuyết & Hướng dẫn thi
+                    </h3>
+                    {lessonMeta.contentMarkdown}
+                  </div>
+                )}
+
+                {/* Transition to Practice Quiz */}
+                <button
+                  type="button"
+                  className="btn btn-primary btn-lg"
+                  onClick={() => setPhase3Stage('quiz')}
+                  style={{
+                    width: '100%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    marginTop: 8
+                  }}
+                >
+                  <span>Tôi đã hiểu bài & nhớ từ vựng · Bắt đầu làm bài tập</span>
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            ) : (
+              <div>
+                <div className="row-between" style={{ marginBottom: 12 }}>
+                  <span className="runner-phase-title" style={{ color: 'var(--color-violet)', margin: 0 }}>
+                    THỰC HÀNH: {lessonMeta?.title?.toUpperCase()}
+                  </span>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setPhase3Stage('study')}
+                    style={{ fontSize: 12, padding: '5px 10px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                  >
+                    <BookOpen size={13} />
+                    <span>Xem lại lý thuyết & từ vựng</span>
+                  </button>
+                </div>
+
+                <div className="runner-card">
+                  <p style={{ fontSize: 17, fontWeight: 600, marginBottom: 16 }}>
+                    {currentItem.prompt}
+                  </p>
+
+                  {currentItem.type === 'choice' && currentItem.options ? (
+                    <div className="option-grid">
+                      {currentItem.options.map((opt) => (
+                        <button
+                          key={opt}
+                          className={`option-btn ${selectedOption === opt ? 'selected' : ''}`}
+                          onClick={() => setSelectedOption(opt)}
+                        >
+                          <span>{opt}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      className="input-text"
+                      placeholder="Nhập câu trả lời..."
+                      value={userAnswer}
+                      onChange={(e) => setUserAnswer(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (!feedbackState ? checkAnswer() : nextQuestion())}
+                      autoFocus
+                    />
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -348,7 +459,7 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
           </div>
         )}
 
-        {!feedbackState && (
+        {!feedbackState && !(currentPhase.type === 'lesson' && phase3Stage === 'study') && (
           <div style={{ marginTop: 20, textAlign: 'right' }}>
             <button className="btn btn-primary btn-lg" onClick={checkAnswer}>
               Kiểm tra đáp án

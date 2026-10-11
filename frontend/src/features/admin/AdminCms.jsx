@@ -1,12 +1,80 @@
 import React, { useState } from 'react';
 import api from '../../api/apiClient';
-import { Shield, Plus, BookOpen, Layers, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import {
+  Shield,
+  Plus,
+  BookOpen,
+  Layers,
+  ArrowLeft,
+  CheckCircle2,
+  Code,
+  Upload,
+  Trash2,
+  AlertCircle
+} from 'lucide-react';
+
+const SAMPLE_BATCH_JSON = [
+  {
+    "word": "mitigate",
+    "ipa": "/ˈmɪt.ɪ.ɡeɪt/",
+    "pos": "verb",
+    "meaningVi": "làm giảm bớt, làm dịu bớt (tác hại/rủi ro)",
+    "definitionEn": "to make something less harmful, unpleasant, or bad",
+    "vocabType": "topic_specific",
+    "topic": "environment",
+    "tier": 3,
+    "awlSublist": null,
+    "collocations": [
+      "mitigate climate change",
+      "mitigate the risk of",
+      "mitigate environmental damage"
+    ],
+    "exampleSentence": "Governments must implement strict policies to ______ environmental damage.",
+    "topicIdeaVi": "Dùng cho Writing Task 2: Đề xuất giải pháp giảm thiểu tác động tiêu cực của biến đổi khí hậu.",
+    "wordFamily": {
+      "noun": "mitigation",
+      "adj": "unmitigated"
+    },
+    "paraphrases": ["alleviate", "reduce", "lessen"],
+    "media": {
+      "type": "audio",
+      "url": "https://assets.domain.com/audio/mitigate.mp3"
+    }
+  },
+  {
+    "word": "aisle seat",
+    "ipa": "/aɪl siːt/",
+    "pos": "noun",
+    "meaningVi": "ghế ngồi cạnh lối đi (trên máy bay, tàu hỏa)",
+    "definitionEn": "a seat on a plane, train, etc. next to the passage where people walk",
+    "vocabType": "topic_specific",
+    "topic": "travel",
+    "tier": 3,
+    "awlSublist": null,
+    "collocations": [
+      "book an aisle seat",
+      "prefer an aisle seat",
+      "window or aisle seat"
+    ],
+    "exampleSentence": "Do you want a window seat or an ______?",
+    "topicIdeaVi": "Dùng trong giao tiếp hàng không, đặt vé máy bay.",
+    "wordFamily": {
+      "noun": "aisle",
+      "adj": null
+    },
+    "paraphrases": ["passage seat"],
+    "media": {
+      "type": "audio",
+      "url": "https://assets.domain.com/audio/aisle-seat.mp3"
+    }
+  }
+];
 
 export default function AdminCms({ onBackToStudent }) {
-  const [activeTab, setActiveTab] = useState('vocab'); // 'vocab' | 'lesson'
+  const [activeTab, setActiveTab] = useState('batch_json'); // 'batch_json' | 'vocab' | 'lesson'
   const [statusMsg, setStatusMsg] = useState({ text: '', isError: false });
 
-  // Vocab form state
+  // Single Vocab form state
   const [newVocab, setNewVocab] = useState({
     word: '',
     ipa: '',
@@ -18,6 +86,12 @@ export default function AdminCms({ onBackToStudent }) {
     audioUrl: ''
   });
 
+  // Batch JSON state
+  const [jsonInput, setJsonInput] = useState('');
+  const [parsedItems, setParsedItems] = useState(null);
+  const [jsonError, setJsonError] = useState(null);
+  const [isSubmittingBatch, setIsSubmittingBatch] = useState(false);
+
   // Lesson form state
   const [newLesson, setNewLesson] = useState({
     title: '',
@@ -27,6 +101,76 @@ export default function AdminCms({ onBackToStudent }) {
     orderIndex: 1,
     contentMarkdown: ''
   });
+
+  // Handle JSON Textarea Changes with Realtime Validation
+  const handleJsonChange = (text) => {
+    setJsonInput(text);
+    if (!text.trim()) {
+      setParsedItems(null);
+      setJsonError(null);
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(text);
+      const items = Array.isArray(parsed)
+        ? parsed
+        : parsed?.vocabularies || parsed?.items || [parsed];
+
+      if (!Array.isArray(items) || items.length === 0) {
+        setParsedItems(null);
+        setJsonError('Dữ liệu JSON phải là một mảng danh sách từ vựng [ { ... }, { ... } ]');
+      } else {
+        setParsedItems(items);
+        setJsonError(null);
+      }
+    } catch (err) {
+      setParsedItems(null);
+      setJsonError(`Lỗi cú pháp JSON: ${err.message}`);
+    }
+  };
+
+  // Handle JSON File Upload
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result;
+      if (typeof content === 'string') {
+        handleJsonChange(content);
+        setStatusMsg({ text: `Đã đọc thành công tệp: ${file.name}`, isError: false });
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = ''; // Reset input to allow selecting same file again
+  };
+
+  // Submit Batch JSON to Backend
+  const handleBatchSubmit = async () => {
+    if (!parsedItems || parsedItems.length === 0) return;
+
+    setIsSubmittingBatch(true);
+    setStatusMsg({ text: 'Đang nạp dữ liệu từ vựng hàng loạt vào cơ sở dữ liệu...', isError: false });
+
+    try {
+      const res = await api.post('/admin/vocabularies/batch', parsedItems);
+      const summary = `Nạp thành công ${res?.totalProcessed || parsedItems.length} từ vựng! (Mới thêm: ${res?.upsertedCount ?? 0}, Đã cập nhật: ${res?.modifiedCount ?? 0})`;
+      setStatusMsg({ text: summary, isError: false });
+    } catch (err) {
+      setStatusMsg({ text: `Lỗi import hàng loạt: ${err.message}`, isError: true });
+    } finally {
+      setIsSubmittingBatch(false);
+    }
+  };
+
+  // Load Sample Template
+  const loadSampleJson = () => {
+    const formatted = JSON.stringify(SAMPLE_BATCH_JSON, null, 2);
+    handleJsonChange(formatted);
+    setStatusMsg({ text: 'Đã tải dữ liệu mẫu. Bạn có thể sửa hoặc bấm "Nạp vào Database".', isError: false });
+  };
 
   const handleVocabSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +220,7 @@ export default function AdminCms({ onBackToStudent }) {
   };
 
   return (
-    <div className="stack" style={{ maxWidth: 900, margin: '0 auto' }}>
+    <div className="stack" style={{ maxWidth: 960, margin: '0 auto', gap: 24 }}>
       {/* ─── Admin Control Card ─── */}
       <div className="card" style={{ borderLeft: '4px solid var(--color-cobalt)' }}>
         <div className="row-between">
@@ -97,7 +241,7 @@ export default function AdminCms({ onBackToStudent }) {
             <div>
               <h2 style={{ fontSize: 20, margin: 0 }}>Trung tâm Quản trị Nội dung (Admin CMS)</h2>
               <p style={{ margin: 0, color: 'var(--fg-muted)', fontSize: 13 }}>
-                Khu vực độc lập dành cho quản lý học liệu và cây tri thức.
+                Khu vực quản lý từ vựng, nạp hàng loạt bằng JSON và cây tri thức.
               </p>
             </div>
           </div>
@@ -114,14 +258,22 @@ export default function AdminCms({ onBackToStudent }) {
         </div>
 
         {/* ─── Admin Sub-Navigation ─── */}
-        <div style={{ marginTop: 20, display: 'flex', gap: 8 }}>
+        <div style={{ marginTop: 20, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button
+            className={`btn ${activeTab === 'batch_json' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            onClick={() => { setActiveTab('batch_json'); setStatusMsg({ text: '', isError: false }); }}
+          >
+            <Code size={14} />
+            <span>Dán JSON hàng loạt</span>
+          </button>
           <button
             className={`btn ${activeTab === 'vocab' ? 'btn-primary' : 'btn-secondary'}`}
             style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6 }}
             onClick={() => { setActiveTab('vocab'); setStatusMsg({ text: '', isError: false }); }}
           >
             <Layers size={14} />
-            <span>Thêm từ vựng mới</span>
+            <span>Thêm từ vựng thủ công</span>
           </button>
           <button
             className={`btn ${activeTab === 'lesson' ? 'btn-primary' : 'btn-secondary'}`}
@@ -151,12 +303,154 @@ export default function AdminCms({ onBackToStudent }) {
         </div>
       )}
 
-      {/* ─── Tab 1: Vocab Form ─── */}
+      {/* ─── Tab 1: Batch JSON Paste & Upload ─── */}
+      {activeTab === 'batch_json' && (
+        <div className="card">
+          <div className="row-between" style={{ flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <div className="card-title">
+                <Code size={17} style={{ color: 'var(--color-cobalt)' }} />
+                <span>Nạp từ vựng hàng loạt từ file JSON</span>
+              </div>
+              <p className="card-subtitle">
+                Dán danh sách JSON hoặc tải file <code>.json</code> để tự động phân tích và lưu vào Database.
+              </p>
+            </div>
+
+            {/* Quick Actions Bar */}
+            <div className="row" style={{ gap: 8 }}>
+              <label
+                className="btn btn-secondary"
+                style={{ fontSize: 12, padding: '7px 12px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                <Upload size={13} />
+                <span>Chọn file .json</span>
+                <input
+                  type="file"
+                  accept=".json,application/json"
+                  onChange={handleFileUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ fontSize: 12, padding: '7px 12px' }}
+                onClick={loadSampleJson}
+              >
+                Dán mẫu JSON
+              </button>
+
+              {jsonInput && (
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  style={{ fontSize: 12, padding: '7px 10px' }}
+                  onClick={() => handleJsonChange('')}
+                  title="Xóa nội dung"
+                >
+                  <Trash2 size={14} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Validation Status Indicator */}
+          <div style={{ margin: '16px 0 10px' }}>
+            {jsonError && (
+              <span className="pill pill-err" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <AlertCircle size={13} />
+                <span>{jsonError}</span>
+              </span>
+            )}
+            {parsedItems && !jsonError && (
+              <span className="pill pill-success" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <CheckCircle2 size={13} />
+                <span>Hợp lệ: Đã nhận diện {parsedItems.length} từ vựng sẵn sàng nạp</span>
+              </span>
+            )}
+          </div>
+
+          {/* JSON Textarea */}
+          <textarea
+            className="input-text"
+            rows={14}
+            value={jsonInput}
+            onChange={(e) => handleJsonChange(e.target.value)}
+            placeholder={'[\n  {\n    "word": "mitigate",\n    "ipa": "/ˈmɪt.ɪ.ɡeɪt/",\n    "pos": "verb",\n    "meaningVi": "làm giảm bớt, làm dịu bớt",\n    "exampleSentence": "Governments must act swiftly to ______ environmental damage.",\n    "topic": "environment",\n    "tier": 3\n  }\n]'}
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 13,
+              lineHeight: 1.5,
+              whiteSpace: 'pre',
+              tabSize: 2
+            }}
+          />
+
+          {/* Preview of Parsed Items */}
+          {parsedItems && parsedItems.length > 0 && (
+            <div style={{ marginTop: 18 }}>
+              <h4 style={{ fontSize: 13, color: 'var(--fg-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 10 }}>
+                Xem trước {Math.min(parsedItems.length, 3)} từ đầu tiên:
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 10 }}>
+                {parsedItems.slice(0, 3).map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: '10px 14px',
+                      background: 'var(--surface-subtle)',
+                      borderRadius: 'var(--radius)',
+                      border: '1px solid var(--border)',
+                      fontSize: 13
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 15, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span>{item.word || '(Thiếu từ)'}</span>
+                      <span className="soft-pill" style={{ fontSize: 10 }}>{item.pos || 'n/a'}</span>
+                    </div>
+                    <div className="ipa" style={{ color: 'var(--color-cobalt)', fontSize: 12, margin: '2px 0 4px' }}>
+                      {item.ipa || ''}
+                    </div>
+                    <div style={{ color: 'var(--fg-muted)', fontSize: 12, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                      {item.meaningVi || ''}
+                    </div>
+                    <div style={{ marginTop: 6, fontSize: 11, color: 'var(--fg-muted)' }}>
+                      Chủ đề: <strong>{item.topic || 'general'}</strong> · Tier: <strong>{item.tier ?? 1}</strong>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Submit Action */}
+          <div style={{ marginTop: 22, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12 }}>
+            <button
+              type="button"
+              className="btn btn-primary btn-lg"
+              onClick={handleBatchSubmit}
+              disabled={isSubmittingBatch || !parsedItems || parsedItems.length === 0 || !!jsonError}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+            >
+              <Plus size={18} />
+              <span>
+                {isSubmittingBatch
+                  ? 'Đang lưu vào Database...'
+                  : `Nạp ngay vào hệ thống (${parsedItems ? parsedItems.length : 0} từ)`}
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ─── Tab 2: Single Vocab Form ─── */}
       {activeTab === 'vocab' && (
         <div className="card">
           <div className="card-title">
             <Plus size={16} />
-            <span>Thêm từ vựng vào ngân hàng SRS</span>
+            <span>Thêm từ vựng thủ công vào ngân hàng SRS</span>
           </div>
           <p className="card-subtitle">
             Từ vựng thêm mới sẽ được cấp phát cho học viên qua các bài học hoặc hàng đợi Leitner Box 1.
@@ -253,7 +547,7 @@ export default function AdminCms({ onBackToStudent }) {
         </div>
       )}
 
-      {/* ─── Tab 2: Lesson Form ─── */}
+      {/* ─── Tab 3: Lesson Form ─── */}
       {activeTab === 'lesson' && (
         <div className="card">
           <div className="card-title">

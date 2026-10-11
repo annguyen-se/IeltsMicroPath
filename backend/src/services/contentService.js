@@ -35,12 +35,88 @@ const getVocabularyById = async (id) => {
   return vocab;
 };
 
+const normalizeVocabItem = (item) => {
+  if (!item || typeof item !== 'object') return null;
+  const word = String(item.word || '').trim().toLowerCase();
+  if (!word) return null;
+
+  let pos = String(item.pos || '').trim().toLowerCase();
+  if (pos === 'adjective') pos = 'adj';
+  if (pos === 'adverb') pos = 'adv';
+  if (!['noun', 'verb', 'adj', 'adv', 'phrase', 'prep', 'conj'].includes(pos)) {
+    pos = 'noun';
+  }
+
+  let tier = Number(item.tier);
+  if (![1, 2, 3, 4].includes(tier)) {
+    tier = 1;
+  }
+
+  let media = null;
+  if (item.media && item.media.url) {
+    media = {
+      type: item.media.type || 'audio',
+      provider: item.media.provider || 'external',
+      url: item.media.url,
+      duration: Number(item.media.duration) || 0
+    };
+  }
+
+  return {
+    word,
+    ipa: String(item.ipa || '').trim() || `/${word}/`,
+    pos,
+    meaningVi: String(item.meaningVi || '').trim(),
+    definitionEn: item.definitionEn ? String(item.definitionEn).trim() : undefined,
+    vocabType: item.vocabType || 'topic_specific',
+    topic: String(item.topic || 'general').trim(),
+    tier,
+    awlSublist: item.awlSublist !== undefined && item.awlSublist !== null ? Number(item.awlSublist) : null,
+    collocations: Array.isArray(item.collocations) ? item.collocations.map(s => String(s).trim()).filter(Boolean) : [],
+    exampleSentence: String(item.exampleSentence || `${word} in context.`).trim(),
+    topicIdeaVi: item.topicIdeaVi ? String(item.topicIdeaVi).trim() : undefined,
+    wordFamily: (item.wordFamily && typeof item.wordFamily === 'object') ? item.wordFamily : {},
+    paraphrases: Array.isArray(item.paraphrases) ? item.paraphrases.map(s => String(s).trim()).filter(Boolean) : [],
+    media,
+    status: item.status || 'published'
+  };
+};
+
 const createVocabulary = async (vocabData) => {
   const existing = await Vocabulary.findOne({ word: vocabData.word.toLowerCase() });
   if (existing) {
     throw new AppError(`Word '${vocabData.word}' already exists in database`, 409, 'WORD_EXISTS');
   }
   return await Vocabulary.create(vocabData);
+};
+
+const bulkCreateVocabularies = async (rawItems) => {
+  const list = Array.isArray(rawItems)
+    ? rawItems
+    : (rawItems?.vocabularies || rawItems?.items || [rawItems]);
+
+  const validItems = list.map(normalizeVocabItem).filter(Boolean);
+
+  if (validItems.length === 0) {
+    throw new AppError('No valid vocabulary items found in JSON payload', 400, 'INVALID_PAYLOAD');
+  }
+
+  const operations = validItems.map(item => ({
+    updateOne: {
+      filter: { word: item.word },
+      update: { $set: item },
+      upsert: true
+    }
+  }));
+
+  const bulkRes = await Vocabulary.bulkWrite(operations, { ordered: false });
+
+  return {
+    total: validItems.length,
+    insertedCount: bulkRes.upsertedCount || 0,
+    updatedCount: bulkRes.modifiedCount || 0,
+    matchedCount: bulkRes.matchedCount || 0
+  };
 };
 
 const updateVocabulary = async (id, updateData) => {
@@ -69,12 +145,23 @@ const getLessonById = async (id) => {
   const lesson = await Lesson.findById(id).populate('prerequisites', 'title skill level');
   if (!lesson) throw new AppError('Lesson not found', 404, 'NOT_FOUND');
 
-  // Fetch accompanying questions
-  const questions = await Question.find({ lessonId: id }).populate('vocabId', 'word ipa meaningVi');
+  // Fetch accompanying questions with populated vocab
+  const questions = await Question.find({ lessonId: id }).populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media');
+
+  // Extract distinct vocabularies linked to this lesson
+  const vocabularies = [];
+  const seenVocab = new Set();
+  for (const q of questions) {
+    if (q.vocabId && !seenVocab.has(q.vocabId._id.toString())) {
+      seenVocab.add(q.vocabId._id.toString());
+      vocabularies.push(q.vocabId);
+    }
+  }
 
   return {
     lesson,
-    questions
+    questions,
+    vocabularies
   };
 };
 
@@ -107,6 +194,7 @@ module.exports = {
   getVocabularies,
   getVocabularyById,
   createVocabulary,
+  bulkCreateVocabularies,
   updateVocabulary,
   getLessons,
   getLessonById,

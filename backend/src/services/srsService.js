@@ -1,4 +1,5 @@
 const UserSrsItem = require('../models/UserSrsItem');
+const Vocabulary = require('../models/Vocabulary');
 const AppError = require('../utils/appError');
 
 // Interval matrix in days: Box 1: 1d, Box 2: 3d, Box 3: 7d, Box 4: 14d, Box 5: 30d
@@ -51,13 +52,13 @@ const processSrsReview = async (userId, srsId, isCorrect, vocabId = null) => {
     await srsItem.save();
     return srsItem;
   } else if (vocabId) {
-    // Initialize new item into Box 1
-    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    // Initialize new item into Box 1 with nextReviewDate = now so it is immediately reviewable
+    const now = new Date();
     return await UserSrsItem.create({
       userId,
       vocabId,
       box: 1,
-      nextReviewDate: tomorrow,
+      nextReviewDate: now,
       consecutiveCorrect: isCorrect ? 1 : 0,
       totalReviews: 1
     });
@@ -68,37 +69,90 @@ const processSrsReview = async (userId, srsId, isCorrect, vocabId = null) => {
 
 /**
  * Enrolls a vocabulary item into the user's SRS queue (Box 1)
+ * nextReviewDate is set to NOW so the learner can study it immediately
  */
 const enrollVocabIntoSrs = async (userId, vocabId) => {
   const existing = await UserSrsItem.findOne({ userId, vocabId });
   if (existing) return existing;
 
-  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const now = new Date();
   return await UserSrsItem.create({
     userId,
     vocabId,
     box: 1,
-    nextReviewDate: tomorrow,
+    nextReviewDate: now,
     consecutiveCorrect: 0,
     totalReviews: 0
   });
 };
 
 /**
- * Gets all vocabulary items currently due for review
+ * Batch enrolls multiple vocabularies into user's SRS Box 1
  */
-const getDueReviews = async (userId, limit = 20) => {
+const enrollBatchVocab = async (userId, vocabIds) => {
+  if (!Array.isArray(vocabIds) || vocabIds.length === 0) return { enrolledCount: 0 };
+  const existing = await UserSrsItem.find({ userId, vocabId: { $in: vocabIds } }).select('vocabId');
+  const existingSet = new Set(existing.map(e => e.vocabId.toString()));
+
   const now = new Date();
-  const items = await UserSrsItem.find({
-    userId,
-    nextReviewDate: { $lte: now }
-  })
-    .sort({ nextReviewDate: 1 })
-    .limit(Number(limit))
-    .populate('vocabId', 'word ipa pos meaningVi exampleSentence media tier topic');
+  const toInsert = vocabIds
+    .filter(id => !existingSet.has(id.toString()))
+    .map(vocabId => ({
+      userId,
+      vocabId,
+      box: 1,
+      nextReviewDate: now,
+      consecutiveCorrect: 0,
+      totalReviews: 0
+    }));
+
+  if (toInsert.length > 0) {
+    await UserSrsItem.insertMany(toInsert);
+  }
+
+  return { enrolledCount: toInsert.length };
+};
+
+/**
+ * Enrolls all published vocabularies in DB into user's SRS Box 1
+ */
+const enrollAllPublishedVocab = async (userId, { tier, topic, limit = 100 } = {}) => {
+  const query = { status: 'published' };
+  if (tier) query.tier = Number(tier);
+  if (topic) query.topic = topic;
+
+  const vocabs = await Vocabulary.find(query).limit(Number(limit)).select('_id');
+  const vocabIds = vocabs.map(v => v._id);
+  return await enrollBatchVocab(userId, vocabIds);
+};
+
+/**
+ * Gets vocabulary items for review (due only or all tracked in Leitner boxes)
+ */
+const getDueReviews = async (userId, { limit = 50, mode = 'due', box } = {}) => {
+  const now = new Date();
+  const query = { userId };
+
+  if (box && Number(box) >= 1 && Number(box) <= 5) {
+    query.box = Number(box);
+  }
+
+  if (mode === 'due') {
+    query.nextReviewDate = { $lte: now };
+  }
+
+  const [items, totalTracked, dueCount] = await Promise.all([
+    UserSrsItem.find(query)
+      .sort({ nextReviewDate: 1, createdAt: -1 })
+      .limit(Number(limit))
+      .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media tier topic'),
+    UserSrsItem.countDocuments({ userId }),
+    UserSrsItem.countDocuments({ userId, nextReviewDate: { $lte: now } })
+  ]);
 
   return {
-    dueCount: items.length,
+    dueCount,
+    totalTracked,
     items
   };
 };
@@ -155,6 +209,8 @@ module.exports = {
   calculateNextReview,
   processSrsReview,
   enrollVocabIntoSrs,
+  enrollBatchVocab,
+  enrollAllPublishedVocab,
   getDueReviews,
   getSrsStats,
   submitSingleReview

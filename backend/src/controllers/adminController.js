@@ -11,6 +11,15 @@ const createVocabulary = async (req, res, next) => {
   }
 };
 
+const bulkCreateVocabularies = async (req, res, next) => {
+  try {
+    const result = await contentService.bulkCreateVocabularies(req.body);
+    return sendSuccess(res, 200, result, `Successfully processed ${result.total} vocabulary items`);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const updateVocabulary = async (req, res, next) => {
   try {
     const vocab = await contentService.updateVocabulary(req.params.id, req.body);
@@ -70,6 +79,7 @@ const createQuestion = async (req, res, next) => {
 
 module.exports = {
   createVocabulary,
+  bulkCreateVocabularies,
   updateVocabulary,
   createLesson,
   updateLesson,

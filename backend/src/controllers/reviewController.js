@@ -1,11 +1,12 @@
 const srsService = require('../services/srsService');
 const { sendSuccess } = require('../utils/apiResponse');
+const AppError = require('../utils/appError');
 
 const getDueReviews = async (req, res, next) => {
   try {
-    const { limit } = req.query;
-    const result = await srsService.getDueReviews(req.user._id, limit);
-    return sendSuccess(res, 200, result, 'Due SRS reviews retrieved');
+    const { limit, mode, box } = req.query;
+    const result = await srsService.getDueReviews(req.user._id, { limit, mode, box });
+    return sendSuccess(res, 200, result, 'SRS reviews retrieved');
   } catch (err) {
     next(err);
   }
@@ -30,8 +31,38 @@ const submitReview = async (req, res, next) => {
   }
 };
 
+const enrollVocab = async (req, res, next) => {
+  try {
+    const { vocabId, vocabIds } = req.body;
+    let result;
+    if (Array.isArray(vocabIds) && vocabIds.length > 0) {
+      result = await srsService.enrollBatchVocab(req.user._id, vocabIds);
+    } else if (vocabId) {
+      const item = await srsService.enrollVocabIntoSrs(req.user._id, vocabId);
+      result = { enrolledCount: 1, item };
+    } else {
+      throw new AppError('vocabId or vocabIds is required', 400, 'INVALID_INPUT');
+    }
+    return sendSuccess(res, 200, result, 'Vocabulary enrolled into SRS Box 1');
+  } catch (err) {
+    next(err);
+  }
+};
+
+const enrollAllVocab = async (req, res, next) => {
+  try {
+    const { tier, topic, limit } = req.body || {};
+    const result = await srsService.enrollAllPublishedVocab(req.user._id, { tier, topic, limit });
+    return sendSuccess(res, 200, result, `Enrolled ${result.enrolledCount} vocabularies into SRS Box 1`);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getDueReviews,
   getSrsStats,
-  submitReview
+  submitReview,
+  enrollVocab,
+  enrollAllVocab
 };

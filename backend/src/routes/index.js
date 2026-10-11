@@ -8,6 +8,7 @@ const dashboardRoutes = require('./dashboardRoutes');
 const learningRoutes = require('./learningRoutes');
 const reviewRoutes = require('./reviewRoutes');
 const mistakeRoutes = require('./mistakeRoutes');
+const lessonRoutes = require('./lessonRoutes');
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/dashboard', dashboardRoutes);
 router.use('/learning', learningRoutes);
 router.use('/reviews', reviewRoutes);
 router.use('/mistakes', mistakeRoutes);
+router.use('/lessons', lessonRoutes);
 
 module.exports = router;

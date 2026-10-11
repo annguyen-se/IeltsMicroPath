@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import api from '../../api/apiClient';
 import {
   Sparkles,
   Flame,
@@ -26,7 +27,8 @@ import {
   Check,
   Lock,
   Lightbulb,
-  FileText
+  FileText,
+  Boxes
 } from 'lucide-react';
 import LeitnerBoxGrid from './LeitnerBoxGrid';
 
@@ -38,6 +40,7 @@ export default function StudentDashboard({
   onSwitchView,
   onOpenAuth
 }) {
+  const [isEnrolling, setIsEnrolling] = useState(false);
   const user = dashboardData.user || {};
   const metrics = dashboardData.metrics || {};
   const dailyStatus = dashboardData.dailyMissionStatus || {};
@@ -50,6 +53,18 @@ export default function StudentDashboard({
       if (onOpenAuth) onOpenAuth();
     } else {
       actionFn();
+    }
+  };
+
+  const handleQuickEnroll = async () => {
+    try {
+      setIsEnrolling(true);
+      await api.post('/reviews/enroll-all', {});
+      onSwitchView('srs');
+    } catch (err) {
+      console.warn('Quick enroll error:', err.message);
+    } finally {
+      setIsEnrolling(false);
     }
   };
 
@@ -105,13 +120,15 @@ export default function StudentDashboard({
           <p className="eyebrow">
             <Zap size={14} /> YOUR NEXT BEST STEP
           </p>
-          <h2>One lesson closer to your goal.</h2>
+          <h2>{dashboardData.nextLesson ? dashboardData.nextLesson.title : 'One lesson closer to your goal.'}</h2>
           <p className="home-hero-copy">
-            Pick up with a short, focused activity designed to strengthen your academic reading, vocabulary retention, and error remediation.
+            {dashboardData.nextLesson
+              ? `Bài học tiếp theo trên lộ trình DAG Level ${dashboardData.nextLesson.level}: ${dashboardData.nextLesson.title}. Hoàn thành để mở khóa kiến thức tiếp theo.`
+              : 'Pick up with a short, focused activity designed to strengthen your academic reading, vocabulary retention, and error remediation.'}
           </p>
           <div className="lesson-meta" style={{ margin: '16px 0 20px' }}>
             <span className="soft-pill">
-              <BookOpen size={13} /> Micro-Lesson
+              <BookOpen size={13} /> {dashboardData.nextLesson ? dashboardData.nextLesson.skill.toUpperCase() : 'Micro-Lesson'}
             </span>
             {duration && (
               <span className="soft-pill">
@@ -119,7 +136,7 @@ export default function StudentDashboard({
               </span>
             )}
             <span className="soft-pill">
-              <Signal size={13} /> Level {user.currentLevel ?? 0}
+              <Signal size={13} /> Level {dashboardData.nextLesson ? dashboardData.nextLesson.level : (user.currentLevel ?? 0)}
             </span>
           </div>
           <button className="btn btn-primary btn-lg" onClick={() => handleAction(onStartMission)}>
@@ -222,9 +239,27 @@ export default function StudentDashboard({
                 <h2>Choose your focus</h2>
                 <p>Practice the skill you want to improve today.</p>
               </div>
+              <button
+                className="btn btn-ghost"
+                style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                onClick={() => onSwitchView('lessons')}
+              >
+                <span>All lessons</span>
+                <ArrowRight size={14} />
+              </button>
             </div>
             <div className="skill-grid">
-              <button className="skill-card" onClick={() => handleAction(onStartMission)}>
+              <button className="skill-card" onClick={() => onSwitchView('srs')}>
+                <span className="skill-icon" style={{ background: '#e4f8ef', color: '#16805d' }}>
+                  <Boxes size={20} />
+                </span>
+                <strong>Vocabulary (SRS)</strong>
+                <p>Ôn tập ngắt quãng từ vựng theo 5 Hộp Leitner.</p>
+                <span className="skill-link">
+                  Mở phòng từ vựng <ArrowUpRight size={13} />
+                </span>
+              </button>
+              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=listening')}>
                 <span className="skill-icon" style={{ background: '#e8edff', color: '#315bea' }}>
                   <Headphones size={20} />
                 </span>
@@ -234,7 +269,7 @@ export default function StudentDashboard({
                   Explore lessons <ArrowUpRight size={13} />
                 </span>
               </button>
-              <button className="skill-card" onClick={() => handleAction(onStartMission)}>
+              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=reading')}>
                 <span className="skill-icon" style={{ background: '#e5f8f5', color: '#078575' }}>
                   <BookOpen size={20} />
                 </span>
@@ -244,7 +279,7 @@ export default function StudentDashboard({
                   Explore lessons <ArrowUpRight size={13} />
                 </span>
               </button>
-              <button className="skill-card" onClick={() => handleAction(onStartMission)}>
+              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=speaking')}>
                 <span className="skill-icon" style={{ background: '#f3e8ff', color: '#8b42cb' }}>
                   <Mic size={20} />
                 </span>
@@ -254,7 +289,7 @@ export default function StudentDashboard({
                   Explore lessons <ArrowUpRight size={13} />
                 </span>
               </button>
-              <button className="skill-card" onClick={() => handleAction(onStartMission)}>
+              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=writing')}>
                 <span className="skill-icon" style={{ background: '#fff2d9', color: '#a36a00' }}>
                   <PenLine size={20} />
                 </span>
@@ -264,7 +299,7 @@ export default function StudentDashboard({
                   Explore lessons <ArrowUpRight size={13} />
                 </span>
               </button>
-              <button className="skill-card" onClick={() => handleAction(onStartMission)}>
+              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=grammar')}>
                 <span className="skill-icon" style={{ background: '#f3e8ff', color: '#7c3aed' }}>
                   <FileText size={20} />
                 </span>
@@ -274,7 +309,7 @@ export default function StudentDashboard({
                   Explore lessons <ArrowUpRight size={13} />
                 </span>
               </button>
-              <button className="skill-card" onClick={() => handleAction(onStartMission)}>
+              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=phonetics')}>
                 <span className="skill-icon" style={{ background: '#e0f2fe', color: '#0369a1' }}>
                   <AudioLines size={20} />
                 </span>
@@ -305,18 +340,31 @@ export default function StudentDashboard({
               </button>
             </div>
             {isAuthenticated && totalSrsCount > 0 ? (
-              <LeitnerBoxGrid srsStats={srsStats} />
+              <div>
+                <LeitnerBoxGrid srsStats={srsStats} />
+                {metrics.srsDueCount === 0 && (
+                  <p style={{ marginTop: 12, fontSize: 13, color: 'var(--fg-muted)', textAlign: 'center' }}>
+                    Hôm nay không còn từ nào đến hạn ôn (Bạn có tổng cộng {totalSrsCount} từ trong 5 hộp).
+                  </p>
+                )}
+              </div>
             ) : isAuthenticated ? (
-              <div className="empty-state">
-                <div className="empty-icon">
-                  <CheckCircle2 size={28} />
+              <div>
+                <LeitnerBoxGrid srsStats={{ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }} />
+                <div className="lock-banner" style={{ marginTop: 14 }}>
+                  <div>
+                    <strong>Chưa có từ vựng nào trong 5 Hộp Leitner</strong>
+                    <p>Hệ thống đã có sẵn từ vựng trong kho. Bấm để nạp vào Hộp 1 và học ngay!</p>
+                  </div>
+                  <button
+                    className="btn btn-primary"
+                    style={{ fontSize: 12, padding: '7px 14px' }}
+                    onClick={handleQuickEnroll}
+                    disabled={isEnrolling}
+                  >
+                    {isEnrolling ? 'Đang nạp...' : 'Nạp vào Hộp 1 ngay'}
+                  </button>
                 </div>
-                <p style={{ fontWeight: 700, color: 'var(--fg)', marginBottom: 4, fontSize: 16 }}>
-                  You're all caught up!
-                </p>
-                <p style={{ fontSize: 13.5, color: 'var(--fg-muted)' }}>
-                  No vocabulary cards are due for review right now.
-                </p>
               </div>
             ) : (
               <div>
@@ -347,26 +395,39 @@ export default function StudentDashboard({
                 <p>Learn from errors instead of repeating them.</p>
               </div>
             </div>
-            <div className="focus-row">
-              <span className="task-icon" style={{ background: '#fff0e9', color: '#c85a30' }}>
-                <TextSearch size={19} />
-              </span>
-              <div className="focus-copy">
-                <strong>Vocabulary & paraphrases</strong>
-                <p>Review word-choice traps.</p>
+
+            {isAuthenticated && Array.isArray(dashboardData.recentMistakes) && dashboardData.recentMistakes.length > 0 ? (
+              dashboardData.recentMistakes.map((m) => (
+                <div key={m.id} className="focus-row">
+                  <span className="task-icon" style={{ background: '#fff0e9', color: '#c85a30' }}>
+                    <TextSearch size={19} />
+                  </span>
+                  <div className="focus-copy">
+                    <strong style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {m.prompt}
+                    </strong>
+                    {m.userWrongAnswer ? (
+                      <p>Bạn đã chọn sai: "{m.userWrongAnswer}"</p>
+                    ) : (
+                      <p>Bẫy câu hỏi cần khắc phục</p>
+                    )}
+                  </div>
+                  <span className={`pill ${m.errorCode === 'ERR_SYN' ? 'pill-violet' : 'pill-err'}`}>
+                    {m.errorCode}
+                  </span>
+                </div>
+              ))
+            ) : isAuthenticated ? (
+              <div style={{ padding: '16px 0', textAlign: 'center', color: 'var(--fg-muted)', fontSize: 13 }}>
+                <CheckCircle2 size={24} style={{ color: 'var(--color-emerald)', margin: '0 auto 6px', display: 'block' }} />
+                <span>Không có lỗi sai nào chưa khắc phục!</span>
               </div>
-              <span className="pill pill-err">ERR_LEX</span>
-            </div>
-            <div className="focus-row">
-              <span className="task-icon" style={{ background: '#f3e8ff', color: '#8b42cb' }}>
-                <GitBranch size={19} />
-              </span>
-              <div className="focus-copy">
-                <strong>Sentence structure</strong>
-                <p>Revisit syntax mistakes.</p>
+            ) : (
+              <div style={{ padding: '16px 0', textAlign: 'center', color: 'var(--fg-muted)', fontSize: 13 }}>
+                Đăng nhập để xem danh sách lỗi sai cần khắc phục.
               </div>
-              <span className="pill pill-violet">ERR_SYN</span>
-            </div>
+            )}
+
             <button
               className="btn btn-secondary"
               style={{ width: '100%', marginTop: 16 }}
@@ -386,57 +447,54 @@ export default function StudentDashboard({
                 <p>Move forward as you master each foundation.</p>
               </div>
             </div>
+
             <div className="stack" style={{ gap: 10 }}>
-              <div className={`dag-node ${metrics.masteredNodesCount > 0 ? 'mastered' : 'current'}`}>
-                <div>
-                  <div style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--color-emerald)', fontWeight: 600 }}>
-                    FOUNDATION
+              {Array.isArray(dashboardData.learningPath) && dashboardData.learningPath.length > 0 ? (
+                dashboardData.learningPath.map((node) => (
+                  <div key={node.id} className={`dag-node ${node.status}`}>
+                    <div>
+                      <div
+                        style={{
+                          fontSize: 10,
+                          fontFamily: 'var(--font-mono)',
+                          color:
+                            node.status === 'mastered'
+                              ? 'var(--color-emerald)'
+                              : node.status === 'current'
+                              ? 'var(--color-cobalt)'
+                              : 'var(--fg-muted)',
+                          fontWeight: 600,
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        {node.skill || 'LESSON'} {node.topic ? `· ${node.topic}` : ''}
+                      </div>
+                      <div style={{ fontWeight: 700, fontSize: 13, marginTop: 2 }}>
+                        {node.title}
+                      </div>
+                    </div>
+                    {node.status === 'mastered' && (
+                      <span className="pill pill-success">
+                        <Check size={12} /> Done
+                      </span>
+                    )}
+                    {node.status === 'current' && (
+                      <span className="pill pill-cobalt">
+                        In progress
+                      </span>
+                    )}
+                    {node.status === 'locked' && (
+                      <span className="pill pill-muted">
+                        <Lock size={12} /> Locked
+                      </span>
+                    )}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 13, marginTop: 2 }}>Phonetics & IPA</div>
+                ))
+              ) : (
+                <div style={{ padding: '16px 0', textAlign: 'center', color: 'var(--fg-muted)', fontSize: 13 }}>
+                  Chưa có bài học nào được cấu hình cho Level {user.currentLevel ?? 0}.
                 </div>
-                {metrics.masteredNodesCount > 0 ? (
-                  <span className="pill pill-success">
-                    <Check size={12} /> Done
-                  </span>
-                ) : (
-                  <span className="pill pill-cobalt">In progress</span>
-                )}
-              </div>
-
-              <div className={`dag-node ${(user.currentLevel ?? 0) >= 1 ? 'current' : 'locked'}`}>
-                <div>
-                  <div
-                    style={{
-                      fontSize: 10,
-                      fontFamily: 'var(--font-mono)',
-                      color: (user.currentLevel ?? 0) >= 1 ? 'var(--color-cobalt)' : 'var(--fg-muted)',
-                      fontWeight: 600
-                    }}
-                  >
-                    {(user.currentLevel ?? 0) >= 1 ? 'CURRENT FOCUS' : 'UP NEXT'}
-                  </div>
-                  <div style={{ fontWeight: 700, fontSize: 13, marginTop: 2 }}>Academic vocabulary</div>
-                </div>
-                {(user.currentLevel ?? 0) >= 1 ? (
-                  <span className="pill pill-cobalt">In progress</span>
-                ) : (
-                  <span className="pill pill-muted">
-                    <Lock size={12} /> Locked
-                  </span>
-                )}
-              </div>
-
-              <div className="dag-node locked">
-                <div>
-                  <div style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--fg-muted)', fontWeight: 600 }}>
-                    ADVANCED
-                  </div>
-                  <div style={{ fontWeight: 700, fontSize: 13, marginTop: 2 }}>Complex syntax</div>
-                </div>
-                <span className="pill pill-muted">
-                  <Lock size={12} /> Locked
-                </span>
-              </div>
+              )}
             </div>
 
             <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--border)', fontSize: 12, color: 'var(--fg-muted)' }}>

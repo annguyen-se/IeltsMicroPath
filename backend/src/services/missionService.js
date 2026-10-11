@@ -53,7 +53,16 @@ const getTodayMission = async (userId) => {
   let phase3_newLesson = null;
 
   if (nextLesson) {
-    const questions = await Question.find({ lessonId: nextLesson._id });
+    const questions = await Question.find({ lessonId: nextLesson._id }).populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media');
+    const vocabularies = [];
+    const seenVocab = new Set();
+    for (const q of questions) {
+      if (q.vocabId && !seenVocab.has(q.vocabId._id.toString())) {
+        seenVocab.add(q.vocabId._id.toString());
+        vocabularies.push(q.vocabId);
+      }
+    }
+
     phase3_newLesson = {
       lesson: {
         id: nextLesson._id,
@@ -64,6 +73,7 @@ const getTodayMission = async (userId) => {
         contentMarkdown: nextLesson.contentMarkdown,
         media: nextLesson.media
       },
+      vocabularies,
       questions: questions.map(q => ({
         id: q._id,
         type: q.type,

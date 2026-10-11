@@ -1,31 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/apiClient';
-import { ArrowLeft, Clock, RefreshCw, X, Check, Volume2, CheckCircle2, Lock } from 'lucide-react';
+import {
+  ArrowLeft,
+  Clock,
+  RefreshCw,
+  X,
+  Check,
+  Volume2,
+  CheckCircle2,
+  Lock,
+  Plus,
+  Layers,
+  Sparkles
+} from 'lucide-react';
 
 export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenAuth }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(isAuthenticated);
+  const [mode, setMode] = useState('due'); // 'due' | 'all'
+  const [selectedBox, setSelectedBox] = useState('all'); // 'all' | 1..5
+  const [dueCount, setDueCount] = useState(0);
+  const [totalTracked, setTotalTracked] = useState(0);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [notification, setNotification] = useState('');
+  const [isEnrolling, setIsEnrolling] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchDueItems();
+      fetchItems();
     } else {
       setLoading(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, mode, selectedBox]);
 
-  const fetchDueItems = async () => {
+  const fetchItems = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/reviews/due');
+      const params = new URLSearchParams();
+      params.append('mode', mode);
+      if (selectedBox !== 'all') params.append('box', selectedBox);
+
+      const res = await api.get(`/reviews/due?${params.toString()}`);
       setItems(res?.items || []);
+      setDueCount(res?.dueCount ?? 0);
+      setTotalTracked(res?.totalTracked ?? 0);
+      setCurrentIndex(0);
+      setIsFlipped(false);
     } catch (err) {
-      console.warn('[Fetch Due Reviews Error]:', err.message);
+      console.warn('[Fetch SRS Reviews Error]:', err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEnrollAll = async () => {
+    try {
+      setIsEnrolling(true);
+      const res = await api.post('/reviews/enroll-all', {});
+      const count = res?.enrolledCount ?? 0;
+      setNotification(`Đã nạp thành công ${count} từ vựng vào Hộp 1! Bắt đầu học ngay.`);
+      setTimeout(() => setNotification(''), 3000);
+      setMode('all');
+      setSelectedBox('all');
+      await fetchItems();
+    } catch (err) {
+      setNotification(`Lỗi nạp từ: ${err.message}`);
+    } finally {
+      setIsEnrolling(false);
     }
   };
 
@@ -54,9 +97,10 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
     if (currentIndex + 1 < items.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Finished all cards in queue
+      // Completed current queue
       setItems([]);
       setCurrentIndex(0);
+      fetchItems();
     }
   };
 
@@ -66,19 +110,33 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
   return (
     <div className="stack" style={{ gap: 24 }}>
       {/* ─── Top Header ─── */}
-      <div className="row-between">
+      <div className="row-between" style={{ flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 26, marginBottom: 4 }}>Spaced Repetition Room (Leitner SRS)</h1>
+          <h1 style={{ fontSize: 26, marginBottom: 4 }}>Phòng Ôn tập ngắt quãng (Leitner SRS)</h1>
           <p style={{ color: 'var(--fg-muted)', fontSize: 15 }}>
-            Independently practice due vocabulary outside scheduled hours across 5 memory boxes.
+            Tự do ôn tập từ vựng độc lập theo Ebbinghaus Forgetting Curve trên 5 hộp trí nhớ dài hạn.
           </p>
         </div>
-        {onBack && (
-          <button className="btn btn-secondary" onClick={onBack}>
-            <ArrowLeft size={16} />
-            <span>Back to Dashboard</span>
-          </button>
-        )}
+        <div className="row" style={{ gap: 10 }}>
+          {isAuthenticated && (
+            <button
+              className="btn btn-primary"
+              style={{ fontSize: 13, padding: '7px 12px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              onClick={handleEnrollAll}
+              disabled={isEnrolling}
+              title="Nạp các từ vựng có trong database vào Hộp 1 để học"
+            >
+              <Plus size={14} />
+              <span>{isEnrolling ? 'Đang nạp...' : 'Nạp từ mới vào Hộp 1'}</span>
+            </button>
+          )}
+          {onBack && (
+            <button className="btn btn-secondary" onClick={onBack} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <ArrowLeft size={16} />
+              <span>Về Dashboard</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {notification && (
@@ -100,7 +158,17 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
 
       {!isAuthenticated ? (
         <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
-          <div className="empty-icon" style={{ width: 56, height: 56, margin: '0 auto 16px', background: 'var(--color-cobalt-surface)', color: 'var(--color-cobalt)', borderColor: 'var(--color-cobalt-border)' }}>
+          <div
+            className="empty-icon"
+            style={{
+              width: 56,
+              height: 56,
+              margin: '0 auto 16px',
+              background: 'var(--color-cobalt-surface)',
+              color: 'var(--color-cobalt)',
+              borderColor: 'var(--color-cobalt-border)'
+            }}
+          >
             <Lock size={28} />
           </div>
           <h2 style={{ fontSize: 22, marginBottom: 6 }}>Phòng Ôn tập yêu cầu đăng nhập</h2>
@@ -120,29 +188,111 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
         </div>
       ) : (
         <>
+          {/* ─── Mode & Box Filter Bar ─── */}
+          <div className="row-between" style={{ flexWrap: 'wrap', gap: 12 }}>
+            <div className="row" style={{ gap: 8 }}>
+              <button
+                className={`btn ${mode === 'due' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ fontSize: 13, padding: '7px 14px' }}
+                onClick={() => setMode('due')}
+              >
+                Cần ôn hôm nay ({dueCount})
+              </button>
+              <button
+                className={`btn ${mode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ fontSize: 13, padding: '7px 14px' }}
+                onClick={() => setMode('all')}
+              >
+                Tất cả từ đã lưu ({totalTracked})
+              </button>
+            </div>
+
+            <div className="row" style={{ gap: 6, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 600 }}>Hộp:</span>
+              <button
+                className={`pill ${selectedBox === 'all' ? 'pill-cobalt' : 'pill-muted'}`}
+                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
+                onClick={() => setSelectedBox('all')}
+              >
+                Tất cả
+              </button>
+              {[1, 2, 3, 4, 5].map((b) => (
+                <button
+                  key={b}
+                  className={`pill ${selectedBox === String(b) ? 'pill-cobalt' : 'pill-muted'}`}
+                  style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
+                  onClick={() => setSelectedBox(String(b))}
+                >
+                  Hộp {b}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {loading && (
             <div className="card" style={{ textAlign: 'center', padding: 48 }}>
-              <p style={{ color: 'var(--fg-muted)' }}>Loading vocabulary queue...</p>
+              <p style={{ color: 'var(--fg-muted)' }}>Đang tải hàng đợi thẻ từ vựng...</p>
             </div>
           )}
 
-          {!loading && items.length === 0 && (
+          {/* Empty state: No words tracked yet in entire system for this user */}
+          {!loading && totalTracked === 0 && (
+            <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
+              <div
+                className="empty-icon"
+                style={{
+                  width: 56,
+                  height: 56,
+                  margin: '0 auto 16px',
+                  background: 'var(--color-cobalt-surface)',
+                  color: 'var(--color-cobalt)',
+                  borderColor: 'var(--color-cobalt-border)'
+                }}
+              >
+                <Layers size={28} />
+              </div>
+              <h2 style={{ fontSize: 22, marginBottom: 8 }}>Hộp từ vựng của bạn đang trống</h2>
+              <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, maxWidth: 500, margin: '0 auto 24px' }}>
+                Hệ thống đã có sẵn từ vựng trong cơ sở dữ liệu. Bấm nút bên dưới để nạp toàn bộ vào Hộp 1 và bắt đầu lật thẻ ôn tập ngay bây giờ!
+              </p>
+              <button
+                className="btn btn-primary btn-lg"
+                onClick={handleEnrollAll}
+                disabled={isEnrolling}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
+                <Sparkles size={16} />
+                <span>{isEnrolling ? 'Đang nạp từ...' : 'Nạp toàn bộ từ vựng vào Hộp 1 ngay'}</span>
+              </button>
+            </div>
+          )}
+
+          {/* Empty state: No due cards today, but user has words in other boxes */}
+          {!loading && totalTracked > 0 && items.length === 0 && (
             <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
               <div className="empty-icon" style={{ width: 56, height: 56, margin: '0 auto 16px' }}>
                 <CheckCircle2 size={32} />
               </div>
-              <h2 style={{ fontSize: 22, marginBottom: 6 }}>You're all caught up!</h2>
-              <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, marginBottom: 24 }}>
-                No vocabulary cards are due for review right now. Great job keeping your memory curve fresh!
+              <h2 style={{ fontSize: 22, marginBottom: 6 }}>Bạn đã hoàn thành các từ đến hạn hôm nay!</h2>
+              <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, maxWidth: 480, margin: '0 auto 24px' }}>
+                {mode === 'due'
+                  ? `Hiện tại không còn từ nào đến hạn ôn trong ngày. Bạn có tổng cộng ${totalTracked} từ đang được lên lịch theo các hộp.`
+                  : 'Không có từ nào trong hộp được chọn.'}
               </p>
-              {onBack && (
-                <button className="btn btn-primary" onClick={onBack}>
-                  <span>Back to Dashboard</span>
+              <div className="row" style={{ justifyContent: 'center', gap: 12 }}>
+                {mode === 'due' && (
+                  <button className="btn btn-primary" onClick={() => setMode('all')}>
+                    <span>Ôn luyện trước tất cả từ ({totalTracked})</span>
+                  </button>
+                )}
+                <button className="btn btn-secondary" onClick={handleEnrollAll} disabled={isEnrolling}>
+                  <span>Nạp thêm từ mới vào Hộp 1</span>
                 </button>
-              )}
+              </div>
             </div>
           )}
 
+          {/* Active Flashcard Review View */}
           {!loading && currentItem && (
             <div
               className="card"
@@ -158,7 +308,9 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
               <div style={{ marginBottom: 20 }}>
                 <span className="pill pill-err">
                   <Clock size={13} />
-                  <span>BOX {currentItem.box} · DUE TODAY ({currentIndex + 1} / {items.length})</span>
+                  <span>
+                    BOX {currentItem.box} · ({currentIndex + 1} / {items.length})
+                  </span>
                 </span>
               </div>
 
@@ -231,6 +383,11 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                       <strong>Nghĩa tiếng Việt:</strong> {vocab.meaningVi}
                     </div>
                   )}
+                  {vocab.collocations && vocab.collocations.length > 0 && (
+                    <div style={{ marginTop: 10, fontSize: 13, color: 'var(--color-emerald)' }}>
+                      <strong>Collocations:</strong> {vocab.collocations.join(', ')}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -239,17 +396,17 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                 {!isFlipped ? (
                   <button className="btn btn-secondary" onClick={() => setIsFlipped(true)}>
                     <RefreshCw size={16} />
-                    <span>Flip card</span>
+                    <span>Lật thẻ xem nghĩa (Flip)</span>
                   </button>
                 ) : (
                   <div className="row" style={{ gap: 12 }}>
                     <button className="btn btn-danger" onClick={() => handleGrade(false)}>
                       <X size={16} />
-                      <span>I forgot (Reset to Box 1)</span>
+                      <span>Chưa thuộc (Về Hộp 1)</span>
                     </button>
                     <button className="btn btn-primary" onClick={() => handleGrade(true)}>
                       <Check size={16} />
-                      <span>I remembered (Promote Box)</span>
+                      <span>Đã thuộc (Lên Hộp kế)</span>
                     </button>
                   </div>
                 )}

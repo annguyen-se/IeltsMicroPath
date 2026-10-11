@@ -9,7 +9,7 @@ const MediaSchema = new mongoose.Schema({
   provider: {
     type: String,
     enum: ['youtube', 'vimeo', 'cloudinary', 'external', 'self-hosted'],
-    required: true
+    default: 'external'
   },
   url: {
     type: String,

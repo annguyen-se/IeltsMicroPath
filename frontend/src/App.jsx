@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import api from './api/apiClient';
 import AppHeader from './components/layout/AppHeader';
 import StudentDashboard from './features/dashboard/StudentDashboard';
@@ -7,10 +8,12 @@ import SessionSummaryModal from './features/mission/SessionSummaryModal';
 import SrsReviewRoom from './features/srs/SrsReviewRoom';
 import MistakeVault from './features/mistakes/MistakeVault';
 import AdminCms from './features/admin/AdminCms';
+import SkillCatalog from './features/lessons/SkillCatalog';
 import AuthModal from './features/auth/AuthModal';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' | 'mission' | 'srs' | 'mistakes' | 'admin'
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('ieltstrain_token'));
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSummaryModal, setShowSummaryModal] = useState(false);
@@ -28,8 +31,14 @@ export default function App() {
 
   const [dashboardData, setDashboardData] = useState({
     user: { email: '', currentLevel: 0, targetBand: null, streak: 0 },
-    metrics: { srsDueCount: 0, unresolvedMistakesCount: 0, masteredNodesCount: 0, totalLevelNodesCount: 0, levelProgressPercent: 0 },
-    dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: null }
+    metrics: {
+      srsDueCount: 0,
+      unresolvedMistakesCount: 0,
+      masteredNodesCount: 0,
+      totalLevelNodesCount: 0,
+      levelProgressPercent: 0,
+    },
+    dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: null },
   });
 
   const [srsStats, setSrsStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
@@ -41,12 +50,18 @@ export default function App() {
     } else {
       setDashboardData({
         user: { email: '', currentLevel: 0, targetBand: null, streak: 0 },
-        metrics: { srsDueCount: 0, unresolvedMistakesCount: 0, masteredNodesCount: 0, totalLevelNodesCount: 0, levelProgressPercent: 0 },
-        dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: null }
+        metrics: {
+          srsDueCount: 0,
+          unresolvedMistakesCount: 0,
+          masteredNodesCount: 0,
+          totalLevelNodesCount: 0,
+          levelProgressPercent: 0,
+        },
+        dailyMissionStatus: { isCompletedToday: false, estimatedMinutes: null },
       });
       setSrsStats({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
-      if (currentView === 'admin') {
-        setCurrentView('dashboard');
+      if (location.pathname.startsWith('/admin')) {
+        navigate('/');
       }
     }
   }, [isAuthenticated]);
@@ -75,7 +90,7 @@ export default function App() {
       console.warn('[Fetch Mission Warning]:', err.message);
       setMissionPayload(null);
     }
-    setCurrentView('mission');
+    navigate('/mission');
   };
 
   const handleFinishMission = (summary) => {
@@ -85,7 +100,7 @@ export default function App() {
 
   const handleCloseSummary = () => {
     setShowSummaryModal(false);
-    setCurrentView('dashboard');
+    navigate('/');
     fetchDashboard();
   };
 
@@ -93,8 +108,6 @@ export default function App() {
     <div style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--fg)' }}>
       {/* ─── Modular App Header ─── */}
       <AppHeader
-        currentView={currentView}
-        setCurrentView={setCurrentView}
         dashboardData={dashboardData}
         isAuthenticated={isAuthenticated}
         theme={theme}
@@ -103,56 +116,87 @@ export default function App() {
         onLogout={() => {
           api.setToken(null);
           setIsAuthenticated(false);
-          setCurrentView('dashboard');
+          navigate('/');
         }}
       />
 
-      {/* ─── Main Content Views ─── */}
-      <main className="app-main">
-        {currentView === 'dashboard' && (
-          <StudentDashboard
-            dashboardData={dashboardData}
-            srsStats={srsStats}
-            isAuthenticated={isAuthenticated}
-            onStartMission={handleStartMission}
-            onSwitchView={(view) => setCurrentView(view)}
-            onOpenAuth={() => setShowAuthModal(true)}
+      {/* ─── Main Content Views (Routed via react-router-dom) ─── */}
+      <main className='app-main'>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <StudentDashboard
+                dashboardData={dashboardData}
+                srsStats={srsStats}
+                isAuthenticated={isAuthenticated}
+                onStartMission={handleStartMission}
+                onSwitchView={(view) => {
+                  if (view.startsWith('lessons')) {
+                    navigate(`/${view}`);
+                  } else {
+                    navigate(view === 'dashboard' ? '/' : `/${view}`);
+                  }
+                }}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
           />
-        )}
+          <Route path='/dashboard' element={<Navigate to='/' replace />} />
 
-        {currentView === 'mission' && (
-          <MissionRunner
-            missionPayload={missionPayload}
-            onFinish={handleFinishMission}
-            onExit={() => setCurrentView('dashboard')}
+          <Route
+            path='/lessons'
+            element={
+              <SkillCatalog
+                isAuthenticated={isAuthenticated}
+                onBack={() => navigate('/')}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
           />
-        )}
 
-        {currentView === 'srs' && (
-          <SrsReviewRoom
-            isAuthenticated={isAuthenticated}
-            onBack={() => setCurrentView('dashboard')}
-            onOpenAuth={() => setShowAuthModal(true)}
+          <Route
+            path='/mission'
+            element={
+              <MissionRunner
+                missionPayload={missionPayload}
+                onFinish={handleFinishMission}
+                onExit={() => navigate('/')}
+              />
+            }
           />
-        )}
 
-        {currentView === 'mistakes' && (
-          <MistakeVault
-            isAuthenticated={isAuthenticated}
-            onBack={() => setCurrentView('dashboard')}
-            onOpenAuth={() => setShowAuthModal(true)}
+          <Route
+            path='/srs'
+            element={
+              <SrsReviewRoom
+                isAuthenticated={isAuthenticated}
+                onBack={() => navigate('/')}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
           />
-        )}
+          <Route path='/vocabulary' element={<Navigate to='/srs' replace />} />
 
-        {currentView === 'admin' && <AdminCms onBackToStudent={() => setCurrentView('dashboard')} />}
+          <Route
+            path='/mistakes'
+            element={
+              <MistakeVault
+                isAuthenticated={isAuthenticated}
+                onBack={() => navigate('/')}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route path='/admin' element={<AdminCms onBackToStudent={() => navigate('/')} />} />
+
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
       </main>
 
       {/* ─── Modals ─── */}
-      <SessionSummaryModal
-        isOpen={showSummaryModal}
-        summaryData={summaryData}
-        onClose={handleCloseSummary}
-      />
+      <SessionSummaryModal isOpen={showSummaryModal} summaryData={summaryData} onClose={handleCloseSummary} />
 
       <AuthModal
         isOpen={showAuthModal}

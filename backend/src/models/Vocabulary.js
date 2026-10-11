@@ -16,7 +16,7 @@ const VocabularySchema = new mongoose.Schema({
   },
   pos: {
     type: String,
-    enum: ['noun', 'verb', 'adj', 'adv', 'phrase', 'prep', 'conj'],
+    enum: ['noun', 'verb', 'adj', 'adjective', 'adv', 'adverb', 'phrase', 'prep', 'conj'],
     required: [true, 'Part of speech is required']
   },
   meaningVi: {
@@ -28,6 +28,33 @@ const VocabularySchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  vocabType: {
+    type: String,
+    default: 'topic_specific',
+    trim: true
+  },
+  awlSublist: {
+    type: Number,
+    default: null
+  },
+  collocations: [{
+    type: String,
+    trim: true
+  }],
+  topicIdeaVi: {
+    type: String,
+    trim: true
+  },
+  wordFamily: {
+    noun: { type: String, default: null },
+    verb: { type: String, default: null },
+    adj: { type: String, default: null },
+    adv: { type: String, default: null }
+  },
+  paraphrases: [{
+    type: String,
+    trim: true
+  }],
   exampleSentence: {
     type: String,
     required: [true, 'Example sentence is required']
