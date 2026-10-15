@@ -28,7 +28,8 @@ import {
   Lock,
   Lightbulb,
   FileText,
-  Boxes
+  Boxes,
+  Keyboard
 } from 'lucide-react';
 import LeitnerBoxGrid from './LeitnerBoxGrid';
 
@@ -249,12 +250,22 @@ export default function StudentDashboard({
               </button>
             </div>
             <div className="skill-grid">
-              <button className="skill-card" onClick={() => onSwitchView('srs')}>
+              <button className="skill-card" onClick={() => onSwitchView('typing')}>
+                <span className="skill-icon" style={{ background: '#fef3c7', color: '#b45309' }}>
+                  <Keyboard size={20} />
+                </span>
+                <strong>Typing Drill</strong>
+                <p>Luyện gõ từ vựng tốc độ cao, phản xạ chính tả & muscle memory.</p>
+                <span className="skill-link">
+                  Vào phòng luyện gõ <ArrowUpRight size={13} />
+                </span>
+              </button>
+              <button className="skill-card" onClick={() => onSwitchView('vocabulary')}>
                 <span className="skill-icon" style={{ background: '#e4f8ef', color: '#16805d' }}>
                   <Boxes size={20} />
                 </span>
-                <strong>Vocabulary (SRS)</strong>
-                <p>Ôn tập ngắt quãng từ vựng theo 5 Hộp Leitner.</p>
+                <strong>Vocabulary Hub</strong>
+                <p>Ôn tập ngắt quãng 5 Hộp Leitner & Khám phá từ vựng theo chủ đề.</p>
                 <span className="skill-link">
                   Mở phòng từ vựng <ArrowUpRight size={13} />
                 </span>
@@ -273,10 +284,10 @@ export default function StudentDashboard({
                 <span className="skill-icon" style={{ background: '#e5f8f5', color: '#078575' }}>
                   <BookOpen size={20} />
                 </span>
-                <strong>Reading</strong>
-                <p>Build comprehension and spot paraphrases.</p>
+                <strong>Reading Micro-Practice</strong>
+                <p>Luyện đọc bài ngắn, bẫy paraphrase và câu hỏi IELTS thực chiến.</p>
                 <span className="skill-link">
-                  Explore lessons <ArrowUpRight size={13} />
+                  Vào phòng luyện đọc <ArrowUpRight size={13} />
                 </span>
               </button>
               <button className="skill-card" onClick={() => onSwitchView('lessons?skill=speaking')}>
@@ -289,14 +300,14 @@ export default function StudentDashboard({
                   Explore lessons <ArrowUpRight size={13} />
                 </span>
               </button>
-              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=writing')}>
+              <button className="skill-card" onClick={() => onSwitchView('writing')}>
                 <span className="skill-icon" style={{ background: '#fff2d9', color: '#a36a00' }}>
                   <PenLine size={20} />
                 </span>
-                <strong>Writing</strong>
-                <p>Improve grammar, sentence structure and word choice.</p>
+                <strong>Writing (100 Sentences)</strong>
+                <p>Luyện dịch 100 câu mẫu theo 12 cấu trúc ngữ pháp học thuật.</p>
                 <span className="skill-link">
-                  Explore lessons <ArrowUpRight size={13} />
+                  Vào phòng luyện dịch <ArrowUpRight size={13} />
                 </span>
               </button>
               <button className="skill-card" onClick={() => onSwitchView('lessons?skill=grammar')}>

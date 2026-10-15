@@ -19,7 +19,28 @@ const submitSession = async (req, res, next) => {
   }
 };
 
+const submitTyping = async (req, res, next) => {
+  try {
+    const result = await missionService.submitTypingSession(req.user._id, req.body);
+    return sendSuccess(res, 200, result, 'Typing session recorded');
+  } catch (err) {
+    next(err);
+  }
+};
+
+const checkWriting = async (req, res, next) => {
+  try {
+    const { questionId, userSentence } = req.body;
+    const result = await missionService.checkWritingSentence({ questionId, userSentence });
+    return sendSuccess(res, 200, result, 'Writing evaluated successfully');
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getTodayMission,
-  submitSession
+  submitSession,
+  submitTyping,
+  checkWriting
 };

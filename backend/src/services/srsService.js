@@ -116,7 +116,7 @@ const enrollBatchVocab = async (userId, vocabIds) => {
 /**
  * Enrolls all published vocabularies in DB into user's SRS Box 1
  */
-const enrollAllPublishedVocab = async (userId, { tier, topic, limit = 100 } = {}) => {
+const enrollAllPublishedVocab = async (userId, { tier, topic, limit = 1000 } = {}) => {
   const query = { status: 'published' };
   if (tier) query.tier = Number(tier);
   if (topic) query.topic = topic;
@@ -129,7 +129,7 @@ const enrollAllPublishedVocab = async (userId, { tier, topic, limit = 100 } = {}
 /**
  * Gets vocabulary items for review (due only or all tracked in Leitner boxes)
  */
-const getDueReviews = async (userId, { limit = 50, mode = 'due', box } = {}) => {
+const getDueReviews = async (userId, { limit = 100, mode = 'due', box, topic, tier } = {}) => {
   const now = new Date();
   const query = { userId };
 
@@ -141,11 +141,19 @@ const getDueReviews = async (userId, { limit = 50, mode = 'due', box } = {}) => 
     query.nextReviewDate = { $lte: now };
   }
 
+  if (topic || tier) {
+    const vocabQuery = { status: 'published' };
+    if (topic) vocabQuery.topic = topic;
+    if (tier) vocabQuery.tier = Number(tier);
+    const matchedVocabs = await Vocabulary.find(vocabQuery).select('_id');
+    query.vocabId = { $in: matchedVocabs.map(v => v._id) };
+  }
+
   const [items, totalTracked, dueCount] = await Promise.all([
     UserSrsItem.find(query)
       .sort({ nextReviewDate: 1, createdAt: -1 })
       .limit(Number(limit))
-      .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media tier topic'),
+      .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media tier topic paraphrases'),
     UserSrsItem.countDocuments({ userId }),
     UserSrsItem.countDocuments({ userId, nextReviewDate: { $lte: now } })
   ]);

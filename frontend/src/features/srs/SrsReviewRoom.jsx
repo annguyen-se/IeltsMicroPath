@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/apiClient';
+import { playWordAudio, preloadAudio } from '../../utils/audio';
 import {
   ArrowLeft,
   Clock,
@@ -19,6 +20,7 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
   const [loading, setLoading] = useState(isAuthenticated);
   const [mode, setMode] = useState('due'); // 'due' | 'all'
   const [selectedBox, setSelectedBox] = useState('all'); // 'all' | 1..5
+  const [selectedTopic, setSelectedTopic] = useState('all'); // 'all' | 'listening-179' | 'reading-538'
   const [dueCount, setDueCount] = useState(0);
   const [totalTracked, setTotalTracked] = useState(0);
 
@@ -33,7 +35,7 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
     } else {
       setLoading(false);
     }
-  }, [isAuthenticated, mode, selectedBox]);
+  }, [isAuthenticated, mode, selectedBox, selectedTopic]);
 
   const fetchItems = async () => {
     try {
@@ -41,6 +43,7 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
       const params = new URLSearchParams();
       params.append('mode', mode);
       if (selectedBox !== 'all') params.append('box', selectedBox);
+      if (selectedTopic !== 'all') params.append('topic', selectedTopic);
 
       const res = await api.get(`/reviews/due?${params.toString()}`);
       setItems(res?.items || []);
@@ -55,15 +58,15 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
     }
   };
 
-  const handleEnrollAll = async () => {
+  const handleEnrollTopic = async (topic, label) => {
     try {
       setIsEnrolling(true);
-      const res = await api.post('/reviews/enroll-all', {});
+      const res = await api.post('/reviews/enroll-all', { topic, limit: 1000 });
       const count = res?.enrolledCount ?? 0;
-      setNotification(`Đã nạp thành công ${count} từ vựng vào Hộp 1! Bắt đầu học ngay.`);
+      setNotification(`Đã nạp ${count} từ thuộc ${label} vào Hộp 1 SRS!`);
       setTimeout(() => setNotification(''), 3000);
       setMode('all');
-      setSelectedBox('all');
+      setSelectedTopic(topic);
       await fetchItems();
     } catch (err) {
       setNotification(`Lỗi nạp từ: ${err.message}`);
@@ -72,11 +75,61 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
     }
   };
 
-  const playAudio = (url) => {
-    if (!url) return;
-    const audio = new Audio(url);
-    audio.play().catch(() => {});
+  const handleEnrollAll = async () => {
+    try {
+      setIsEnrolling(true);
+      const res = await api.post('/reviews/enroll-all', { limit: 1000 });
+      const count = res?.enrolledCount ?? 0;
+      setNotification(`Đã nạp thành công ${count} từ vựng vào Hộp 1! Bắt đầu học ngay.`);
+      setTimeout(() => setNotification(''), 3000);
+      setMode('all');
+      setSelectedBox('all');
+      setSelectedTopic('all');
+      await fetchItems();
+    } catch (err) {
+      setNotification(`Lỗi nạp từ: ${err.message}`);
+    } finally {
+      setIsEnrolling(false);
+    }
   };
+
+  // Keyboard navigation for smooth flashcard study
+  useEffect(() => {
+    const onKey = (e) => {
+      if (!items[currentIndex] || loading) return;
+      if (e.key === ' ' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setIsFlipped((prev) => !prev);
+      } else if (e.key === '`') {
+        e.preventDefault();
+        const v = items[currentIndex]?.vocabId;
+        if (v) playAudio(v.media?.url, v.word);
+      } else if (isFlipped) {
+        if (e.key === '1' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          handleGrade(false);
+        } else if (e.key === '2' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          handleGrade(true);
+        }
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [items, currentIndex, isFlipped, loading]);
+
+  const playAudio = (url, word) => {
+    playWordAudio(url, word);
+  };
+
+  // Preload next flashcard audio into memory cache
+  useEffect(() => {
+    const nextItem = items[currentIndex + 1];
+    const nextUrl = nextItem?.vocabId?.media?.url;
+    if (nextUrl) {
+      preloadAudio(nextUrl);
+    }
+  }, [currentIndex, items]);
 
   const handleGrade = async (isCorrect) => {
     const currentItem = items[currentIndex];
@@ -117,18 +170,40 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
             Tự do ôn tập từ vựng độc lập theo Ebbinghaus Forgetting Curve trên 5 hộp trí nhớ dài hạn.
           </p>
         </div>
-        <div className="row" style={{ gap: 10 }}>
+        <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
           {isAuthenticated && (
-            <button
-              className="btn btn-primary"
-              style={{ fontSize: 13, padding: '7px 12px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
-              onClick={handleEnrollAll}
-              disabled={isEnrolling}
-              title="Nạp các từ vựng có trong database vào Hộp 1 để học"
-            >
-              <Plus size={14} />
-              <span>{isEnrolling ? 'Đang nạp...' : 'Nạp từ mới vào Hộp 1'}</span>
-            </button>
+            <>
+              <button
+                className="btn btn-secondary"
+                style={{ fontSize: 12, padding: '6px 11px', display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                onClick={() => handleEnrollTopic('listening-179', 'Listening 179')}
+                disabled={isEnrolling}
+                title="Nạp 179 từ khóa Listening vào Hộp 1"
+              >
+                <Plus size={13} />
+                <span>+ Listening 179</span>
+              </button>
+              <button
+                className="btn btn-secondary"
+                style={{ fontSize: 12, padding: '6px 11px', display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                onClick={() => handleEnrollTopic('reading-538', 'Reading 538')}
+                disabled={isEnrolling}
+                title="Nạp từ khóa Reading vào Hộp 1"
+              >
+                <Plus size={13} />
+                <span>+ Reading 538</span>
+              </button>
+              <button
+                className="btn btn-primary"
+                style={{ fontSize: 12, padding: '6px 12px', display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                onClick={handleEnrollAll}
+                disabled={isEnrolling}
+                title="Nạp các từ vựng có trong database vào Hộp 1 để học"
+              >
+                <Plus size={13} />
+                <span>{isEnrolling ? 'Đang nạp...' : 'Nạp tất cả'}</span>
+              </button>
+            </>
           )}
           {onBack && (
             <button className="btn btn-secondary" onClick={onBack} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
@@ -208,7 +283,30 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
             </div>
 
             <div className="row" style={{ gap: 6, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 600 }}>Hộp:</span>
+              <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 600 }}>Chủ đề:</span>
+              <button
+                className={`pill ${selectedTopic === 'all' ? 'pill-cobalt' : 'pill-muted'}`}
+                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
+                onClick={() => setSelectedTopic('all')}
+              >
+                Tất cả
+              </button>
+              <button
+                className={`pill ${selectedTopic === 'listening-179' ? 'pill-cobalt' : 'pill-muted'}`}
+                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
+                onClick={() => setSelectedTopic('listening-179')}
+              >
+                Listening 179
+              </button>
+              <button
+                className={`pill ${selectedTopic === 'reading-538' ? 'pill-cobalt' : 'pill-muted'}`}
+                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
+                onClick={() => setSelectedTopic('reading-538')}
+              >
+                Reading 538
+              </button>
+
+              <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 600, marginLeft: 8 }}>Hộp:</span>
               <button
                 className={`pill ${selectedBox === 'all' ? 'pill-cobalt' : 'pill-muted'}`}
                 style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
@@ -330,16 +428,14 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                 }}
               >
                 <span>{vocab.word}</span>
-                {vocab.media?.url && (
-                  <button
-                    className="btn btn-ghost"
-                    onClick={() => playAudio(vocab.media.url)}
-                    title="Play pronunciation"
-                    style={{ padding: 6, borderRadius: '50%' }}
-                  >
-                    <Volume2 size={22} style={{ color: 'var(--color-cobalt)' }} />
-                  </button>
-                )}
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => playAudio(vocab.media?.url, vocab.word)}
+                  title="Play pronunciation"
+                  style={{ padding: 6, borderRadius: '50%' }}
+                >
+                  <Volume2 size={22} style={{ color: 'var(--color-cobalt)' }} />
+                </button>
               </div>
 
               <div className="ipa" style={{ color: 'var(--color-cobalt)', fontSize: 18, marginBottom: 24 }}>
@@ -388,6 +484,11 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                       <strong>Collocations:</strong> {vocab.collocations.join(', ')}
                     </div>
                   )}
+                  {vocab.paraphrases && vocab.paraphrases.length > 0 && (
+                    <div style={{ marginTop: 10, fontSize: 13, color: 'var(--color-cobalt)' }}>
+                      <strong>Từ đồng nghĩa (Paraphrases):</strong> {vocab.paraphrases.join(', ')}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -411,6 +512,11 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                   </div>
                 )}
               </div>
+
+              {/* Keyboard Shortcuts Hint */}
+              <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--fg-muted)', marginTop: 16 }}>
+                Phím tắt: [Space/↓] Lật thẻ · [1/←] Quên (Hộp 1) · [2/→] Nhớ (+1 Hộp) · [ ` ] Phát âm
+              </p>
             </div>
           )}
         </>

@@ -5,10 +5,14 @@ import AppHeader from './components/layout/AppHeader';
 import StudentDashboard from './features/dashboard/StudentDashboard';
 import MissionRunner from './features/mission/MissionRunner';
 import SessionSummaryModal from './features/mission/SessionSummaryModal';
-import SrsReviewRoom from './features/srs/SrsReviewRoom';
+import VocabularyHub from './features/vocabulary/VocabularyHub';
 import MistakeVault from './features/mistakes/MistakeVault';
 import AdminCms from './features/admin/AdminCms';
 import SkillCatalog from './features/lessons/SkillCatalog';
+import TypingDrill from './features/typing/TypingDrill';
+import ParaphraseExplorer from './features/reading/ParaphraseExplorer';
+import ReadingPracticeRoom from './features/reading/ReadingPracticeRoom';
+import WritingDrill from './features/writing/WritingDrill';
 import AuthModal from './features/auth/AuthModal';
 
 export default function App() {
@@ -167,16 +171,63 @@ export default function App() {
           />
 
           <Route
-            path='/srs'
+            path='/vocabulary'
             element={
-              <SrsReviewRoom
+              <VocabularyHub
                 isAuthenticated={isAuthenticated}
-                onBack={() => navigate('/')}
                 onOpenAuth={() => setShowAuthModal(true)}
               />
             }
           />
-          <Route path='/vocabulary' element={<Navigate to='/srs' replace />} />
+          <Route
+            path='/srs'
+            element={
+              <VocabularyHub
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route
+            path='/typing'
+            element={
+              <TypingDrill
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route
+            path='/paraphrases'
+            element={
+              <ParaphraseExplorer
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route
+            path='/reading/:lessonId'
+            element={
+              <ReadingPracticeRoom
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route
+            path='/writing'
+            element={
+              <WritingDrill
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
 
           <Route
             path='/mistakes'

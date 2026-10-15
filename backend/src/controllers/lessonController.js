@@ -4,7 +4,7 @@ const { sendSuccess } = require('../utils/apiResponse');
 
 const getLessons = async (req, res, next) => {
   try {
-    const { skill, level } = req.query;
+    const { skill, level, contentType } = req.query;
     const userId = req.user?._id;
     let masteredSet = new Set();
 
@@ -15,7 +15,7 @@ const getLessons = async (req, res, next) => {
       }
     }
 
-    const lessons = await contentService.getLessons({ skill, level, status: 'published' });
+    const lessons = await contentService.getLessons({ skill, level, contentType, status: 'published' });
 
     const mapped = lessons.map(l => {
       const isMastered = masteredSet.has(l._id.toString());
@@ -24,8 +24,10 @@ const getLessons = async (req, res, next) => {
 
       return {
         _id: l._id,
+        slug: l.slug,
         title: l.title,
         skill: l.skill,
+        contentType: l.contentType,
         level: l.level,
         topic: l.topic,
         orderIndex: l.orderIndex,
@@ -45,7 +47,7 @@ const getLessons = async (req, res, next) => {
 const getLessonDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await contentService.getLessonById(id);
+    const data = await contentService.getLessonById(id, req.user);
     return sendSuccess(res, 200, data, 'Lesson detail retrieved successfully');
   } catch (err) {
     next(err);

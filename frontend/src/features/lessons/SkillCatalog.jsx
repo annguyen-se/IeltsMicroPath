@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../../api/apiClient';
+import { playWordAudio } from '../../utils/audio';
+import MarkdownView from '../../components/MarkdownView';
 import {
   ArrowLeft,
   BookOpen,
@@ -53,6 +55,32 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
   // Vocab enrollment state
   const [enrolledVocabs, setEnrolledVocabs] = useState(new Set());
   const [enrollNotice, setEnrollNotice] = useState('');
+
+  const handleCheckQuiz = async () => {
+    setQuizSubmitted(true);
+    if (!isAuthenticated) return;
+
+    try {
+      const answersPayload = (lessonDetail?.questions || []).map((q) => ({
+        questionId: q._id,
+        userAnswer: quizAnswers[q._id] || ''
+      }));
+
+      const res = await api.post('/learning/submit-session', {
+        lessonResults: {
+          lessonId: activeLessonId,
+          answers: answersPayload
+        }
+      });
+
+      if (res?.isLessonMastered || res?.lessonReviewData?.passed) {
+        setEnrollNotice('Chúc mừng! Bạn đã hoàn thành bài học và mở khóa bài tiếp theo.');
+        await fetchLessons();
+      }
+    } catch (err) {
+      console.warn('[Quiz Submit Error]:', err.message);
+    }
+  };
 
   const handleEnrollSingleVocab = async (vocabId) => {
     if (!isAuthenticated) {
@@ -122,6 +150,11 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
       return; // Locked
     }
 
+    if (lesson.contentType === 'practice') {
+      navigate(`/reading/${lesson._id}`);
+      return;
+    }
+
     setActiveLessonId(lesson._id);
     setActiveTab('theory');
     setQuizAnswers({});
@@ -138,10 +171,8 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
     }
   };
 
-  const playAudio = (url) => {
-    if (!url) return;
-    const a = new Audio(url);
-    a.play().catch(() => {});
+  const playAudio = (url, word) => {
+    playWordAudio(url, word);
   };
 
   return (
@@ -239,7 +270,7 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                 <div>
                   <div className="row-between" style={{ marginBottom: 8 }}>
                     <span className="soft-pill" style={{ textTransform: 'uppercase', fontSize: 11, fontWeight: 700 }}>
-                      Level {lesson.level} · {lesson.skill}
+                      Level {lesson.level} · {lesson.skill} {lesson.contentType === 'practice' ? '· Bài đọc' : '· Lý thuyết'}
                     </span>
                     {isMastered ? (
                       <span className="pill pill-success" style={{ fontSize: 11 }}>
@@ -358,8 +389,19 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
 
                 {/* Tab 1: Theory */}
                 {activeTab === 'theory' && (
-                  <div className="card" style={{ background: 'var(--surface-subtle)', whiteSpace: 'pre-line', fontSize: 14, lineHeight: 1.7 }}>
-                    {lessonDetail?.lesson?.contentMarkdown || 'Bài học này chưa có nội dung lý thuyết.'}
+                  <div className="card" style={{ background: 'var(--surface-subtle)', padding: 24 }}>
+                    <MarkdownView content={lessonDetail?.lesson?.contentMarkdown} />
+                    {lessonDetail?.questions && lessonDetail.questions.length > 0 && (
+                      <div style={{ marginTop: 24, textAlign: 'center', paddingTop: 16, borderTop: '1px solid var(--border)' }}>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => setActiveTab('quiz')}
+                          style={{ fontSize: 14, padding: '8px 18px' }}
+                        >
+                          Làm bài kiểm tra nhanh ({lessonDetail.questions.length} câu)
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -414,12 +456,14 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                               </span>
                             </div>
                             <div className="row" style={{ gap: 8 }}>
-                              {v.media?.url && (
-                                <button className="btn btn-secondary" onClick={() => playAudio(v.media.url)} style={{ gap: 6, fontSize: 12 }}>
-                                  <Volume2 size={14} />
-                                  <span>Nghe</span>
-                                </button>
-                              )}
+                              <button
+                                className="btn btn-secondary"
+                                onClick={() => playAudio(v.media?.url, v.word)}
+                                style={{ gap: 6, fontSize: 12 }}
+                              >
+                                <Volume2 size={14} />
+                                <span>Nghe</span>
+                              </button>
                               <button
                                 className={`btn ${isEnrolled ? 'btn-secondary' : 'btn-primary'}`}
                                 style={{ fontSize: 12, padding: '5px 10px' }}
@@ -453,14 +497,31 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                     )}
                     {lessonDetail?.questions?.map((q, idx) => {
                       const userAns = quizAnswers[q._id];
-                      const isCorrect = userAns && userAns.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
+                      const cleanAns = (userAns || '').trim().toLowerCase();
+                      const isExact = cleanAns === (q.correctAnswer || '').trim().toLowerCase();
+                      const isVariant = q.options && q.options.some((opt) => cleanAns === opt.toLowerCase().trim());
+                      const isCorrect = userAns && (isExact || isVariant);
 
                       return (
                         <div key={q._id} className="card" style={{ background: 'var(--surface-subtle)', padding: 18 }}>
                           <span style={{ fontSize: 12, color: 'var(--color-cobalt)', fontWeight: 700 }}>
-                            CÂU {idx + 1} ({q.errorTaxonomy || 'PRACTICE'})
+                            CÂU {idx + 1} ({q.type ? q.type.toUpperCase() : 'PRACTICE'} · {q.errorTaxonomy || 'ERR_LEX'})
                           </span>
                           <p style={{ fontSize: 16, fontWeight: 600, margin: '8px 0 12px' }}>{q.prompt}</p>
+
+                          {q.type === 'dictation' && (
+                            <div style={{ marginBottom: 12 }}>
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => playAudio(q.media?.url, q.correctAnswer)}
+                                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, padding: '6px 12px' }}
+                              >
+                                <Volume2 size={16} style={{ color: 'var(--color-cobalt)' }} />
+                                <span>Nghe phát âm từ vựng</span>
+                              </button>
+                            </div>
+                          )}
 
                           {q.type === 'choice' && q.options && (
                             <div className="option-grid" style={{ marginTop: 8 }}>
@@ -480,7 +541,7 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                             <input
                               type="text"
                               className="input-text"
-                              placeholder="Nhập câu trả lời..."
+                              placeholder={q.type === 'dictation' ? "Gõ từ khóa nghe được..." : "Nhập câu trả lời..."}
                               value={userAns || ''}
                               onChange={(e) => setQuizAnswers({ ...quizAnswers, [q._id]: e.target.value })}
                             />
@@ -499,6 +560,11 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                             >
                               <strong>{isCorrect ? 'Chính xác!' : `Chưa đúng. Đáp án: ${q.correctAnswer}`}</strong>
                               {q.explanation && <p style={{ marginTop: 4, color: 'var(--fg)' }}>{q.explanation}</p>}
+                              {q.options && q.options.length > 0 && q.type === 'dictation' && (
+                                <div style={{ marginTop: 6, fontSize: 12, opacity: 0.9 }}>
+                                  <strong>Từ đồng nghĩa (Paraphrases): </strong> {q.options.join(', ')}
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -508,7 +574,7 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                     <div style={{ textAlign: 'right', marginTop: 12 }}>
                       <button
                         className="btn btn-primary"
-                        onClick={() => setQuizSubmitted(true)}
+                        onClick={handleCheckQuiz}
                         disabled={lessonDetail?.questions?.length === 0}
                       >
                         Kiểm tra kết quả bài tập

@@ -2,6 +2,13 @@ const mongoose = require('mongoose');
 const MediaSchema = require('./Media');
 
 const LessonSchema = new mongoose.Schema({
+  slug: {
+    type: String,
+    unique: true,
+    sparse: true,
+    trim: true,
+    index: true
+  },
   title: {
     type: String,
     required: [true, 'Lesson title is required'],
@@ -11,6 +18,12 @@ const LessonSchema = new mongoose.Schema({
     type: String,
     enum: ['phonetics', 'grammar', 'reading', 'listening', 'speaking', 'writing'],
     required: [true, 'Skill category is required']
+  },
+  contentType: {
+    type: String,
+    enum: ['theory', 'practice'],
+    default: 'theory',
+    index: true
   },
   level: {
     type: Number,
@@ -26,8 +39,30 @@ const LessonSchema = new mongoose.Schema({
   },
   contentMarkdown: {
     type: String,
-    required: [true, 'Lesson theory content in Markdown is required']
+    default: ''
   },
+  passage: {
+    paragraphs: [{
+      label: { type: String, trim: true },
+      text: { type: String, trim: true }
+    }]
+  },
+  vocabIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Vocabulary',
+    index: true
+  }],
+  vocabAnchors: [{
+    vocabId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vocabulary', required: true },
+    text: { type: String, trim: true, required: true },
+    paragraphLabel: { type: String, trim: true, required: true }
+  }],
+  paraphrasePairs: [{
+    vocabId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vocabulary', required: false },
+    questionText: { type: String, trim: true, required: true },
+    passageText: { type: String, trim: true, required: true },
+    paragraphLabel: { type: String, trim: true, required: true }
+  }],
   prerequisites: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Lesson'

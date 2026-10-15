@@ -1,0 +1,5070 @@
+[
+  {
+    "index": 1,
+    "word": "reserve",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/2c/En-us-reserve.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-reserve.ogg"
+  },
+  {
+    "word": "in advance",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 3,
+    "word": "have to",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/30/En-us-have_to.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-have_to.ogg"
+  },
+  {
+    "word": "adjust",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 5,
+    "word": "and",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/and-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=192031"
+  },
+  {
+    "index": 6,
+    "word": "but",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/but-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75268496"
+  },
+  {
+    "index": 7,
+    "word": "because",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/En-us-because.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-because.ogg"
+  },
+  {
+    "index": 8,
+    "word": "diversity",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/En-uk-diversity.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "Bosola~commonswiki\n\nJimmy Breck-McKye",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-diversity.ogg"
+  },
+  {
+    "index": 9,
+    "word": "fee",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/fee-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1244049"
+  },
+  {
+    "index": 10,
+    "word": "establish",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/establish-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2100707"
+  },
+  {
+    "index": 11,
+    "word": "transfer",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/transfer-uk-verb.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88897194"
+  },
+  {
+    "word": "habitat",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 13,
+    "word": "international",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/international-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749878"
+  },
+  {
+    "index": 14,
+    "word": "export",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/export-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88737601"
+  },
+  {
+    "index": 15,
+    "word": "vegetation",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/26/En-us-vegetation.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-vegetation.ogg"
+  },
+  {
+    "index": 16,
+    "word": "animal",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/animal-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=718870"
+  },
+  {
+    "index": 17,
+    "word": "feature",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/feature-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1755153"
+  },
+  {
+    "word": "emigrate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 19,
+    "word": "food",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/food-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9021827"
+  },
+  {
+    "word": "allergic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 21,
+    "word": "fitness",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/fitness-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2650955"
+  },
+  {
+    "index": 22,
+    "word": "tradition",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/En-us-tradition.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-tradition.ogg"
+  },
+  {
+    "index": 23,
+    "word": "entertainment",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/entertainment-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2004969"
+  },
+  {
+    "index": 24,
+    "word": "press",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/65/En-uk-press.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC BY 3.0 us",
+    "credit": "Association Shtooka, Judith Franck",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-press.ogg"
+  },
+  {
+    "index": 25,
+    "word": "online",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/online.mp3",
+    "accent": "general",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749917"
+  },
+  {
+    "word": "publicity",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 27,
+    "word": "picture",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/db/En-us-picture.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-picture.ogg"
+  },
+  {
+    "word": "jewellery",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "artwork",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 30,
+    "word": "statue",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/06/En-us-statue.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "EncycloPetey",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-statue.ogg"
+  },
+  {
+    "index": 31,
+    "word": "movie",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/movie-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1231871"
+  },
+  {
+    "index": 32,
+    "word": "geology",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/En-us-geology.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-geology.ogg"
+  },
+  {
+    "index": 33,
+    "word": "countryside",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/countryside-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014351"
+  },
+  {
+    "word": "urban",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "coastline",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 36,
+    "word": "environment",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/environment-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014415"
+  },
+  {
+    "index": 37,
+    "word": "noisy",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/noisy-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651220"
+  },
+  {
+    "index": 38,
+    "word": "capacity",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/capacity-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749734"
+  },
+  {
+    "word": "outdoor",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 40,
+    "word": "accommodation",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/accommodation-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=83325933"
+  },
+  {
+    "index": 41,
+    "word": "place",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a0/En-us-place.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-place.ogg"
+  },
+  {
+    "index": 42,
+    "word": "near",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/near-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9023262"
+  },
+  {
+    "index": 43,
+    "word": "remote",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/remote-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2100511"
+  },
+  {
+    "index": 44,
+    "word": "advantage",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/advantage-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1244113"
+  },
+  {
+    "word": "disadvantage",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 46,
+    "word": "education",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/education-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014400"
+  },
+  {
+    "word": "ordinary people",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 48,
+    "word": "student",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/En-uk-student.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC BY 3.0 us",
+    "credit": "Association Shtooka, Judith Franck",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-student.ogg"
+  },
+  {
+    "index": 49,
+    "word": "purpose",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/purpose-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1157424"
+  },
+  {
+    "index": 50,
+    "word": "learn",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/learn-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=876680"
+  },
+  {
+    "index": 51,
+    "word": "structure",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/21/En-us-structure.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-structure.ogg"
+  },
+  {
+    "word": "reference materials",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 53,
+    "word": "extensive",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/extensive-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769388"
+  },
+  {
+    "index": 54,
+    "word": "expertise",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/expertise-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=7466065"
+  },
+  {
+    "index": 55,
+    "word": "group",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/En-us-group.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-group.ogg"
+  },
+  {
+    "index": 56,
+    "word": "associate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/associate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=179372"
+  },
+  {
+    "index": 57,
+    "word": "approach",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/En-us-approach.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-approach.ogg"
+  },
+  {
+    "word": "motivate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 59,
+    "word": "improve",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/improve-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1780165"
+  },
+  {
+    "index": 60,
+    "word": "overlook",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/En-us-overlook.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-overlook.ogg"
+  },
+  {
+    "index": 61,
+    "word": "omit",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c2/En-us-omit.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-omit.ogg"
+  },
+  {
+    "index": 62,
+    "word": "find",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/find-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9028014"
+  },
+  {
+    "index": 63,
+    "word": "opportunity",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/opportunity-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1239774"
+  },
+  {
+    "index": 64,
+    "word": "difficult",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/difficult-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014364"
+  },
+  {
+    "index": 65,
+    "word": "prevent",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/prevent-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1244166"
+  },
+  {
+    "word": "misunderstand",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "try hard",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "feedback",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 69,
+    "word": "affect",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/affect-1-uk.mp3",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=503169"
+  },
+  {
+    "index": 70,
+    "word": "analysis",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/analysis-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50241397"
+  },
+  {
+    "index": 71,
+    "word": "result",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/result-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1239703"
+  },
+  {
+    "index": 72,
+    "word": "handle",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/handle-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75271782"
+  },
+  {
+    "index": 73,
+    "word": "support",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/En-us-support.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-support.ogg"
+  },
+  {
+    "index": 74,
+    "word": "ideal",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/ideal-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749869"
+  },
+  {
+    "index": 75,
+    "word": "rigorous",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/rigorous-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50423051"
+  },
+  {
+    "word": "restrict",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 77,
+    "word": "similar",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/similar-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=830126"
+  },
+  {
+    "index": 78,
+    "word": "particular",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/particular-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1227717"
+  },
+  {
+    "index": 79,
+    "word": "copy",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/En-us-copy.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-copy.ogg"
+  },
+  {
+    "index": 80,
+    "word": "statistics",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/En-us-statistics.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-statistics.ogg"
+  },
+  {
+    "index": 81,
+    "word": "maximum",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/maximum-uk.mp3",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1879377"
+  },
+  {
+    "index": 82,
+    "word": "minimum",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/minimum-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651181"
+  },
+  {
+    "index": 83,
+    "word": "initial",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/initial-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=189762"
+  },
+  {
+    "index": 84,
+    "word": "limited",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/limited-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676799"
+  },
+  {
+    "word": "shorten",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 86,
+    "word": "decrease",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/decrease-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1762908"
+  },
+  {
+    "index": 87,
+    "word": "lack",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/lack-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1684655"
+  },
+  {
+    "index": 88,
+    "word": "large",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/large-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9023186"
+  },
+  {
+    "word": "amount of",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 90,
+    "word": "majority",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/En-us-majority.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-majority.ogg"
+  },
+  {
+    "index": 91,
+    "word": "double",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/double-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1669294"
+  },
+  {
+    "word": "more than",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "at present",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 94,
+    "word": "update",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/update-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88897324"
+  },
+  {
+    "word": "newest",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 96,
+    "word": "soon",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/soon-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1212351"
+  },
+  {
+    "word": "out of date",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "index": 98,
+    "word": "ancient",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/ancient-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1239702"
+  },
+  {
+    "index": 99,
+    "word": "temporary",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/En-us-temporary.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-temporary.ogg"
+  },
+  {
+    "index": 100,
+    "word": "deadline",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/deadline-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=79900119"
+  },
+  {
+    "word": "permanent",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/permanent-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749927"
+  },
+  {
+    "word": "more often",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "annual",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/annual-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769834"
+  },
+  {
+    "word": "every month",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "every day",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "classify",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "entrance",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/entrance-1-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=94707561"
+  },
+  {
+    "word": "behind",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/06/En-uk-behind.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC BY 3.0 us",
+    "credit": "Association Shtooka, Judith Franck",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-behind.ogg"
+  },
+  {
+    "word": "below",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/below-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=709486"
+  },
+  {
+    "word": "beside",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/beside-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1239714"
+  },
+  {
+    "word": "available",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/67/En-us-available.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-available.ogg"
+  },
+  {
+    "word": "boring",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/En-us-boring.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-boring.ogg"
+  },
+  {
+    "word": "trend",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/trend-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=80152074"
+  },
+  {
+    "word": "risky",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "poisonous",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/poisonous.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=77607438"
+  },
+  {
+    "word": "warning",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/warning-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=79899997"
+  },
+  {
+    "word": "care",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/En-us-care.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-care.ogg"
+  },
+  {
+    "word": "steal",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "protect",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/En-us-protect.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-protect.ogg"
+  },
+  {
+    "word": "injury",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/injury-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1780175"
+  },
+  {
+    "word": "military",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/En-us-military.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-military.ogg"
+  },
+  {
+    "word": "tactics",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "rely on",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "travel",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/travel-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=537414"
+  },
+  {
+    "word": "space travel",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "transport",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "specific",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/specific-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2100538"
+  },
+  {
+    "word": "request",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/request-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1157493"
+  },
+  {
+    "word": "clear",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/clear-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=840627"
+  },
+  {
+    "word": "freeze",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/freeze-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50309158"
+  },
+  {
+    "word": "organization",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/organization-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1113731"
+  },
+  {
+    "word": "organize",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "produce",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/produce-1-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75649239"
+  },
+  {
+    "word": "administer",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/En-us-administer.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-administer.ogg"
+  },
+  {
+    "word": "occupation",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/occupation-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1763008"
+  },
+  {
+    "word": "all ages",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "youth",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/youth-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1235998"
+  },
+  {
+    "word": "mate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/En-us-mate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-mate.ogg"
+  },
+  {
+    "word": "staff",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/En-us-staff.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-staff.ogg"
+  },
+  {
+    "word": "sale",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/sale-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=623352"
+  },
+  {
+    "word": "cheap",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/cheap-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014319"
+  },
+  {
+    "word": "discount",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/discount-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88967185"
+  },
+  {
+    "word": "round",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/round-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1157526"
+  },
+  {
+    "word": "order",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/order-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75900278"
+  },
+  {
+    "word": "renovate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "alone",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/alone-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014246"
+  },
+  {
+    "word": "hospitality",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/En-us-hospitality.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-hospitality.ogg"
+  },
+  {
+    "word": "shape like",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "depress",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "well-known",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "specialize in",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "part",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/part-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=711194"
+  },
+  {
+    "word": "typical",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/typical-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651648"
+  },
+  {
+    "word": "uncommon",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "accurately",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "expand",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/expand-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88987453"
+  },
+  {
+    "word": "climb",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/climb-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1779984"
+  },
+  {
+    "word": "enhance",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/enhance-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=11761754"
+  },
+  {
+    "word": "power",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/En-us-power.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-power.ogg"
+  },
+  {
+    "word": "fuel",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/En-uk-fuel.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "Public domain",
+    "credit": "No machine-readable author provided. Tomhannen assumed (based on copyright claims).",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-fuel.ogg"
+  },
+  {
+    "word": "refurbish",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c1/En-us-refurbish.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-refurbish.ogg"
+  },
+  {
+    "word": "preference",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/preference-1-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50014396"
+  },
+  {
+    "word": "trust",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/En-us-trust.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-trust.ogg"
+  },
+  {
+    "word": "computer",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/computer-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9014349"
+  },
+  {
+    "word": "handy",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/En-us-handy.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-handy.ogg"
+  },
+  {
+    "word": "demonstrate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/demonstrate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769644"
+  },
+  {
+    "word": "important",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/important-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=711146"
+  },
+  {
+    "word": "straightforward",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/En-us-straightforward.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC0",
+    "credit": "Steve Shives",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-straightforward.ogg"
+  },
+  {
+    "word": "disused",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "donate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/En-us-donate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-donate.ogg"
+  },
+  {
+    "word": "work",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/work-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9028981"
+  },
+  {
+    "word": "turn",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/turn-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75899511"
+  },
+  {
+    "word": "information",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/information-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1227545"
+  },
+  {
+    "word": "visualize",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "repetition",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/repetition-1-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651410"
+  },
+  {
+    "word": "poor",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/poor-uk.mp3",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=3884519"
+  },
+  {
+    "word": "durable",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "pollutant",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "continue",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/continue-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1669287"
+  },
+  {
+    "word": "resemble",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "recognize",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/En-us-recognize.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-recognize.ogg"
+  },
+  {
+    "word": "fundamental",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/fundamental-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2454049"
+  },
+  {
+    "word": "domestic",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/domestic-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1684594"
+  },
+  {
+    "word": "measure",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/35/En-us-measure.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "Public domain",
+    "credit": "Wikimedia contributor",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-measure.ogg"
+  },
+  {
+    "word": "trait",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "coin",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/En-us-coin.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-coin.ogg"
+  },
+  {
+    "word": "artificial",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/artificial-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1762870"
+  },
+  {
+    "word": "prompt",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "exchange",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/exchange-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=454015"
+  },
+  {
+    "word": "underlie",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "ignore",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/ignore-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769971"
+  },
+  {
+    "word": "fertiliser",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "that",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/that-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=718785"
+  },
+  {
+    "word": "rather than",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "thanks to",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "detect",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "isolate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/isolate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1780182"
+  },
+  {
+    "word": "avoid",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/avoid-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676698"
+  },
+  {
+    "word": "budget",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/budget-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=17239525"
+  },
+  {
+    "word": "adapt to",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "alternative",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/En-us-alternative.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-alternative.ogg"
+  },
+  {
+    "word": "compensate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/compensate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=296198"
+  },
+  {
+    "word": "component",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/component-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50241395"
+  },
+  {
+    "word": "criteria",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "curriculum",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/curriculum-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=7466056"
+  },
+  {
+    "word": "feasible",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/28/En-us-feasible.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-feasible.ogg"
+  },
+  {
+    "word": "constrain",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/En-us-constrain.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-constrain.ogg"
+  },
+  {
+    "word": "deficiency",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "supplement",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "distinguish",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/distinguish-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2100953"
+  },
+  {
+    "word": "analyze",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/analyze-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=11546275"
+  },
+  {
+    "word": "emphasize",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "enormous",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/enormous-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749822"
+  },
+  {
+    "word": "imitate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/En-us-imitate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-imitate.ogg"
+  },
+  {
+    "word": "impair",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "hinder",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/En-us-hinder.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-hinder.ogg"
+  },
+  {
+    "word": "legitimate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "limitation",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/limitation-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749884"
+  },
+  {
+    "word": "convention",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/convention-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769360"
+  },
+  {
+    "word": "demanding",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "determine",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/determine-uk.mp3",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=576372"
+  },
+  {
+    "word": "accelerate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/accelerate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1755062"
+  },
+  {
+    "word": "beneficial",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "chronic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "conscious",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/28/En-us-conscious.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-conscious.ogg"
+  },
+  {
+    "word": "minimize",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "immunity",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "imperative",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "secrete",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/En-us-secrete.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-secrete.ogg"
+  },
+  {
+    "word": "exaggerate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/En-us-exaggerate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims).",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-exaggerate.ogg"
+  },
+  {
+    "word": "transmit",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/transmit-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2453768"
+  },
+  {
+    "word": "extinct",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/extinct-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=95144105"
+  },
+  {
+    "word": "exclusive",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "guarantee",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/En-us-guarantee.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-guarantee.ogg"
+  },
+  {
+    "word": "inherit",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/En-us-inherit.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-inherit.ogg"
+  },
+  {
+    "word": "witness",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/witness-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75858153"
+  },
+  {
+    "word": "magnetic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "loss",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/loss-1-us.ogg",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=112425178"
+  },
+  {
+    "word": "option",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/option-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50014397"
+  },
+  {
+    "word": "prefer to",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "priority",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "primary",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/primary-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651341"
+  },
+  {
+    "word": "principle",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/principle-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1547655"
+  },
+  {
+    "word": "potential",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/potential-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=50014394"
+  },
+  {
+    "word": "quantity",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/quantity-uk.mp3",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=22713365"
+  },
+  {
+    "word": "settle",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/13/En-us-settle.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-settle.ogg"
+  },
+  {
+    "word": "sophisticate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "survive",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/survive-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2707611"
+  },
+  {
+    "word": "swift",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/En-us-swift.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-swift.ogg"
+  },
+  {
+    "word": "unexpectedly",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/En-us-unexpectedly.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-unexpectedly.ogg"
+  },
+  {
+    "word": "surrounding",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/En-us-surrounding.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-surrounding.ogg"
+  },
+  {
+    "word": "attempt",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/attempt-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=718889"
+  },
+  {
+    "word": "faculty",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/En-us-faculty.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "Public domain",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-faculty.ogg"
+  },
+  {
+    "word": "dynamics",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "incentive",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/incentive-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88987688"
+  },
+  {
+    "word": "mortality",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/En-us-mortality.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-mortality.ogg"
+  },
+  {
+    "word": "peripheral",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/En-us-peripheral.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "Public domain",
+    "credit": "DroEsperanto",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-peripheral.ogg"
+  },
+  {
+    "word": "vicinity",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "threaten",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/60/En-us-threaten.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-threaten.ogg"
+  },
+  {
+    "word": "practice",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/practice-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=659592"
+  },
+  {
+    "word": "bacteria",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/bacteria-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=4246786"
+  },
+  {
+    "word": "be subject to",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "be liable to",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "innate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/En-us-innate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC0",
+    "credit": "Steve Shives",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-innate.ogg"
+  },
+  {
+    "word": "pattern",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/pattern-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=89012452"
+  },
+  {
+    "word": "therapy",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "original",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/original-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1239849"
+  },
+  {
+    "word": "confidential",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/9/95/En-us-confidential.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-confidential.ogg"
+  },
+  {
+    "word": "cognitive",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/En-us-cognitive.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC0",
+    "credit": "Steve Shives",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-cognitive.ogg"
+  },
+  {
+    "word": "comply with",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "consult",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "superior",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/superior-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1669360"
+  },
+  {
+    "word": "co-operation",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "co-ordinate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "differ",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/En-us-differ.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-differ.ogg"
+  },
+  {
+    "word": "cue",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "signal",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/signal-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1770059"
+  },
+  {
+    "word": "abandon",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/abandon-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1755007"
+  },
+  {
+    "word": "halt",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "fragile",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/fragile-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=891980"
+  },
+  {
+    "word": "retain",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/En-us-retain.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "TreeMama",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-retain.ogg"
+  },
+  {
+    "word": "vanish",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "delivery",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/delivery-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75899449"
+  },
+  {
+    "word": "erode",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "induce",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/En-us-induce.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "TreeMama",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-induce.ogg"
+  },
+  {
+    "word": "stable",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/stable-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=90007932"
+  },
+  {
+    "word": "integrate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/integrate-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=83326626"
+  },
+  {
+    "word": "equal",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/En-us-equal.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "Public domain",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-equal.ogg"
+  },
+  {
+    "word": "grant",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/En-us-grant.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-grant.ogg"
+  },
+  {
+    "word": "accumulate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/En-us-accumulate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-accumulate.ogg"
+  },
+  {
+    "word": "addictive",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "adversity",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/12/En-us-adversity.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Mikemoral",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-adversity.ogg"
+  },
+  {
+    "word": "aggression",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "agreeable",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/En-us-agreeable.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-agreeable.ogg"
+  },
+  {
+    "word": "aid",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/aid-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1250147"
+  },
+  {
+    "word": "altitude",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "application",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/application-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2079661"
+  },
+  {
+    "word": "approve",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "array",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/En-us-array.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-array.ogg"
+  },
+  {
+    "word": "assign",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/assign-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1779918"
+  },
+  {
+    "word": "association",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/association-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2707452"
+  },
+  {
+    "word": "attitude",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/attitude-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676696"
+  },
+  {
+    "word": "authority",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/En-us-authority.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-authority.ogg"
+  },
+  {
+    "word": "be consistent with",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "bear",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/bear-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=678156"
+  },
+  {
+    "word": "blight",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "boundary",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/63/En-us-boundary.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-boundary.ogg"
+  },
+  {
+    "word": "bungle",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "burden",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/burden-1-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749729"
+  },
+  {
+    "word": "calamity",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/En-us-calamity.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-calamity.ogg"
+  },
+  {
+    "word": "catastrophic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "cater",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/63/En-us-cater.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-cater.ogg"
+  },
+  {
+    "word": "certify",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "civic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "comment",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/En-us-comment.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-comment.ogg"
+  },
+  {
+    "word": "commitment",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "communal",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/En-uk-communal.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC0",
+    "credit": "K6ka",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-communal.ogg"
+  },
+  {
+    "word": "commute",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/commute-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=89747617"
+  },
+  {
+    "word": "compare",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/compare-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2707473"
+  },
+  {
+    "word": "conceal",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/08/En-us-conceal.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-conceal.ogg"
+  },
+  {
+    "word": "concentrate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "concur",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "confer",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "conflict",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/conflict-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=206875"
+  },
+  {
+    "word": "confuse",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "conservative",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "considerable",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/considerable-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1239771"
+  },
+  {
+    "word": "contingent",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "controversial",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/controversial-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=89259707"
+  },
+  {
+    "word": "correlation",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "courtship",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "crash",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/58/En-us-crash.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "TreeMama",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-crash.ogg"
+  },
+  {
+    "word": "credibility",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "criminal",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/be/En-us-criminal.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-criminal.ogg"
+  },
+  {
+    "word": "crisis",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/En-us-crisis.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-crisis.ogg"
+  },
+  {
+    "word": "criticism",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/En-us-criticism.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-criticism.ogg"
+  },
+  {
+    "word": "curb",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "damp",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/damp-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2707487"
+  },
+  {
+    "word": "dazzle",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "delay",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/delay-1-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1684585"
+  },
+  {
+    "word": "democratic",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/En-us-democratic.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-democratic.ogg"
+  },
+  {
+    "word": "demographic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "dental",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "depression",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/En-us-depression.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-depression.ogg"
+  },
+  {
+    "word": "designate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "detain",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/9/94/En-us-detain.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-detain.ogg"
+  },
+  {
+    "word": "devastate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/En-us-devastate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-devastate.ogg"
+  },
+  {
+    "word": "disclose",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/29/En-us-disclose.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-disclose.ogg"
+  },
+  {
+    "word": "disparate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "display",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/display-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749804"
+  },
+  {
+    "word": "disrupt",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/En-us-disrupt.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-disrupt.ogg"
+  },
+  {
+    "word": "distract",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "distribute",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/En-us-distribute.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-distribute.ogg"
+  },
+  {
+    "word": "documentation",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "domain",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/domain-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1243829"
+  },
+  {
+    "word": "dominant",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/dominant-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=89033333"
+  },
+  {
+    "word": "dramatic",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/14/En-us-dramatic.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-dramatic.ogg"
+  },
+  {
+    "word": "drought",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/drought-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=90572946"
+  },
+  {
+    "word": "eco-friendly",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "elaborate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/elaborate-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88967178"
+  },
+  {
+    "word": "elderly",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/elderly-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2650897"
+  },
+  {
+    "word": "eliminate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/eliminate-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=79241170"
+  },
+  {
+    "word": "elusive",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "encyclopaedia",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/En-us-encyclopaedia.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-encyclopaedia.ogg"
+  },
+  {
+    "word": "entrepreneur",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/entrepreneur-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=7466062"
+  },
+  {
+    "word": "equator",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/36/En-uk-equator.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC BY 4.0",
+    "credit": "ATMarsden",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-equator.ogg"
+  },
+  {
+    "word": "erratically",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "established",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/En-us-established.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-established.ogg"
+  },
+  {
+    "word": "estate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/estate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1684603"
+  },
+  {
+    "word": "ethical",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/43/En-us-ethical.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-ethical.ogg"
+  },
+  {
+    "word": "eventually",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/eventually-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=80965640"
+  },
+  {
+    "word": "evidence",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/evidence-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1234584"
+  },
+  {
+    "word": "evolve",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/evolve-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=89013019"
+  },
+  {
+    "word": "exhausted",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/En-us-exhausted.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-exhausted.ogg"
+  },
+  {
+    "word": "experiment",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/experiment-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1762671"
+  },
+  {
+    "word": "exceptional",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/exceptional-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2454024"
+  },
+  {
+    "word": "explicit",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/14/En-us-explicit.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-explicit.ogg"
+  },
+  {
+    "word": "exploit",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/exploit-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88967157"
+  },
+  {
+    "word": "extend",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "extract",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/af/En-us-extract.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-extract.ogg"
+  },
+  {
+    "word": "famine",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/En-us-famine.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Gbeebani",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-famine.ogg"
+  },
+  {
+    "word": "finite",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/67/En-us-finite.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-finite.ogg"
+  },
+  {
+    "word": "foe",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/En-us-foe.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-foe.ogg"
+  },
+  {
+    "word": "format",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/En-us-format.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-format.ogg"
+  },
+  {
+    "word": "fragment",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "fulfill",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/fulfill-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1780094"
+  },
+  {
+    "word": "gene",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/gene-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769397"
+  },
+  {
+    "word": "gifted",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "graphic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "harbor",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/ee/En-us-harbor.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-harbor.ogg"
+  },
+  {
+    "word": "hardship",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "harsh",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/harsh-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=79241255"
+  },
+  {
+    "word": "hypothesis",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/hypothesis-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1165003"
+  },
+  {
+    "word": "impact",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/impact-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88736628"
+  },
+  {
+    "word": "impressive",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/impressive-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651053"
+  },
+  {
+    "word": "in accordance with",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "inaccurate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/En-us-inaccurate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "TreeMama",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-inaccurate.ogg"
+  },
+  {
+    "word": "inactive",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "inappropriate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "indulge",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/44/En-us-indulge.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-indulge.ogg"
+  },
+  {
+    "word": "infest",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "installment",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "intelligence",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/intelligence-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676785"
+  },
+  {
+    "word": "intense",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/intense-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749877"
+  },
+  {
+    "word": "interaction",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/interaction-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=617711"
+  },
+  {
+    "word": "interference",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "interior",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/interior-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2079714"
+  },
+  {
+    "word": "interrupt",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/interrupt-us-verb.mp3",
+    "accent": "general",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=268457"
+  },
+  {
+    "word": "introverted",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "involve",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/involve-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=83326634"
+  },
+  {
+    "word": "keen",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/keen-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75804076"
+  },
+  {
+    "word": "label",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/label-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=5092139"
+  },
+  {
+    "word": "landscape",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "likelihood",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "limb",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/77/En-us-limb.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-limb.ogg"
+  },
+  {
+    "word": "linguistic",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/En-us-linguistic.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-linguistic.ogg"
+  },
+  {
+    "word": "log",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/En-us-log.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-log.ogg"
+  },
+  {
+    "word": "look-in",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "lopsided",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/En-uk-lopsided.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "Public domain",
+    "credit": "No machine-readable author provided. Celestianpower assumed (based on copyright claims).",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-lopsided.ogg"
+  },
+  {
+    "word": "mainly",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "malfunction",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/En-us-malfunction.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-malfunction.ogg"
+  },
+  {
+    "word": "mammal",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/mammal-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1755171"
+  },
+  {
+    "word": "manage to do",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "manifest",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/manifest-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=75833040"
+  },
+  {
+    "word": "manufacture",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/manufacture-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=89012734"
+  },
+  {
+    "word": "marine",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/En-us-marine.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-marine.ogg"
+  },
+  {
+    "word": "mechanism",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/mechanism-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=49895986"
+  },
+  {
+    "word": "mental",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/mental-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676806"
+  },
+  {
+    "word": "mercury",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e4/En-us-mercury.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-mercury.ogg"
+  },
+  {
+    "word": "meteorological",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "migrate",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "moisture",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/En-us-moisture.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-moisture.ogg"
+  },
+  {
+    "word": "monitor",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "motif",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/En-us-motif.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-motif.ogg"
+  },
+  {
+    "word": "mould",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/En-us-mould.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-mould.ogg"
+  },
+  {
+    "word": "native",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/native-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1244140"
+  },
+  {
+    "word": "nocturnal",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/En-us-nocturnal.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-nocturnal.ogg"
+  },
+  {
+    "word": "norm",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/En-us-norm.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Gabriel Sjöberg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-norm.ogg"
+  },
+  {
+    "word": "notoriety",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "objective",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/objective-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=90000047"
+  },
+  {
+    "word": "obligation",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/obligation-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=61084121"
+  },
+  {
+    "word": "obscure",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/obscure-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2101080"
+  },
+  {
+    "word": "obtain",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/obtain-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=720516"
+  },
+  {
+    "word": "odd",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/En-us-odd.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-odd.ogg"
+  },
+  {
+    "word": "odour",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/En-us-odour.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-odour.ogg"
+  },
+  {
+    "word": "offensive",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/En-us-offensive.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-offensive.ogg"
+  },
+  {
+    "word": "official",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/En-us-official.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-official.ogg"
+  },
+  {
+    "word": "optimum",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "ordinary",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/En-us-ordinary.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-ordinary.ogg"
+  },
+  {
+    "word": "organ",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/55/En-us-organ.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-organ.ogg"
+  },
+  {
+    "word": "out of the question",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "overcome",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/overcome-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2079728"
+  },
+  {
+    "word": "overtake",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/En-us-overtake.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-overtake.ogg"
+  },
+  {
+    "word": "paralyse",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "paramount",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/dc/En-us-paramount.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY 4.0",
+    "credit": "Paul2520",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-paramount.ogg"
+  },
+  {
+    "word": "participate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/participate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1769487"
+  },
+  {
+    "word": "patient",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/patient-uk.mp3",
+    "accent": "uk",
+    "license": "BY 3.0 US",
+    "credit": "https://creativecommons.org/licenses/by/3.0/us",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=9023296"
+  },
+  {
+    "word": "peak",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/peak-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=86957672"
+  },
+  {
+    "word": "permit",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/permit-2-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=187115"
+  },
+  {
+    "word": "persuade",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/persuade-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2423299"
+  },
+  {
+    "word": "pessimistic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "phase",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e8/En-us-phase.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-phase.ogg"
+  },
+  {
+    "word": "physical",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/physical-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1113794"
+  },
+  {
+    "word": "plagiarise",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "plenty of",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "plot",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/plot-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=700884"
+  },
+  {
+    "word": "pose",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/pose-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2651321"
+  },
+  {
+    "word": "portable",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "poverty",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/poverty-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1749932"
+  },
+  {
+    "word": "praise",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/praise-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1669336"
+  },
+  {
+    "word": "predict",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/predict-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1780285"
+  },
+  {
+    "word": "pressing",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/35/En-us-pressing.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-pressing.ogg"
+  },
+  {
+    "word": "private",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/private-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1140067"
+  },
+  {
+    "word": "prohibit",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/En-us-prohibit.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-prohibit.ogg"
+  },
+  {
+    "word": "prolong",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "promote",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/31/En-us-promote.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-promote.ogg"
+  },
+  {
+    "word": "prosper",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "purify",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "qualify",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/08/En-us-qualify.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-qualify.ogg"
+  },
+  {
+    "word": "radical",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/radical-au.mp3",
+    "accent": "general",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=79241531"
+  },
+  {
+    "word": "range",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/range-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1157454"
+  },
+  {
+    "word": "rare",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/rare-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=424806"
+  },
+  {
+    "word": "rate",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/rate-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=424779"
+  },
+  {
+    "word": "react",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "recreation",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "reduction",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "refer to",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "rehearsal",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "reject",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/En-us-reject.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-reject.ogg"
+  },
+  {
+    "word": "relevant",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "religious",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/38/En-us-religious.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-religious.ogg"
+  },
+  {
+    "word": "reluctant",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/reluctant-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=332360"
+  },
+  {
+    "word": "reproduce",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/En-uk-reproduce.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "uk",
+    "license": "CC BY-SA 3.0",
+    "credit": "Andrew Marsden",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-uk-reproduce.ogg"
+  },
+  {
+    "word": "responsible",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/responsible-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1157498"
+  },
+  {
+    "word": "revision",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "revive",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/En-us-revive.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-revive.ogg"
+  },
+  {
+    "word": "ruin",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/85/En-us-ruin.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-ruin.ogg"
+  },
+  {
+    "word": "scenic",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "shade",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/En-us-shade.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-shade.ogg"
+  },
+  {
+    "word": "skepticism",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/En-us-skepticism.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC0",
+    "credit": "Steve Shives",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-skepticism.ogg"
+  },
+  {
+    "word": "soar",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "solely",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/00/En-us-solely.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-solely.ogg"
+  },
+  {
+    "word": "solicitor",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "steer",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/81/En-us-steer.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-steer.ogg"
+  },
+  {
+    "word": "stimulate",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/32/En-us-stimulate.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-stimulate.ogg"
+  },
+  {
+    "word": "stride",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/En-us-stride.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Neskaya",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-stride.ogg"
+  },
+  {
+    "word": "succumb",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "subdivide",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "subtle",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/subtle-us.mp3",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=346001"
+  },
+  {
+    "word": "substance",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/En-us-substance.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-substance.ogg"
+  },
+  {
+    "word": "sufficiency",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "supersede",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/En-us-supersede.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Paul2520",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-supersede.ogg"
+  },
+  {
+    "word": "suppress",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/suppress-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1785291"
+  },
+  {
+    "word": "supremacy",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/9/91/En-us-supremacy.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC0",
+    "credit": "Steve Shives",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-supremacy.ogg"
+  },
+  {
+    "word": "suspicious",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/suspicious-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2454329"
+  },
+  {
+    "word": "sustainable",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "symptom",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "tension",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "term",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/term-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676877"
+  },
+  {
+    "word": "throughout",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/En-us-throughout.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-throughout.ogg"
+  },
+  {
+    "word": "toll",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/toll-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=88671765"
+  },
+  {
+    "word": "trace",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/trace-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1750017"
+  },
+  {
+    "word": "transcend",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/09/En-us-transcend.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-transcend.ogg"
+  },
+  {
+    "word": "transit",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/En-us-transit.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 4.0",
+    "credit": "Sylvanmoon",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-transit.ogg"
+  },
+  {
+    "word": "tremendous",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/tremendous-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=2101159"
+  },
+  {
+    "word": "trigger",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "tropical",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/En-us-tropical.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-tropical.ogg"
+  },
+  {
+    "word": "unbiased",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "uniform",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/uniform-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1750047"
+  },
+  {
+    "word": "valuable",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/valuable-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1676889"
+  },
+  {
+    "word": "versatile",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/versatile-uk.mp3",
+    "accent": "uk",
+    "license": "BY-SA 4.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=80152168"
+  },
+  {
+    "word": "view",
+    "source": "free_dictionary",
+    "url": "https://api.dictionaryapi.dev/media/pronunciations/en/view-us.mp3",
+    "accent": "us",
+    "license": "BY-SA 3.0",
+    "credit": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/w/index.php?curid=1197671"
+  },
+  {
+    "word": "violent",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/En-us-violent.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-violent.ogg"
+  },
+  {
+    "word": "visible",
+    "source": "wikimedia_commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/En-us-visible.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "accent": "us",
+    "license": "CC BY-SA 3.0",
+    "credit": "Dvortygirl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:En-us-visible.ogg"
+  },
+  {
+    "word": "visual",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  },
+  {
+    "word": "well-being",
+    "source": "none",
+    "url": "",
+    "accent": "",
+    "license": "",
+    "credit": "",
+    "sourceUrl": "",
+    "fallback": "web_speech"
+  }
+]

@@ -70,6 +70,12 @@ const VocabularySchema = new mongoose.Schema({
     required: [true, 'Vocabulary tier is required'],
     index: true // 1: Oxford 500, 2: Oxford 3000, 3: AWL, 4: Advanced
   },
+  readingTier: {
+    type: Number,
+    enum: [1, 2, 3],
+    required: false,
+    index: true // 1: 90% exam frequency (Tier 1), 2: 60% (Tier 2), 3: Previously tested (Tier 3)
+  },
   media: {
     type: MediaSchema,
     default: null

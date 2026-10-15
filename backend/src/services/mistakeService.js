@@ -44,6 +44,17 @@ const resolveMistake = async (userId, mistakeId) => {
   );
 };
 
+const normalizeAnswer = (str) => {
+  if (!str || typeof str !== 'string') return '';
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, ' ')
+    .replace(/[.,!?;:]+$/, '');
+};
+
 /**
  * Gets all unresolved mistakes for user with optional error filter
  */
@@ -59,7 +70,14 @@ const getUnresolvedMistakes = async (userId, errorCode = null) => {
 
   const mistakes = await UserMistake.find(query)
     .sort({ createdAt: -1 })
-    .populate('questionId', 'prompt type options correctAnswer explanation errorTaxonomy media');
+    .populate({
+      path: 'questionId',
+      select: 'prompt type format options errorTaxonomy media lessonId',
+      populate: {
+        path: 'lessonId',
+        select: 'title skill level passage'
+      }
+    });
 
   return {
     totalUnresolved: mistakes.length,
@@ -111,7 +129,12 @@ const retestMistake = async (userId, mistakeId, userAnswer) => {
   const question = mistake.questionId;
   if (!question) throw new AppError('Associated question not found', 404, 'QUESTION_NOT_FOUND');
 
-  const isCorrect = (userAnswer || '').trim().toLowerCase() === question.correctAnswer.trim().toLowerCase();
+  const userAnsNorm = normalizeAnswer(userAnswer);
+  const correctAnsNorm = normalizeAnswer(question.correctAnswer);
+  const hasAlternative = Array.isArray(question.acceptableAnswers) &&
+    question.acceptableAnswers.some(alt => normalizeAnswer(alt) === userAnsNorm);
+
+  const isCorrect = userAnsNorm === correctAnsNorm || hasAlternative;
 
   if (isCorrect) {
     mistake.isResolved = true;

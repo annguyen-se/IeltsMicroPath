@@ -18,6 +18,16 @@ const QuestionSchema = new mongoose.Schema({
     enum: ['cloze', 'choice', 'dictation', 'reorder'],
     required: [true, 'Question type is required']
   },
+  format: {
+    type: String,
+    enum: ['tfng', 'mcq', 'sentence-completion', 'vocab-context', 'standard'],
+    default: 'standard'
+  },
+  orderIndex: {
+    type: Number,
+    default: 0,
+    index: true
+  },
   prompt: {
     type: String,
     required: [true, 'Question prompt is required'],
@@ -32,6 +42,14 @@ const QuestionSchema = new mongoose.Schema({
     required: [true, 'Correct answer is required'],
     trim: true
   },
+  acceptableAnswers: [{
+    type: String,
+    trim: true
+  }],
+  evidence: {
+    paragraphLabel: { type: String, trim: true, default: '' },
+    text: { type: String, trim: true, default: '' }
+  },
   explanation: {
     type: String,
     required: [true, 'Pedagogical explanation is required'],
@@ -45,6 +63,12 @@ const QuestionSchema = new mongoose.Schema({
   media: {
     type: MediaSchema,
     default: null
+  },
+  metadata: {
+    wpmTarget: { type: Number, default: 40 },
+    keyboardShortcutAudio: { type: String, default: '`' },
+    acceptableVariants: [{ type: String, trim: true }],
+    aiReferenceAnswer: { type: String, trim: true }
   }
 }, {
   timestamps: true

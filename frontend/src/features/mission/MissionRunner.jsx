@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api/apiClient';
+import { playWordAudio } from '../../utils/audio';
+import MarkdownView from '../../components/MarkdownView';
 import { X, Volume2, AlertTriangle, CheckCircle, XCircle, ArrowRight, BookOpen } from 'lucide-react';
 
 export default function MissionRunner({ missionPayload, onFinish, onExit }) {
@@ -57,10 +59,8 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
   const totalItemsCount = activePhases.reduce((acc, p) => acc + p.items.length, 0);
   const completedItemsCount = activePhases.slice(0, phaseCursor).reduce((acc, p) => acc + p.items.length, 0) + itemCursor;
 
-  const playAudio = (url) => {
-    if (!url) return;
-    const audio = new Audio(url);
-    audio.play().catch(() => {});
+  const playAudio = (url, word) => {
+    playWordAudio(url, word);
   };
 
   const checkAnswer = () => {
@@ -93,7 +93,10 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
       // Lesson question
       correctAnswer = currentItem.correctAnswer || '';
       const ans = currentItem.type === 'choice' ? selectedOption : userAnswer;
-      isCorrect = (ans || '').trim().toLowerCase() === correctAnswer.trim().toLowerCase();
+      const cleanAns = (ans || '').trim().toLowerCase();
+      const isExact = cleanAns === correctAnswer.trim().toLowerCase();
+      const isVariant = currentItem.options && currentItem.options.some((opt) => cleanAns === opt.toLowerCase().trim());
+      isCorrect = isExact || isVariant;
       explanation = currentItem.explanation || '';
       setLessonAnswers((prev) => [
         ...prev,
@@ -193,41 +196,88 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
             <div className="runner-card">
               <div className="row-between">
                 <div>
-                  <h2 style={{ fontSize: 26, margin: 0 }}>{currentItem.vocab?.word}</h2>
-                  <span className="ipa">
-                    {currentItem.vocab?.ipa} · {currentItem.vocab?.pos}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <span
+                      style={{
+                        background: 'var(--color-cobalt-surface)',
+                        color: 'var(--color-cobalt)',
+                        border: '1px solid var(--color-cobalt-border)',
+                        padding: '2px 8px',
+                        borderRadius: 'var(--radius-sm)',
+                        fontSize: 11,
+                        fontWeight: 700
+                      }}
+                    >
+                      HỘP LEITNER {currentItem.currentBox || 1}
+                    </span>
+                    <span className="ipa" style={{ color: 'var(--fg-muted)', fontSize: 13 }}>
+                      {currentItem.vocab?.pos} {currentItem.vocab?.ipa && !currentItem.vocab.ipa.includes(currentItem.vocab.word) ? `· ${currentItem.vocab.ipa}` : ''}
+                    </span>
+                  </div>
+
+                  <h2 style={{ fontSize: 26, margin: 0 }}>
+                    {feedbackState ? (
+                      <span style={{ color: 'var(--color-emerald)' }}>{currentItem.vocab?.word}</span>
+                    ) : (
+                      <span style={{ letterSpacing: '0.18em', color: 'var(--color-cobalt)', fontFamily: 'var(--font-mono)' }}>
+                        {'_ '.repeat(currentItem.vocab?.word?.length || 4).trim()}
+                      </span>
+                    )}
+                  </h2>
                 </div>
-                {currentItem.vocab?.media?.url && (
-                  <button className="btn btn-secondary" onClick={() => playAudio(currentItem.vocab.media.url)}>
-                    <Volume2 size={16} />
-                    <span>Nghe phát âm</span>
-                  </button>
+
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => playAudio(currentItem.vocab?.media?.url, currentItem.vocab?.word)}
+                  title="Nghe phát âm từ vựng"
+                >
+                  <Volume2 size={16} />
+                  <span>Nghe phát âm</span>
+                </button>
+              </div>
+
+              {/* Semantic Meaning & Paraphrases Banner */}
+              <div
+                style={{
+                  marginTop: 14,
+                  padding: '12px 16px',
+                  background: 'var(--surface-subtle)',
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid var(--border)'
+                }}
+              >
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--fg)' }}>
+                  Nghĩa tiếng Việt: <span style={{ color: 'var(--color-cobalt)' }}>{currentItem.vocab?.meaningVi}</span>
+                </div>
+                {currentItem.vocab?.paraphrases && currentItem.vocab.paraphrases.length > 0 && (
+                  <div style={{ fontSize: 13, color: 'var(--fg-muted)', marginTop: 4 }}>
+                    <strong>Từ đồng nghĩa IELTS:</strong> {currentItem.vocab.paraphrases.slice(0, 3).join(', ')}
+                  </div>
                 )}
               </div>
-              {currentItem.vocab?.meaningVi && (
-                <p style={{ marginTop: 12, color: 'var(--fg-muted)', fontSize: 14 }}>
-                  Nghĩa tiếng Việt: {currentItem.vocab.meaningVi}
-                </p>
-              )}
-              <div style={{ marginTop: 24 }}>
-                <p style={{ fontSize: 16, marginBottom: 8, fontWeight: 600 }}>
-                  {currentItem.vocab?.exampleSentence ? (
+
+              <div style={{ marginTop: 22 }}>
+                <p style={{ fontSize: 15, marginBottom: 8, fontWeight: 600 }}>
+                  {currentItem.vocab?.exampleSentence && !currentItem.vocab.exampleSentence.includes('crucial academic concept') ? (
                     <>
-                      Điền từ vào chỗ trống: "{currentItem.vocab.exampleSentence.replace(new RegExp(currentItem.vocab.word, 'gi'), '________')}"
+                      Điền từ vào chỗ trống trong câu ngữ cảnh:
+                      <span style={{ display: 'block', marginTop: 6, fontStyle: 'italic', fontWeight: 500, color: 'var(--fg)' }}>
+                        "{currentItem.vocab.exampleSentence.replace(new RegExp(`\\b${currentItem.vocab.word}\\b`, 'gi'), '________')}"
+                      </span>
                     </>
                   ) : (
-                    'Gõ lại từ vựng để ôn tập:'
+                    `Dựa vào nghĩa tiếng Việt ở trên, hãy gõ từ tiếng Anh tương ứng (${currentItem.vocab?.word?.length || 0} chữ cái):`
                   )}
                 </p>
                 <input
                   type="text"
                   className="input-text"
-                  placeholder="Nhập từ cần điền..."
+                  placeholder={`Gõ từ (${currentItem.vocab?.word?.length || 0} ký tự)...`}
                   value={userAnswer}
                   onChange={(e) => setUserAnswer(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && (!feedbackState ? checkAnswer() : nextQuestion())}
                   autoFocus
+                  disabled={!!feedbackState}
                 />
               </div>
             </div>
@@ -317,17 +367,15 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
                         >
                           <div className="row-between">
                             <span style={{ fontSize: 17, fontWeight: 700 }}>{v.word}</span>
-                            {v.media?.url && (
-                              <button
-                                type="button"
-                                className="btn btn-secondary"
-                                style={{ padding: '4px 8px', fontSize: 11 }}
-                                onClick={() => playAudio(v.media.url)}
-                              >
-                                <Volume2 size={12} />
-                                <span>Nghe</span>
-                              </button>
-                            )}
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              style={{ padding: '4px 8px', fontSize: 11 }}
+                              onClick={() => playAudio(v.media?.url, v.word)}
+                            >
+                              <Volume2 size={12} />
+                              <span>Nghe</span>
+                            </button>
                           </div>
                           <div className="ipa" style={{ color: 'var(--color-cobalt)', fontSize: 13, margin: '2px 0 6px' }}>
                             {v.ipa} · {v.pos}
@@ -348,16 +396,11 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
                     className="card"
                     style={{
                       background: 'var(--surface-subtle)',
-                      whiteSpace: 'pre-line',
-                      fontSize: 14,
-                      lineHeight: 1.7,
+                      padding: 24,
                       borderLeft: '4px solid var(--color-violet)'
                     }}
                   >
-                    <h3 style={{ fontSize: 17, marginBottom: 12, color: 'var(--color-violet)' }}>
-                      Lý thuyết & Hướng dẫn thi
-                    </h3>
-                    {lessonMeta.contentMarkdown}
+                    <MarkdownView content={lessonMeta.contentMarkdown} />
                   </div>
                 )}
 
@@ -397,6 +440,20 @@ export default function MissionRunner({ missionPayload, onFinish, onExit }) {
                 </div>
 
                 <div className="runner-card">
+                  {currentItem.type === 'dictation' && (
+                    <div style={{ marginBottom: 12 }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => playAudio(currentItem.media?.url, currentItem.correctAnswer)}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13 }}
+                      >
+                        <Volume2 size={16} style={{ color: 'var(--color-cobalt)' }} />
+                        <span>Nghe phát âm từ khóa</span>
+                      </button>
+                    </div>
+                  )}
+
                   <p style={{ fontSize: 17, fontWeight: 600, marginBottom: 16 }}>
                     {currentItem.prompt}
                   </p>

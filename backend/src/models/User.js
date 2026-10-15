@@ -30,7 +30,7 @@ const UserProfileSchema = new mongoose.Schema({
   },
   masteredNodeIds: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'lessons'
+    ref: 'Lesson'
   }]
 }, { _id: false });
 

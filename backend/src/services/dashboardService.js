@@ -4,6 +4,32 @@ const UserSrsItem = require('../models/UserSrsItem');
 const UserMistake = require('../models/UserMistake');
 const { findNextPrerequisiteLesson } = require('./graphService');
 
+const calculateLevelProgress = async (user, level, skill = null) => {
+  const query = { level, status: 'published' };
+  if (skill === 'reading') {
+    query.skill = 'reading';
+    query.contentType = 'practice';
+  } else if (skill) {
+    query.skill = skill;
+  }
+  const totalLessons = await Lesson.countDocuments(query);
+  const userMasteredIds = (user.profile?.masteredNodeIds || []).map(id => id.toString());
+
+  const masteredCount = await Lesson.countDocuments({
+    _id: { $in: userMasteredIds },
+    ...query
+  });
+
+  const percentage = totalLessons > 0 ? Math.min(100, Math.round((masteredCount / totalLessons) * 100)) : 0;
+
+  return {
+    totalLessons,
+    masteredCount,
+    percentage,
+    canLevelUp: totalLessons >= 5 && percentage >= 70
+  };
+};
+
 const getDashboardData = async (userId) => {
   const user = await User.findById(userId);
   if (!user) throw new Error('User not found');
@@ -13,11 +39,13 @@ const getDashboardData = async (userId) => {
   const masteredNodeIds = user.profile?.masteredNodeIds || [];
   const masteredSet = new Set(masteredNodeIds.map(id => id.toString()));
 
+  // Calculate level progress using shared logic
+  const progress = await calculateLevelProgress(user, currentLevel);
+
   // Parallel optimized count queries & real data retrieval
   const [
     srsDueCount,
     unresolvedMistakesCount,
-    totalLevelLessons,
     recentMistakesDocs,
     levelLessons,
     nextLessonDoc
@@ -29,10 +57,6 @@ const getDashboardData = async (userId) => {
     UserMistake.countDocuments({
       userId,
       isResolved: false,
-    }),
-    Lesson.countDocuments({
-      level: currentLevel,
-      status: 'published',
     }),
     UserMistake.find({
       userId,
@@ -50,8 +74,7 @@ const getDashboardData = async (userId) => {
     findNextPrerequisiteLesson(user)
   ]);
 
-  const levelProgressPercent =
-    totalLevelLessons > 0 ? Math.min(100, Math.round((masteredNodeIds.length / totalLevelLessons) * 100)) : 0;
+  const levelProgressPercent = progress.percentage;
 
   // Check if active today
   const lastActive = user.profile?.lastActiveDate ? new Date(user.profile.lastActiveDate) : null;
@@ -98,8 +121,8 @@ const getDashboardData = async (userId) => {
     metrics: {
       srsDueCount,
       unresolvedMistakesCount,
-      masteredNodesCount: masteredNodeIds.length,
-      totalLevelNodesCount: totalLevelLessons,
+      masteredNodesCount: progress.masteredCount,
+      totalLevelNodesCount: progress.totalLessons,
       levelProgressPercent,
     },
     dailyMissionStatus: {
@@ -120,4 +143,5 @@ const getDashboardData = async (userId) => {
 
 module.exports = {
   getDashboardData,
+  calculateLevelProgress
 };

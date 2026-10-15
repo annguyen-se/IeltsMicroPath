@@ -27,6 +27,18 @@ const MediaSchema = new mongoose.Schema({
   thumbnailUrl: {
     type: String,
     trim: true
+  },
+  credit: {
+    type: String,
+    trim: true
+  },
+  sourceUrl: {
+    type: String,
+    trim: true
+  },
+  lastCheckedAt: {
+    type: Date,
+    default: null
   }
 }, { _id: false }); // Disable _id to save 12 bytes per subdocument
 

@@ -1,7 +1,17 @@
 const Vocabulary = require('../models/Vocabulary');
 const Lesson = require('../models/Lesson');
 const Question = require('../models/Question');
+const LessonAttempt = require('../models/LessonAttempt');
 const AppError = require('../utils/appError');
+
+const shuffleArray = (array) => {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
 
 // ==================== VOCABULARY ====================
 
@@ -33,6 +43,53 @@ const getVocabularyById = async (id) => {
   const vocab = await Vocabulary.findById(id);
   if (!vocab) throw new AppError('Vocabulary item not found', 404, 'NOT_FOUND');
   return vocab;
+};
+
+const getVocabularyTopics = async () => {
+  const topics = await Vocabulary.aggregate([
+    { $match: { status: 'published' } },
+    {
+      $group: {
+        _id: '$topic',
+        count: { $sum: 1 },
+        tier: { $first: '$tier' }
+      }
+    },
+    { $sort: { count: -1 } }
+  ]);
+  return topics.map(t => ({
+    topic: t._id,
+    count: t.count,
+    tier: t.tier
+  }));
+};
+
+const getParaphrases = async ({ tier, search, limit = 100 }) => {
+  const query = {
+    paraphrases: { $exists: true, $not: { $size: 0 } },
+    status: 'published'
+  };
+  if (tier) {
+    query.$or = [
+      { readingTier: Number(tier) },
+      { $and: [{ readingTier: null }, { tier: Number(tier) }] }
+    ];
+  }
+  if (search) {
+    const s = String(search).trim();
+    const searchCond = [
+      { word: { $regex: s, $options: 'i' } },
+      { paraphrases: { $regex: s, $options: 'i' } },
+      { meaningVi: { $regex: s, $options: 'i' } }
+    ];
+    if (query.$or) {
+      query.$and = [{ $or: query.$or }, { $or: searchCond }];
+      delete query.$or;
+    } else {
+      query.$or = searchCond;
+    }
+  }
+  return await Vocabulary.find(query).sort({ readingTier: 1, tier: 1, word: 1 }).limit(Number(limit));
 };
 
 const normalizeVocabItem = (item) => {
@@ -130,38 +187,106 @@ const updateVocabulary = async (id, updateData) => {
 
 // ==================== LESSONS ====================
 
-const getLessons = async ({ level, skill, status = 'published' }) => {
+const getLessons = async ({ level, skill, contentType, status = 'published' }) => {
   const query = {};
   if (level !== undefined) query.level = Number(level);
   if (skill) query.skill = skill;
+  if (contentType) query.contentType = contentType;
   if (status) query.status = status;
 
   return await Lesson.find(query)
-    .populate('prerequisites', 'title skill level orderIndex')
+    .populate('prerequisites', 'title skill level orderIndex slug')
     .sort({ orderIndex: 1, createdAt: 1 });
 };
 
-const getLessonById = async (id) => {
-  const lesson = await Lesson.findById(id).populate('prerequisites', 'title skill level');
+const getLessonById = async (id, user = null) => {
+  const lesson = await Lesson.findById(id)
+    .populate('prerequisites', 'title skill level slug')
+    .populate('vocabIds', 'word ipa pos meaningVi definitionEn exampleSentence collocations paraphrases media readingTier tier')
+    .populate('vocabAnchors.vocabId', 'word ipa pos meaningVi definitionEn readingTier tier')
+    .populate('paraphrasePairs.vocabId', 'word ipa pos meaningVi readingTier tier');
+
   if (!lesson) throw new AppError('Lesson not found', 404, 'NOT_FOUND');
 
-  // Fetch accompanying questions with populated vocab
-  const questions = await Question.find({ lessonId: id }).populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media');
+  // 1. Status check: unpublished lessons only accessible by admin
+  if (lesson.status !== 'published' && user?.role !== 'admin') {
+    throw new AppError('Lesson not found', 404, 'NOT_FOUND');
+  }
 
-  // Extract distinct vocabularies linked to this lesson
-  const vocabularies = [];
-  const seenVocab = new Set();
-  for (const q of questions) {
-    if (q.vocabId && !seenVocab.has(q.vocabId._id.toString())) {
-      seenVocab.add(q.vocabId._id.toString());
-      vocabularies.push(q.vocabId);
+  // 2. Prerequisite check
+  const prereqs = lesson.prerequisites || [];
+  if (prereqs.length > 0 && user?.role !== 'admin') {
+    const masteredSet = new Set((user?.profile?.masteredNodeIds || []).map(pId => pId.toString()));
+    const allUnlocked = prereqs.every(p => masteredSet.has(p._id ? p._id.toString() : p.toString()));
+    if (!allUnlocked) {
+      throw new AppError('Bài học bị khóa. Vui lòng hoàn thành bài học tiên quyết trước.', 403, 'FORBIDDEN');
     }
   }
 
+  // 3. Check if user has unlocked review (either passed >= 75% or submitted >= 2 times or is admin)
+  let isReviewUnlocked = false;
+  if (user) {
+    if (user.role === 'admin') {
+      isReviewUnlocked = true;
+    } else {
+      const attempts = await LessonAttempt.find({ userId: user._id, lessonId: lesson._id });
+      const hasPassed = attempts.some(a => a.passed);
+      if (hasPassed || attempts.length >= 2) {
+        isReviewUnlocked = true;
+      }
+    }
+  }
+
+  const rawQuestions = await Question.find({ lessonId: id })
+    .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media readingTier tier')
+    .sort({ orderIndex: 1, createdAt: 1 });
+
+  if (isReviewUnlocked) {
+    // Return full data
+    const vocabularies = lesson.vocabIds || [];
+    return {
+      lesson,
+      questions: rawQuestions,
+      vocabularies,
+      isReviewUnlocked: true
+    };
+  }
+
+  // Sanitized payload for test-taking mode (strict allowlist)
+  const sanitizedLesson = {
+    _id: lesson._id,
+    slug: lesson.slug,
+    title: lesson.title,
+    skill: lesson.skill,
+    level: lesson.level,
+    topic: lesson.topic,
+    contentType: lesson.contentType,
+    orderIndex: lesson.orderIndex,
+    media: lesson.media,
+    prerequisites: lesson.prerequisites,
+    contentMarkdown: lesson.contentType === 'theory' ? lesson.contentMarkdown : undefined,
+    passage: lesson.contentType === 'practice' ? lesson.passage : undefined
+  };
+
+  const sanitizedQuestions = rawQuestions.map(q => {
+    let options = q.options ? [...q.options] : [];
+    if (q.format === 'mcq' || q.format === 'vocab-context') {
+      options = shuffleArray(options);
+    }
+    return {
+      _id: q._id,
+      type: q.type,
+      format: q.format || 'standard',
+      prompt: q.prompt,
+      options,
+      orderIndex: q.orderIndex
+    };
+  });
+
   return {
-    lesson,
-    questions,
-    vocabularies
+    lesson: sanitizedLesson,
+    questions: sanitizedQuestions,
+    isReviewUnlocked: false
   };
 };
 
@@ -193,6 +318,8 @@ const getQuestionsByLessonId = async (lessonId) => {
 module.exports = {
   getVocabularies,
   getVocabularyById,
+  getVocabularyTopics,
+  getParaphrases,
   createVocabulary,
   bulkCreateVocabularies,
   updateVocabulary,

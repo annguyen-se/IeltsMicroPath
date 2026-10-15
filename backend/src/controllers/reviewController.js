@@ -4,8 +4,8 @@ const AppError = require('../utils/appError');
 
 const getDueReviews = async (req, res, next) => {
   try {
-    const { limit, mode, box } = req.query;
-    const result = await srsService.getDueReviews(req.user._id, { limit, mode, box });
+    const { limit, mode, box, topic, tier } = req.query;
+    const result = await srsService.getDueReviews(req.user._id, { limit, mode, box, topic, tier });
     return sendSuccess(res, 200, result, 'SRS reviews retrieved');
   } catch (err) {
     next(err);

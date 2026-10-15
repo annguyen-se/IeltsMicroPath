@@ -4,6 +4,7 @@ import {
   Sparkles,
   LayoutDashboard,
   BookOpen,
+  GraduationCap,
   Boxes,
   ShieldAlert,
   Settings,
@@ -12,6 +13,8 @@ import {
   ArrowLeft,
   Sun,
   Moon,
+  Keyboard,
+  PenLine,
 } from 'lucide-react';
 
 export default function AppHeader({
@@ -104,16 +107,34 @@ export default function AppHeader({
             <span>Dashboard</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/lessons') ? 'active' : ''}`}
+            className={`nav-tab ${isCurrent('/lessons') && !location.search.includes('reading') ? 'active' : ''}`}
             onClick={() => navigate('/lessons')}>
-            <BookOpen size={16} />
+            <GraduationCap size={16} />
             <span>Lessons</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/srs') ? 'active' : ''}`}
-            onClick={() => navigate('/srs')}>
+            className={`nav-tab ${isCurrent('/reading') || isCurrent('/paraphrases') || (isCurrent('/lessons') && location.search.includes('reading')) ? 'active' : ''}`}
+            onClick={() => navigate('/lessons?skill=reading')}>
+            <BookOpen size={16} />
+            <span>Reading</span>
+          </button>
+          <button
+            className={`nav-tab ${isCurrent('/vocabulary') || isCurrent('/srs') ? 'active' : ''}`}
+            onClick={() => navigate('/vocabulary')}>
             <Boxes size={16} />
             <span>Vocabulary</span>
+          </button>
+          <button
+            className={`nav-tab ${isCurrent('/typing') ? 'active' : ''}`}
+            onClick={() => navigate('/typing')}>
+            <Keyboard size={16} />
+            <span>Typing</span>
+          </button>
+          <button
+            className={`nav-tab ${isCurrent('/writing') ? 'active' : ''}`}
+            onClick={() => navigate('/writing')}>
+            <PenLine size={16} />
+            <span>Writing</span>
           </button>
           <button
             className={`nav-tab ${isCurrent('/mistakes') ? 'active' : ''}`}
