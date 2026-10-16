@@ -1,35 +1,21 @@
-import React, { useState } from 'react';
-import api from '../../api/apiClient';
+/* Hallmark · macrostructure: Workbench · tone: editorial · anchor hue: 44 */
+/* Hallmark · genre: editorial · macrostructure: Workbench · design-system: design.md · designed-as-app */
+import React from 'react';
 import {
-  Sparkles,
-  Flame,
+  PenLine,
   Target,
-  Zap,
+  ArrowRight,
   BookOpen,
   Clock,
-  Signal,
-  ArrowRight,
-  BookOpenCheck,
-  CheckCircle2,
-  TrendingUp,
   Layers,
   ShieldAlert,
-  GraduationCap,
   ArrowUpRight,
-  Headphones,
-  Mic,
-  PenLine,
-  AudioLines,
-  ChevronRight,
-  TextSearch,
-  GitBranch,
-  Route,
-  Check,
-  Lock,
-  Lightbulb,
-  FileText,
   Boxes,
-  Keyboard
+  Keyboard,
+  Compass,
+  Lock,
+  BookmarkCheck,
+  BookMarked,
 } from 'lucide-react';
 import LeitnerBoxGrid from './LeitnerBoxGrid';
 
@@ -39,15 +25,17 @@ export default function StudentDashboard({
   isAuthenticated = false,
   onStartMission,
   onSwitchView,
-  onOpenAuth
+  onOpenAuth,
 }) {
-  const [isEnrolling, setIsEnrolling] = useState(false);
   const user = dashboardData.user || {};
   const metrics = dashboardData.metrics || {};
   const dailyStatus = dashboardData.dailyMissionStatus || {};
+  const nextLesson = dashboardData.nextLesson;
 
   const totalSrsCount = Object.values(srsStats).reduce((a, b) => a + Number(b || 0), 0);
-  const duration = dailyStatus.estimatedMinutes ? `About ${dailyStatus.estimatedMinutes} min` : '';
+  const srsDue = metrics.srsDueCount ?? 0;
+  const mistakesDue = metrics.unresolvedMistakesCount ?? 0;
+  const progressPercent = metrics.levelProgressPercent ?? 0;
 
   const handleAction = (actionFn) => {
     if (!isAuthenticated) {
@@ -57,489 +45,370 @@ export default function StudentDashboard({
     }
   };
 
-  const handleQuickEnroll = async () => {
-    try {
-      setIsEnrolling(true);
-      await api.post('/reviews/enroll-all', {});
-      onSwitchView('srs');
-    } catch (err) {
-      console.warn('Quick enroll error:', err.message);
-    } finally {
-      setIsEnrolling(false);
-    }
-  };
-
   return (
-    <div className="stack" style={{ gap: 26 }}>
-      {/* ─── 1. Welcome Header Section ─── */}
-      <section className="home-welcome">
-        <div>
-          <p className="eyebrow">
-            <Sparkles size={14} /> YOUR IELTS LEARNING SPACE
-          </p>
-          <h1>Make today count.</h1>
-          <p>
-            Build your IELTS skills one focused session at a time. Review what matters, fix your weak spots, and keep moving toward your target band.
-          </p>
-        </div>
-        <div className="home-overview">
-          {isAuthenticated ? (
-            <>
-              <div className="home-stat">
-                <span className="home-stat-icon" style={{ color: '#d97706', background: '#fff4d9' }}>
-                  <Flame size={19} />
-                </span>
-                <span>
-                  <strong>{user.streak ?? 0} days</strong>
-                  <small>Learning streak</small>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
+      {/* ─── 1. Academic Orientation & Workspace Welcome ─── */}
+      <section className='section-head'>
+        <span className='section-kicker'>
+          <Compass size={13} aria-hidden='true' /> Guided Writing Workspace
+        </span>
+        <div className='section-head-row'>
+          <div>
+            <h1 className='section-title'>
+              {isAuthenticated && user.email
+                ? `Welcome back. Let's refine your academic writing today.`
+                : `Your dedicated IELTS writing coach workspace.`}
+            </h1>
+            <p className='section-desc' style={{ marginTop: 'var(--space-2xs)' }}>
+              Each session is structured as a focused 1-on-1 tutorial: activate core vocabulary, repair recent grammar
+              traps, and complete a targeted writing drill with instant diagnostic feedback.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+            {isAuthenticated ? (
+              <div className='card' style={{ padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Target size={15} style={{ color: 'var(--color-accent)' }} aria-hidden='true' />
+                <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)' }}>
+                  Target: <strong>Band {user.targetBand || '7.0+'}</strong> · Level {user.currentLevel ?? 1} (
+                  {progressPercent}%)
                 </span>
               </div>
-              {user.targetBand && (
-                <div className="home-stat">
-                  <span className="home-stat-icon" style={{ color: '#16805d', background: '#e4f8ef' }}>
-                    <Target size={19} />
-                  </span>
-                  <span>
-                    <strong>Band {user.targetBand}</strong>
-                    <small>Your target</small>
-                  </span>
-                </div>
-              )}
-            </>
-          ) : (
-            <button className="btn btn-primary" onClick={onOpenAuth} style={{ padding: '9px 16px', fontSize: 13, gap: 6 }}>
-              <Lock size={14} />
-              <span>Đăng nhập để lưu tiến độ</span>
-            </button>
-          )}
+            ) : (
+              <button className='btn btn-secondary btn-sm' onClick={onOpenAuth}>
+                <Lock size={13} aria-hidden='true' />
+                <span>Sign in to sync progress</span>
+              </button>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* ─── 2. Hero: Daily Mission Card ─── */}
-      <section className="card home-hero">
-        <div>
-          <p className="eyebrow">
-            <Zap size={14} /> YOUR NEXT BEST STEP
-          </p>
-          <h2>{dashboardData.nextLesson ? dashboardData.nextLesson.title : 'One lesson closer to your goal.'}</h2>
-          <p className="home-hero-copy">
-            {dashboardData.nextLesson
-              ? `Bài học tiếp theo trên lộ trình DAG Level ${dashboardData.nextLesson.level}: ${dashboardData.nextLesson.title}. Hoàn thành để mở khóa kiến thức tiếp theo.`
-              : 'Pick up with a short, focused activity designed to strengthen your academic reading, vocabulary retention, and error remediation.'}
-          </p>
-          <div className="lesson-meta" style={{ margin: '16px 0 20px' }}>
-            <span className="soft-pill">
-              <BookOpen size={13} /> {dashboardData.nextLesson ? dashboardData.nextLesson.skill.toUpperCase() : 'Micro-Lesson'}
-            </span>
-            {duration && (
-              <span className="soft-pill">
-                <Clock size={13} /> {duration}
-              </span>
-            )}
-            <span className="soft-pill">
-              <Signal size={13} /> Level {dashboardData.nextLesson ? dashboardData.nextLesson.level : (user.currentLevel ?? 0)}
-            </span>
+      {/* ─── 2. Primary Guided Desk: Today's 3-Stage Mission ─── */}
+      <section className='tutor-session-desk'>
+        <div className='tutor-desk-badge'>
+          <BookmarkCheck size={13} aria-hidden='true' /> Today's Guided Tutorial · 3-Stage Practice
+        </div>
+        <h2 className='tutor-headline'>
+          {nextLesson ? nextLesson.title : 'Argument Development & Cohesive Devices (Task 2)'}
+        </h2>
+        <p className='tutor-lede'>
+          {nextLesson
+            ? `Next milestone on your Level ${nextLesson.level} curriculum DAG. Complete this session to unlock subsequent modules.`
+            : 'A focused 20–25 minute writing tutorial: activate vocabulary recall, dissect syntax traps, and draft a key sentence translation.'}
+        </p>
+
+        {/* 3 Sequential Milestones */}
+        <div className='routine-steps'>
+          <div className='routine-step-card'>
+            <div className='routine-step-num'>
+              <span>01</span>
+              <span>· Lexical Recall</span>
+            </div>
+            <div className='routine-step-title'>Spaced Repetition (SRS)</div>
+            <div className='routine-step-meta'>
+              {isAuthenticated
+                ? `${srsDue} lexical items scheduled in Leitner boxes`
+                : 'Consolidate academic collocations'}
+            </div>
           </div>
-          <button className="btn btn-primary btn-lg" onClick={() => handleAction(onStartMission)}>
+
+          <div className='routine-step-card'>
+            <div className='routine-step-num'>
+              <span>02</span>
+              <span>· Error Remediation</span>
+            </div>
+            <div className='routine-step-title'>Target Recent Mistakes</div>
+            <div className='routine-step-meta'>
+              {isAuthenticated
+                ? `${mistakesDue} syntax traps requiring attention`
+                : 'Review common grammatical pitfalls'}
+            </div>
+          </div>
+
+          <div className='routine-step-card'>
+            <div className='routine-step-num'>
+              <span>03</span>
+              <span>· Core Writing Drill</span>
+            </div>
+            <div className='routine-step-title'>
+              {nextLesson ? `${nextLesson.skill.toUpperCase()} Level ${nextLesson.level}` : 'Writing Micro-Practice'}
+            </div>
+            <div className='routine-step-meta'>Sentence construction with instant feedback</div>
+          </div>
+        </div>
+
+        {/* Action Row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+          <button className='btn btn-primary btn-lg' onClick={() => handleAction(onStartMission)}>
             {isAuthenticated ? (
               <>
-                <span>Continue learning</span>
-                <ArrowRight size={18} />
+                <span>Start Guided Session Now</span>
+                <ArrowRight size={16} aria-hidden='true' />
               </>
             ) : (
               <>
-                <Lock size={16} />
-                <span>Đăng nhập để bắt đầu học</span>
+                <Lock size={15} aria-hidden='true' />
+                <span>Sign in to Start Learning</span>
               </>
             )}
           </button>
-        </div>
-        <div className="home-hero-art" aria-hidden="true">
-          <div className="hero-orbit"></div>
-          <div className="hero-book">
-            <BookOpenCheck size={40} />
-          </div>
-          <div className="hero-floating one">
-            <CheckCircle2 size={15} style={{ color: '#16805d' }} /> Learn by doing
-          </div>
-          <div className="hero-floating two">
-            <TrendingUp size={15} style={{ color: 'var(--color-cobalt)' }} /> Small daily wins
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 3. Today's Learning Plan ─── */}
-      <section>
-        <div className="home-section-head">
-          <div>
-            <h2>Today's learning plan</h2>
-            <p>A balanced routine: remember, improve, then learn something new.</p>
-          </div>
+          <button className='btn btn-secondary' onClick={() => onSwitchView('lessons')}>
+            <BookMarked size={15} aria-hidden='true' />
+            <span>Browse Curriculum</span>
+          </button>
           {dailyStatus.estimatedMinutes && (
-            <span className="soft-pill">
-              <Clock size={13} /> {dailyStatus.estimatedMinutes} min
+            <span
+              style={{
+                fontSize: 12,
+                color: 'var(--color-ink-muted)',
+                fontFamily: 'var(--font-mono)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+              }}>
+              <Clock size={13} aria-hidden='true' /> Est. {dailyStatus.estimatedMinutes} minutes
             </span>
           )}
         </div>
-        <div className="card" style={{ padding: '8px 24px' }}>
-          <div className="today-list">
-            <div className="today-task">
-              <span className="task-icon" style={{ background: '#e4f8ef', color: '#16805d' }}>
-                <Layers size={20} />
-              </span>
-              <div className="task-copy">
-                <strong>Review vocabulary</strong>
-                <p>Revisit words scheduled for review to strengthen long-term memory.</p>
-              </div>
-              <span className="task-count">
-                {isAuthenticated ? `${metrics.srsDueCount ?? 0} due` : <Lock size={13} style={{ color: 'var(--fg-muted)' }} />}
-              </span>
-              <button className="mini-link" onClick={() => handleAction(() => onSwitchView('srs'))}>
-                Review <ArrowUpRight size={12} />
-              </button>
+      </section>
+
+      {/* ─── 3. Practice Workstations (Dedicated Micro-Drills) ─── */}
+      <section>
+        <div className='section-head'>
+          <span className='section-kicker'>
+            <PenLine size={13} aria-hidden='true' /> Specialized Practice Benches
+          </span>
+          <div className='section-head-row'>
+            <div>
+              <h2 className='section-title'>Select Your Focus Area</h2>
+              <p className='section-desc'>
+                Dedicated micro-drills to strengthen sentence precision, discourse flow, and lexical recall.
+              </p>
             </div>
-            <div className="today-task">
-              <span className="task-icon" style={{ background: '#fff0e9', color: '#c85a30' }}>
-                <ShieldAlert size={20} />
-              </span>
-              <div className="task-copy">
-                <strong>Repair a past mistake</strong>
-                <p>Turn an incorrect answer into a lesson you can remember.</p>
+            <button className='btn btn-ghost btn-sm' onClick={() => onSwitchView('lessons')}>
+              <span>All Curriculum</span>
+              <ArrowRight size={13} aria-hidden='true' />
+            </button>
+          </div>
+        </div>
+
+        <div className='workstation-grid'>
+          {/* Station 1: Writing Drill */}
+          <div
+            className='workstation-card'
+            role='button'
+            tabIndex={0}
+            onClick={() => onSwitchView('writing')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('writing')}>
+            <div>
+              <div className='workstation-icon-wrap' aria-hidden='true'>
+                <PenLine size={18} />
               </div>
-              <span className="task-count">
-                {isAuthenticated ? `${metrics.unresolvedMistakesCount ?? 0} traps` : <Lock size={13} style={{ color: 'var(--fg-muted)' }} />}
-              </span>
-              <button className="mini-link" onClick={() => handleAction(() => onSwitchView('mistakes'))}>
-                Fix <ArrowUpRight size={12} />
-              </button>
+              <div className='workstation-title' style={{ marginTop: 'var(--space-sm)' }}>
+                Sentence Translation Drill (100 Sentences)
+              </div>
+              <p className='workstation-desc'>
+                Practice English translation across 12 core academic grammar patterns: participle clauses, conditionals,
+                and inversion.
+              </p>
             </div>
-            <div className="today-task">
-              <span className="task-icon" style={{ background: '#e8edff', color: 'var(--color-cobalt)' }}>
-                <GraduationCap size={20} />
-              </span>
-              <div className="task-copy">
-                <strong>Learn one new skill</strong>
-                <p>Continue to a lesson that matches your current learning level.</p>
+            <div className='workstation-footer'>
+              <span>Open Translation Room</span>
+              <ArrowUpRight size={14} aria-hidden='true' />
+            </div>
+          </div>
+
+          {/* Station 2: Reading & Paraphrase Studio */}
+          <div
+            className='workstation-card'
+            role='button'
+            tabIndex={0}
+            onClick={() => onSwitchView('lessons?skill=reading')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('lessons?skill=reading')}>
+            <div>
+              <div className='workstation-icon-wrap' aria-hidden='true'>
+                <BookOpen size={18} />
               </div>
-              <span className="task-count">Lesson</span>
-              <button className="mini-link" onClick={() => handleAction(onStartMission)}>
-                Start <ArrowUpRight size={12} />
-              </button>
+              <div className='workstation-title' style={{ marginTop: 'var(--space-sm)' }}>
+                Reading & Paraphrase Studio
+              </div>
+              <p className='workstation-desc'>
+                Examine Band 8.0+ model passages, identify lexical substitution traps, and build academic reading
+                stamina.
+              </p>
+            </div>
+            <div className='workstation-footer'>
+              <span>Explore Paraphrases</span>
+              <ArrowUpRight size={14} aria-hidden='true' />
+            </div>
+          </div>
+
+          {/* Station 3: Vocabulary Hub & SRS */}
+          <div
+            className='workstation-card'
+            role='button'
+            tabIndex={0}
+            onClick={() => onSwitchView('vocabulary')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('vocabulary')}>
+            <div>
+              <div className='workstation-icon-wrap' aria-hidden='true'>
+                <Boxes size={18} />
+              </div>
+              <div className='workstation-title' style={{ marginTop: 'var(--space-sm)' }}>
+                Lexical Bank & Leitner Boxes
+              </div>
+              <p className='workstation-desc'>
+                Intelligent spaced repetition. Consolidate academic collocations for environmental, technological, and
+                educational topics into long-term memory.
+              </p>
+            </div>
+            <div className='workstation-footer'>
+              <span>Open Lexical Bank</span>
+              <ArrowUpRight size={14} aria-hidden='true' />
+            </div>
+          </div>
+
+          {/* Station 4: Typing Drill */}
+          <div
+            className='workstation-card'
+            role='button'
+            tabIndex={0}
+            onClick={() => onSwitchView('typing')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('typing')}>
+            <div>
+              <div className='workstation-icon-wrap' aria-hidden='true'>
+                <Keyboard size={18} />
+              </div>
+              <div className='workstation-title' style={{ marginTop: 'var(--space-sm)' }}>
+                Academic Typing Drill
+              </div>
+              <p className='workstation-desc'>
+                Build keyboard muscle memory for spelling accuracy, reducing cognitive load during computer-delivered
+                tests.
+              </p>
+            </div>
+            <div className='workstation-footer'>
+              <span>Launch Typing Drill</span>
+              <ArrowUpRight size={14} aria-hidden='true' />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 4. Two-Column Dashboard Grid ─── */}
-      <div className="home-grid">
-        <div className="home-column">
-          {/* Skill Focus Section */}
-          <section>
-            <div className="home-section-head">
-              <div>
-                <h2>Choose your focus</h2>
-                <p>Practice the skill you want to improve today.</p>
-              </div>
-              <button
-                className="btn btn-ghost"
-                style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-                onClick={() => onSwitchView('lessons')}
-              >
-                <span>All lessons</span>
-                <ArrowRight size={14} />
+      {/* ─── 4. Progress Vault & Tutor Marginalia ─── */}
+      <section className='workbench-grid'>
+        {/* Left Column: Memory Vault */}
+        <div className='card'>
+          <div className='section-head' style={{ marginBottom: 'var(--space-sm)' }}>
+            <span className='section-kicker'>
+              <Layers size={13} aria-hidden='true' /> Long-Term Retention
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+              <h2 className='section-title' style={{ fontSize: 'var(--text-lg)' }}>
+                5-Box Leitner Memory Vault
+              </h2>
+              <button className='btn btn-secondary btn-sm' onClick={() => handleAction(() => onSwitchView('srs'))}>
+                <span>Open Review</span>
+                <ArrowRight size={12} aria-hidden='true' />
               </button>
             </div>
-            <div className="skill-grid">
-              <button className="skill-card" onClick={() => onSwitchView('typing')}>
-                <span className="skill-icon" style={{ background: '#fef3c7', color: '#b45309' }}>
-                  <Keyboard size={20} />
-                </span>
-                <strong>Typing Drill</strong>
-                <p>Luyện gõ từ vựng tốc độ cao, phản xạ chính tả & muscle memory.</p>
-                <span className="skill-link">
-                  Vào phòng luyện gõ <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('vocabulary')}>
-                <span className="skill-icon" style={{ background: '#e4f8ef', color: '#16805d' }}>
-                  <Boxes size={20} />
-                </span>
-                <strong>Vocabulary Hub</strong>
-                <p>Ôn tập ngắt quãng 5 Hộp Leitner & Khám phá từ vựng theo chủ đề.</p>
-                <span className="skill-link">
-                  Mở phòng từ vựng <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=listening')}>
-                <span className="skill-icon" style={{ background: '#e8edff', color: '#315bea' }}>
-                  <Headphones size={20} />
-                </span>
-                <strong>Listening</strong>
-                <p>Train your ear with audio and dictation practice.</p>
-                <span className="skill-link">
-                  Explore lessons <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=reading')}>
-                <span className="skill-icon" style={{ background: '#e5f8f5', color: '#078575' }}>
-                  <BookOpen size={20} />
-                </span>
-                <strong>Reading Micro-Practice</strong>
-                <p>Luyện đọc bài ngắn, bẫy paraphrase và câu hỏi IELTS thực chiến.</p>
-                <span className="skill-link">
-                  Vào phòng luyện đọc <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=speaking')}>
-                <span className="skill-icon" style={{ background: '#f3e8ff', color: '#8b42cb' }}>
-                  <Mic size={20} />
-                </span>
-                <strong>Speaking</strong>
-                <p>Strengthen pronunciation and spoken foundations.</p>
-                <span className="skill-link">
-                  Explore lessons <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('writing')}>
-                <span className="skill-icon" style={{ background: '#fff2d9', color: '#a36a00' }}>
-                  <PenLine size={20} />
-                </span>
-                <strong>Writing (100 Sentences)</strong>
-                <p>Luyện dịch 100 câu mẫu theo 12 cấu trúc ngữ pháp học thuật.</p>
-                <span className="skill-link">
-                  Vào phòng luyện dịch <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=grammar')}>
-                <span className="skill-icon" style={{ background: '#f3e8ff', color: '#7c3aed' }}>
-                  <FileText size={20} />
-                </span>
-                <strong>Grammar</strong>
-                <p>Make sentence patterns more accurate and flexible.</p>
-                <span className="skill-link">
-                  Explore lessons <ArrowUpRight size={13} />
-                </span>
-              </button>
-              <button className="skill-card" onClick={() => onSwitchView('lessons?skill=phonetics')}>
-                <span className="skill-icon" style={{ background: '#e0f2fe', color: '#0369a1' }}>
-                  <AudioLines size={20} />
-                </span>
-                <strong>Pronunciation</strong>
-                <p>Learn IPA and sound distinctions for clearer speech.</p>
-                <span className="skill-link">
-                  Explore lessons <ArrowUpRight size={13} />
-                </span>
-              </button>
-            </div>
-          </section>
+            <p className='section-desc'>
+              Spaced repetition schedule: words achieve durable mastery only after cycling successfully through all five
+              boxes.
+            </p>
+          </div>
 
-          {/* Vocabulary Memory (Leitner 5-box Preview) */}
-          <section className="card">
-            <div className="home-section-head">
-              <div>
-                <h2>
-                  <Layers size={19} style={{ color: 'var(--color-cobalt)', verticalAlign: -3 }} /> Vocabulary memory
-                </h2>
-                <p>Spaced repetition helps you remember words for longer.</p>
-              </div>
-              <button
-                className="btn btn-secondary"
-                onClick={() => handleAction(() => onSwitchView('srs'))}
-                style={{ padding: '7px 12px', fontSize: 12 }}
-              >
-                Open review <ChevronRight size={13} />
-              </button>
-            </div>
-            {isAuthenticated && totalSrsCount > 0 ? (
-              <div>
-                <LeitnerBoxGrid srsStats={srsStats} />
-                {metrics.srsDueCount === 0 && (
-                  <p style={{ marginTop: 12, fontSize: 13, color: 'var(--fg-muted)', textAlign: 'center' }}>
-                    Hôm nay không còn từ nào đến hạn ôn (Bạn có tổng cộng {totalSrsCount} từ trong 5 hộp).
-                  </p>
-                )}
-              </div>
-            ) : isAuthenticated ? (
-              <div>
-                <LeitnerBoxGrid srsStats={{ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }} />
-                <div className="lock-banner" style={{ marginTop: 14 }}>
-                  <div>
-                    <strong>Chưa có từ vựng nào trong 5 Hộp Leitner</strong>
-                    <p>Hệ thống đã có sẵn từ vựng trong kho. Bấm để nạp vào Hộp 1 và học ngay!</p>
-                  </div>
-                  <button
-                    className="btn btn-primary"
-                    style={{ fontSize: 12, padding: '7px 14px' }}
-                    onClick={handleQuickEnroll}
-                    disabled={isEnrolling}
-                  >
-                    {isEnrolling ? 'Đang nạp...' : 'Nạp vào Hộp 1 ngay'}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <LeitnerBoxGrid srsStats={{ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }} />
-                <div className="lock-banner" style={{ marginTop: 14 }}>
-                  <div>
-                    <strong>Đăng nhập để lưu từ vựng</strong>
-                    <p>Các từ bạn học sẽ tự động được xếp vào 5 hộp Leitner để ôn tập ngắt quãng.</p>
-                  </div>
-                  <button className="btn btn-secondary" style={{ fontSize: 12, padding: '6px 12px' }} onClick={onOpenAuth}>
-                    Đăng nhập
-                  </button>
-                </div>
-              </div>
-            )}
-          </section>
-        </div>
-
-        {/* Right column */}
-        <aside className="home-column">
-          {/* Mistakes to revisit */}
-          <section className="card">
-            <div className="home-section-head">
-              <div>
-                <h2>
-                  <ShieldAlert size={19} style={{ color: 'var(--color-rose)', verticalAlign: -3 }} /> Mistakes to revisit
-                </h2>
-                <p>Learn from errors instead of repeating them.</p>
-              </div>
-            </div>
-
-            {isAuthenticated && Array.isArray(dashboardData.recentMistakes) && dashboardData.recentMistakes.length > 0 ? (
-              dashboardData.recentMistakes.map((m) => (
-                <div key={m.id} className="focus-row">
-                  <span className="task-icon" style={{ background: '#fff0e9', color: '#c85a30' }}>
-                    <TextSearch size={19} />
-                  </span>
-                  <div className="focus-copy">
-                    <strong style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {m.prompt}
-                    </strong>
-                    {m.userWrongAnswer ? (
-                      <p>Bạn đã chọn sai: "{m.userWrongAnswer}"</p>
-                    ) : (
-                      <p>Bẫy câu hỏi cần khắc phục</p>
-                    )}
-                  </div>
-                  <span className={`pill ${m.errorCode === 'ERR_SYN' ? 'pill-violet' : 'pill-err'}`}>
-                    {m.errorCode}
-                  </span>
-                </div>
-              ))
-            ) : isAuthenticated ? (
-              <div style={{ padding: '16px 0', textAlign: 'center', color: 'var(--fg-muted)', fontSize: 13 }}>
-                <CheckCircle2 size={24} style={{ color: 'var(--color-emerald)', margin: '0 auto 6px', display: 'block' }} />
-                <span>Không có lỗi sai nào chưa khắc phục!</span>
-              </div>
-            ) : (
-              <div style={{ padding: '16px 0', textAlign: 'center', color: 'var(--fg-muted)', fontSize: 13 }}>
-                Đăng nhập để xem danh sách lỗi sai cần khắc phục.
-              </div>
-            )}
-
-            <button
-              className="btn btn-secondary"
-              style={{ width: '100%', marginTop: 16 }}
-              onClick={() => handleAction(() => onSwitchView('mistakes'))}
-            >
-              Open mistake review <ArrowRight size={15} />
-            </button>
-          </section>
-
-          {/* Your learning path (DAG Node) */}
-          <section className="card">
-            <div className="home-section-head">
-              <div>
-                <h2>
-                  <Route size={19} style={{ color: 'var(--color-emerald)', verticalAlign: -3 }} /> Your learning path
-                </h2>
-                <p>Move forward as you master each foundation.</p>
-              </div>
-            </div>
-
-            <div className="stack" style={{ gap: 10 }}>
-              {Array.isArray(dashboardData.learningPath) && dashboardData.learningPath.length > 0 ? (
-                dashboardData.learningPath.map((node) => (
-                  <div key={node.id} className={`dag-node ${node.status}`}>
-                    <div>
-                      <div
-                        style={{
-                          fontSize: 10,
-                          fontFamily: 'var(--font-mono)',
-                          color:
-                            node.status === 'mastered'
-                              ? 'var(--color-emerald)'
-                              : node.status === 'current'
-                              ? 'var(--color-cobalt)'
-                              : 'var(--fg-muted)',
-                          fontWeight: 600,
-                          textTransform: 'uppercase'
-                        }}
-                      >
-                        {node.skill || 'LESSON'} {node.topic ? `· ${node.topic}` : ''}
-                      </div>
-                      <div style={{ fontWeight: 700, fontSize: 13, marginTop: 2 }}>
-                        {node.title}
-                      </div>
-                    </div>
-                    {node.status === 'mastered' && (
-                      <span className="pill pill-success">
-                        <Check size={12} /> Done
-                      </span>
-                    )}
-                    {node.status === 'current' && (
-                      <span className="pill pill-cobalt">
-                        In progress
-                      </span>
-                    )}
-                    {node.status === 'locked' && (
-                      <span className="pill pill-muted">
-                        <Lock size={12} /> Locked
-                      </span>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div style={{ padding: '16px 0', textAlign: 'center', color: 'var(--fg-muted)', fontSize: 13 }}>
-                  Chưa có bài học nào được cấu hình cho Level {user.currentLevel ?? 0}.
-                </div>
+          {isAuthenticated && totalSrsCount > 0 ? (
+            <div>
+              <LeitnerBoxGrid srsStats={srsStats} />
+              {srsDue === 0 && (
+                <p
+                  style={{
+                    marginTop: 12,
+                    fontSize: 12,
+                    color: 'var(--color-ink-muted)',
+                    textAlign: 'center',
+                    fontFamily: 'var(--font-mono)',
+                  }}>
+                  ✓ All scheduled cards reviewed for today ({totalSrsCount} total words active in your boxes).
+                </p>
               )}
             </div>
-
-            <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--border)', fontSize: 12, color: 'var(--fg-muted)' }}>
-              {isAuthenticated ? (
-                `Mastered ${metrics.masteredNodesCount ?? 0} / ${metrics.totalLevelNodesCount ?? 0} prerequisite nodes (${metrics.levelProgressPercent ?? 0}%)`
-              ) : (
-                'Đăng nhập để theo dõi cây tiến trình học tập cá nhân.'
-              )}
-            </div>
-          </section>
-
-          {/* Small reminder card */}
-          <section className="card home-note">
+          ) : (
             <div
               style={{
-                fontSize: 11,
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '.06em',
-                color: 'var(--color-cobalt)',
-                marginBottom: 7,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6
-              }}
-            >
-              <Lightbulb size={14} /> A small reminder
+                padding: '24px 16px',
+                textAlign: 'center',
+                background: 'var(--color-paper-2)',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px dashed var(--color-rule)',
+              }}>
+              <p style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}>
+                {isAuthenticated
+                  ? 'No cards currently in your Leitner boxes. Open a curriculum lesson to enroll new academic collocations.'
+                  : 'Sign in to monitor vocabulary progression across the five memory compartments.'}
+              </p>
+              {!isAuthenticated && (
+                <button className='btn btn-secondary btn-sm' style={{ marginTop: 10 }} onClick={onOpenAuth}>
+                  Sign in Now
+                </button>
+              )}
             </div>
-            <p style={{ fontSize: 13, lineHeight: 1.6 }}>
-              Consistency beats cramming. A focused 15-minute session is still progress — keep the habit realistic and repeatable.
+          )}
+        </div>
+
+        {/* Right Column: Tutor Marginalia Note (With Pedagogical Vietnamese contrastive guidance) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+          <div className='tutor-note-card'>
+            <div className='tutor-note-header'>
+              <BookOpen size={13} aria-hidden='true' /> Writing Coach Marginalia · L1 Contrast Note
+            </div>
+            <p className='tutor-note-body'>
+              "In academic IELTS Writing, cohesion is not achieved by chaining discourse markers like 'Moreover' or
+              'Furthermore' at the start of every sentence. Vietnamese learners often tend to translate connectives such
+              as 'Hơn nữa' or 'Ngoài ra' literally and place them at the beginning of sentences, resulting in a
+              mechanical, list-like style. Instead, try using participle clauses (e.g., 'Having analyzed the economic
+              trends...') or embedding adverbs within the predicate for a more natural, Band 7.5+ discourse flow."
             </p>
-          </section>
-        </aside>
-      </div>
+          </div>
+
+          <div
+            className='card'
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-md)' }}>
+            <div>
+              <span className='section-kicker' style={{ color: 'var(--color-brick)', marginBottom: 2 }}>
+                <ShieldAlert size={13} aria-hidden='true' /> Error Remediation
+              </span>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--color-ink)' }}>Personal Mistake Vault</div>
+              <p style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 2 }}>
+                {isAuthenticated
+                  ? `${mistakesDue} syntax traps logged for remediation`
+                  : 'Turn incorrect submissions into memorable lessons'}
+              </p>
+            </div>
+            <button className='btn btn-secondary btn-sm' onClick={() => handleAction(() => onSwitchView('mistakes'))}>
+              <span>Open Vault</span>
+              <ArrowRight size={13} aria-hidden='true' />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 5. Academic Colophon Footer ─── */}
+      <footer className='app-footer'>
+        <div className='app-footer-left'>
+          <span>IELTS Writing Hub · Writing Studio & Clinic</span>
+          <span>·</span>
+          <span>Guided Academic Learning Platform</span>
+        </div>
+        <div className='app-footer-links'>
+          <a href='#/lessons'>Curriculum</a>
+          <a href='#/writing'>100 Sentences</a>
+          <a href='#/vocabulary'>Lexical Bank</a>
+          <a href='#/mistakes'>Mistake Vault</a>
+        </div>
+      </footer>
     </div>
   );
 }

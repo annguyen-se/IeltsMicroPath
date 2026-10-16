@@ -1,0 +1,21 @@
+[
+  {
+    "date": "2026-10-17",
+    "scope": "app",
+    "macrostructure": "Workbench",
+    "theme": "custom",
+    "theme_axes": "light / roman-display / warm-terracotta",
+    "vibe": "warm atelier, writing coach desk, terracotta ink",
+    "enrichment": "none",
+    "brief": "IELTS Writing Hub · Redesign learning experience with English primary language policy and pedagogical Vietnamese retention"
+  },
+  {
+    "date": "2026-10-17",
+    "macrostructure": "Workbench",
+    "theme": "custom",
+    "theme_axes": "light / roman-display / warm-terracotta",
+    "vibe": "warm atelier, writing study room, terracotta ink",
+    "enrichment": "none",
+    "brief": "IELTS Writing Hub · Homepage & Course Catalog redesign with warm academic atelier feel"
+  }
+]

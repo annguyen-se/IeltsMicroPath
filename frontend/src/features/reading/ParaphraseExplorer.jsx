@@ -17,10 +17,10 @@ import {
 } from 'lucide-react';
 
 const TIERS = [
-  { key: 'all', label: 'Tất cả từ', desc: 'Toàn bộ từ khóa đồng nghĩa' },
-  { key: '1', label: 'Tier 1 (90%)', desc: 'Xuất hiện 90% tần suất trong đề thi IELTS Reading' },
-  { key: '2', label: 'Tier 2 (60%)', desc: 'Xuất hiện 60% tần suất trong bài thi' },
-  { key: '3', label: 'Tier 3 (Đã thi)', desc: 'Các từ khóa và bẫy đồng nghĩa đã từng xuất hiện' },
+  { key: 'all', label: 'All Pairs', desc: 'Complete catalogue of academic paraphrase pairs' },
+  { key: '1', label: 'Tier 1 (90% Freq)', desc: '90% frequency occurrence in IELTS academic passages' },
+  { key: '2', label: 'Tier 2 (60% Freq)', desc: '60% frequency occurrence in academic passages' },
+  { key: '3', label: 'Tier 3 (Past Tests)', desc: 'Verified synonym traps extracted from past test papers' },
 ];
 
 export default function ParaphraseExplorer({ isAuthenticated = false, onOpenAuth }) {
@@ -88,31 +88,31 @@ export default function ParaphraseExplorer({ isAuthenticated = false, onOpenAuth
       <div className="row-between" style={{ marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => navigate('/')}
             style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <ArrowLeft size={16} />
-            <span>Dashboard</span>
+            <ArrowLeft size={14} />
+            <span>Workspace</span>
           </button>
           <div>
-            <h1 style={{ fontSize: 22, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <BookOpen size={24} style={{ color: 'var(--color-emerald)' }} />
-              <span>Kho từ khóa & Bẫy đồng nghĩa (Reading 538 Paraphrases)</span>
+            <h1 style={{ fontSize: 20, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <BookOpen size={20} style={{ color: 'var(--color-accent)' }} />
+              <span>Reading Paraphrase & Lexical Traps (538 Pairs)</span>
             </h1>
-            <p style={{ color: 'var(--fg-muted)', fontSize: 13, margin: '2px 0 0' }}>
-              Nắm vững các cặp từ đồng nghĩa thường gặp nhất trong đề thi IELTS Reading theo từng cấp độ ưu tiên.
+            <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, margin: '2px 0 0' }}>
+              Master high-frequency paraphrase pairs and synonym traps across IELTS academic passages.
             </p>
           </div>
         </div>
 
         <button
-          className="btn btn-secondary"
+          className="btn btn-secondary btn-sm"
           onClick={() => navigate('/typing')}
           style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
         >
-          <Keyboard size={16} style={{ color: 'var(--color-cobalt)' }} />
-          <span>Gõ phím từ vựng (Typing Drill)</span>
+          <Keyboard size={14} />
+          <span>Typing Drill</span>
         </button>
       </div>
 
@@ -194,12 +194,12 @@ export default function ParaphraseExplorer({ isAuthenticated = false, onOpenAuth
               <thead>
                 <tr style={{ background: 'var(--surface-subtle)', borderBottom: '1px solid var(--border)' }}>
                   <th style={{ padding: '12px 16px', width: 60 }}>#</th>
-                  <th style={{ padding: '12px 16px', width: 50 }}>Phát âm</th>
-                  <th style={{ padding: '12px 16px', width: 180 }}>Từ khóa (Keyword)</th>
-                  <th style={{ padding: '12px 16px', width: 80 }}>Từ loại</th>
-                  <th style={{ padding: '12px 16px', width: 220 }}>Nghĩa tiếng Việt</th>
-                  <th style={{ padding: '12px 16px' }}>Bẫy từ đồng nghĩa (Paraphrases trong đề)</th>
-                  <th style={{ padding: '12px 16px', width: 100, textAlign: 'center' }}>Thao tác</th>
+                  <th style={{ padding: '12px 16px', width: 50 }}>Audio</th>
+                  <th style={{ padding: '12px 16px', width: 180 }}>Keyword</th>
+                  <th style={{ padding: '12px 16px', width: 80 }}>POS</th>
+                  <th style={{ padding: '12px 16px', width: 220 }}>Vietnamese Meaning</th>
+                  <th style={{ padding: '12px 16px' }}>Paraphrases & Synonym Traps</th>
+                  <th style={{ padding: '12px 16px', width: 100, textAlign: 'center' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -275,9 +275,9 @@ export default function ParaphraseExplorer({ isAuthenticated = false, onOpenAuth
                           style={{ fontSize: 11, padding: '4px 8px', whiteSpace: 'nowrap' }}
                           onClick={() => handleEnrollSingle(item._id)}
                           disabled={isEnrolled}
-                          title={isEnrolled ? 'Đã trong SRS' : 'Thêm từ này vào SRS để ôn tập'}
+                          title={isEnrolled ? 'Enrolled in Box 1' : 'Enroll into Leitner Box 1'}
                         >
-                          {isEnrolled ? '✓ Đã thêm' : '+ SRS'}
+                          {isEnrolled ? '✓ Enrolled' : '+ Box 1'}
                         </button>
                       </td>
                     </tr>

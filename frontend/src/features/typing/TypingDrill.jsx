@@ -233,20 +233,20 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
       <div className="row-between" style={{ marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => navigate('/')}
             style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <ArrowLeft size={16} />
-            <span>Dashboard</span>
+            <ArrowLeft size={14} />
+            <span>Workspace</span>
           </button>
           <div>
-            <h1 style={{ fontSize: 22, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Keyboard size={24} style={{ color: 'var(--color-cobalt)' }} />
-              <span>Luyện gõ từ vựng (Typing Drill)</span>
+            <h1 style={{ fontSize: 20, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Keyboard size={20} style={{ color: 'var(--color-accent)' }} />
+              <span>Academic Lexis Typing Drill</span>
             </h1>
-            <p style={{ color: 'var(--fg-muted)', fontSize: 13, margin: '2px 0 0' }}>
-              Tăng tốc độ gõ máy, cải thiện trí nhớ vận động (muscle memory) & phản xạ chính tả IELTS.
+            <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, margin: '2px 0 0' }}>
+              Build keyboard muscle memory and rapid spelling recall for computer-delivered IELTS tests.
             </p>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
         {/* Topic Selector & Audio Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <select
-            className="input"
+            className="input-select"
             value={selectedTopic}
             onChange={(e) => setSelectedTopic(e.target.value)}
             style={{ width: 'auto', minWidth: 200, fontSize: 13, padding: '7px 12px' }}
@@ -269,17 +269,17 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
           <button
             className="btn btn-secondary"
             onClick={toggleAutoPlay}
-            title={autoPlayAudio ? 'Tắt tự động phát âm thanh' : 'Bật tự động phát âm thanh'}
+            title={autoPlayAudio ? 'Mute automatic pronunciation' : 'Enable automatic pronunciation'}
             style={{ padding: '8px 10px' }}
           >
             {autoPlayAudio ? (
-              <Volume2 size={16} style={{ color: 'var(--color-cobalt)' }} />
+              <Volume2 size={16} style={{ color: 'var(--color-accent)' }} />
             ) : (
-              <VolumeX size={16} style={{ color: 'var(--fg-muted)' }} />
+              <VolumeX size={16} style={{ color: 'var(--color-ink-muted)' }} />
             )}
           </button>
 
-          <button className="btn btn-secondary" onClick={resetState} title="Luyện tập lại từ đầu" style={{ padding: '8px 10px' }}>
+          <button className="btn btn-secondary" onClick={resetState} title="Restart drill" style={{ padding: '8px 10px' }}>
             <RotateCcw size={16} />
           </button>
         </div>
@@ -296,15 +296,15 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
       >
         {/* Accuracy */}
         <div className="card" style={{ padding: 14, textAlign: 'center' }}>
-          <div style={{ fontSize: 11, textTransform: 'uppercase', color: 'var(--fg-muted)', fontWeight: 700 }}>
-            Độ chính xác
+          <div style={{ fontSize: 11, textTransform: 'uppercase', color: 'var(--color-ink-muted)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+            Accuracy
           </div>
           <div
             style={{
               fontSize: 26,
               fontWeight: 800,
               fontFamily: 'var(--font-mono)',
-              color: accuracy >= 90 ? 'var(--color-emerald)' : 'var(--color-rose)'
+              color: accuracy >= 90 ? 'var(--color-moss)' : 'var(--color-brick)'
             }}
           >
             {accuracy}%
@@ -313,15 +313,15 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
 
         {/* WPM */}
         <div className="card" style={{ padding: 14, textAlign: 'center' }}>
-          <div style={{ fontSize: 11, textTransform: 'uppercase', color: 'var(--fg-muted)', fontWeight: 700 }}>
-            Tốc độ (WPM)
+          <div style={{ fontSize: 11, textTransform: 'uppercase', color: 'var(--color-ink-muted)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+            Speed (WPM)
           </div>
           <div
             style={{
               fontSize: 26,
               fontWeight: 800,
               fontFamily: 'var(--font-mono)',
-              color: 'var(--color-cobalt)'
+              color: 'var(--color-accent)'
             }}
           >
             {wpm}
@@ -330,15 +330,15 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
 
         {/* Progress */}
         <div className="card" style={{ padding: 14, textAlign: 'center' }}>
-          <div style={{ fontSize: 11, textTransform: 'uppercase', color: 'var(--fg-muted)', fontWeight: 700 }}>
-            Tiến độ
+          <div style={{ fontSize: 11, textTransform: 'uppercase', color: 'var(--color-ink-muted)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+            Progress
           </div>
           <div
             style={{
               fontSize: 26,
               fontWeight: 800,
               fontFamily: 'var(--font-mono)',
-              color: 'var(--fg)'
+              color: 'var(--color-ink)'
             }}
           >
             {words.length > 0 ? `${currentIndex + 1} / ${words.length}` : '0 / 0'}
@@ -348,55 +348,55 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
 
       {loading ? (
         <div className="card" style={{ padding: 60, textAlign: 'center' }}>
-          <p style={{ color: 'var(--fg-muted)' }}>Đang nạp danh sách từ vựng...</p>
+          <p style={{ color: 'var(--color-ink-muted)' }}>Loading vocabulary words...</p>
         </div>
       ) : words.length === 0 ? (
         <div className="card" style={{ padding: 60, textAlign: 'center' }}>
-          <p style={{ color: 'var(--fg-muted)' }}>Không có từ vựng nào trong chủ đề này.</p>
+          <p style={{ color: 'var(--color-ink-muted)' }}>No vocabulary found for this topic.</p>
         </div>
       ) : isFinished ? (
         /* ─── Completion Banner ─── */
-        <div className="card" style={{ padding: 36, textAlign: 'center', border: '2px solid var(--color-emerald)' }}>
+        <div className="card" style={{ padding: 36, textAlign: 'center', border: '1.5px solid var(--color-moss)' }}>
           <div
             style={{
-              width: 56,
-              height: 56,
+              width: 52,
+              height: 52,
               borderRadius: '50%',
-              background: 'var(--color-emerald-soft)',
-              color: 'var(--color-emerald)',
+              background: 'var(--color-moss-soft)',
+              color: 'var(--color-moss)',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: 16
             }}
           >
-            <Award size={32} />
+            <Award size={28} />
           </div>
-          <h2 style={{ fontSize: 24, margin: '0 0 8px' }}>Xuất sắc! Bạn đã hoàn thành chủ đề 🎉</h2>
-          <p style={{ color: 'var(--fg-muted)', fontSize: 15, maxWidth: 500, margin: '0 auto 24px' }}>
-            Tốc độ trung bình: <strong>{wpm} WPM</strong> · Độ chính xác: <strong>{accuracy}%</strong>.
+          <h2 style={{ fontSize: 22, margin: '0 0 8px' }}>Session Completed! Great Pace.</h2>
+          <p style={{ color: 'var(--color-ink-muted)', fontSize: 14.5, maxWidth: 480, margin: '0 auto 24px' }}>
+            Average Speed: <strong>{wpm} WPM</strong> · Accuracy: <strong>{accuracy}%</strong>.
             {isAuthenticated
               ? sessionSaved
-                ? ' Lịch sử bài tập và từ cần ôn đã được ghi nhận vào hệ thống SRS.'
-                : ' Đang lưu phiên học...'
-              : ' Đăng nhập để tự động lưu từ khó vào lộ trình ôn tập Leitner 5 hộp.'}
+                ? ' Session performance and review cards recorded into Leitner SRS.'
+                : ' Saving session...'
+              : ' Sign in to automatically log challenging words into your 5-box Leitner review schedule.'}
           </p>
 
           {Object.keys(mistakeWordMap).length > 0 && (
             <div style={{ marginBottom: 24, textAlign: 'left', maxWidth: 600, margin: '0 auto 24px' }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-rose)', marginBottom: 8 }}>
-                Các từ đã gõ nhầm ({Object.keys(mistakeWordMap).length} từ):
+              <h3 style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-brick)', marginBottom: 8, textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
+                Misspelled Words ({Object.keys(mistakeWordMap).length}):
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {Object.values(mistakeWordMap).map((m) => (
                   <span
                     key={m._id || m.word}
                     style={{
-                      background: 'var(--color-rose-soft)',
-                      color: 'var(--color-rose)',
+                      background: 'var(--color-brick-soft)',
+                      color: 'var(--color-brick)',
                       padding: '4px 10px',
                       borderRadius: 'var(--radius-sm)',
-                      fontSize: 13,
+                      fontSize: 12.5,
                       fontFamily: 'var(--font-mono)'
                     }}
                   >
@@ -409,12 +409,12 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
             <button className="btn btn-primary" onClick={resetState} style={{ gap: 8 }}>
-              <RotateCcw size={16} />
-              <span>Luyện lại chủ đề này</span>
+              <RotateCcw size={15} />
+              <span>Practice Topic Again</span>
             </button>
             {!isAuthenticated && (
               <button className="btn btn-secondary" onClick={onOpenAuth}>
-                Đăng nhập để lưu tiến độ
+                Sign in to Sync Progress
               </button>
             )}
           </div>
@@ -552,8 +552,8 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
             )}
 
             {currentWordData?.paraphrases && currentWordData.paraphrases.length > 0 && (
-              <div style={{ fontSize: 13, color: 'var(--fg-muted)', marginTop: 4 }}>
-                <strong>Từ đồng nghĩa IELTS:</strong> {currentWordData.paraphrases.join(', ')}
+              <div style={{ fontSize: 13, color: 'var(--color-ink-muted)', marginTop: 4 }}>
+                <strong>IELTS Paraphrases:</strong> {currentWordData.paraphrases.join(', ')}
               </div>
             )}
 

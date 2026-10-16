@@ -84,20 +84,20 @@ export default function MistakeVault({ onBack, isAuthenticated = false, onOpenAu
 
       {!isAuthenticated ? (
         <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
-          <div className="empty-icon" style={{ width: 56, height: 56, margin: '0 auto 16px', background: 'var(--color-rose-surface)', color: 'var(--color-rose)', borderColor: 'var(--color-rose-border)' }}>
+          <div className="empty-icon" style={{ width: 56, height: 56, margin: '0 auto 16px', background: 'var(--color-brick-soft)', color: 'var(--color-brick)', borderColor: 'var(--color-border)' }}>
             <Lock size={28} />
           </div>
-          <h2 style={{ fontSize: 22, marginBottom: 6 }}>Sổ lỗi sai yêu cầu đăng nhập</h2>
-          <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, maxWidth: 440, margin: '0 auto 24px' }}>
-            Mỗi học viên có một kho lưu trữ riêng ghi lại các câu làm sai và phân tích nguyên nhân gốc rễ (Root Cause Taxonomy).
+          <h2 style={{ fontSize: 22, marginBottom: 6 }}>Mistake Vault Requires Authentication</h2>
+          <p style={{ color: 'var(--color-ink-muted)', fontSize: 14.5, maxWidth: 460, margin: '0 auto 24px' }}>
+            Each student has a dedicated repository logging question errors and diagnostic root-cause taxonomies.
           </p>
           <div className="row" style={{ justifyContent: 'center', gap: 12 }}>
             <button className="btn btn-primary" onClick={onOpenAuth}>
-              <span>Đăng nhập ngay</span>
+              <span>Sign In Now</span>
             </button>
             {onBack && (
               <button className="btn btn-secondary" onClick={onBack}>
-                <span>Về Dashboard</span>
+                <span>Back to Workspace</span>
               </button>
             )}
           </div>

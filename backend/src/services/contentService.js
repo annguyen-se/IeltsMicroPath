@@ -241,14 +241,14 @@ const getLessonById = async (id, user = null) => {
     .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media readingTier tier')
     .sort({ orderIndex: 1, createdAt: 1 });
 
-  if (isReviewUnlocked) {
-    // Return full data
+  if (isReviewUnlocked || lesson.contentType !== 'practice') {
+    // Return full data with answers & explanations for modal theory/skill drills
     const vocabularies = lesson.vocabIds || [];
     return {
       lesson,
       questions: rawQuestions,
       vocabularies,
-      isReviewUnlocked: true
+      isReviewUnlocked: isReviewUnlocked || lesson.contentType !== 'practice'
     };
   }
 

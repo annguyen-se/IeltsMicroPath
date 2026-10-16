@@ -1,3 +1,5 @@
+/* Hallmark · macrostructure: Narrative Workflow · tone: editorial · anchor hue: 44 */
+/* Hallmark · genre: editorial · macrostructure: Narrative Workflow · design-system: design.md · designed-as-app */
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../../api/apiClient';
@@ -5,6 +7,7 @@ import { playWordAudio } from '../../utils/audio';
 import MarkdownView from '../../components/MarkdownView';
 import {
   ArrowLeft,
+  ArrowRight,
   BookOpen,
   Headphones,
   Mic,
@@ -18,17 +21,28 @@ import {
   X,
   CheckCircle,
   XCircle,
-  Sparkles
+  RotateCcw,
+  Trophy,
+  Sparkles,
+  BookMarked
 } from 'lucide-react';
 
 const SKILLS = [
-  { key: 'all', label: 'Tất cả', icon: Sparkles },
-  { key: 'listening', label: 'Listening', icon: Headphones },
-  { key: 'reading', label: 'Reading', icon: BookOpen },
-  { key: 'speaking', label: 'Speaking', icon: Mic },
-  { key: 'writing', label: 'Writing', icon: PenLine },
-  { key: 'grammar', label: 'Grammar', icon: FileText },
-  { key: 'phonetics', label: 'Pronunciation', icon: AudioLines }
+  { key: 'all', label: 'All Curriculum', icon: Sparkles },
+  { key: 'writing', label: 'Writing (Task 1 & 2)', icon: PenLine },
+  { key: 'grammar', label: 'Academic Grammar', icon: FileText },
+  { key: 'reading', label: 'Reading & Paraphrasing', icon: BookOpen },
+  { key: 'phonetics', label: 'Pronunciation & IPA', icon: AudioLines },
+  { key: 'listening', label: 'Listening & Dictation', icon: Headphones },
+  { key: 'speaking', label: 'Speaking Foundations', icon: Mic }
+];
+
+const STAGES = [
+  { key: 'all', label: 'All Stages' },
+  { key: '0', label: 'Stage 0: Sentence Foundation' },
+  { key: '1', label: 'Stage 1: Paragraph Architecture' },
+  { key: '2', label: 'Stage 2: Task 2 Argumentation' },
+  { key: '3', label: 'Stage 3: Full Essay & Band Descriptors' }
 ];
 
 export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAuth }) {
@@ -49,19 +63,22 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
   const [activeTab, setActiveTab] = useState('theory'); // 'theory' | 'vocab' | 'quiz'
 
   // Quiz state inside lesson modal
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({});
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [questionResults, setQuestionResults] = useState({});
+  const [quizFinished, setQuizFinished] = useState(false);
+  const [, setIsSubmittingQuiz] = useState(false);
 
   // Vocab enrollment state
   const [enrolledVocabs, setEnrolledVocabs] = useState(new Set());
   const [enrollNotice, setEnrollNotice] = useState('');
 
-  const handleCheckQuiz = async () => {
-    setQuizSubmitted(true);
+  const submitCompletedQuiz = async (results = questionResults) => {
     if (!isAuthenticated) return;
-
+    setIsSubmittingQuiz(true);
     try {
-      const answersPayload = (lessonDetail?.questions || []).map((q) => ({
+      const allQuestions = lessonDetail?.questions || [];
+      const answersPayload = allQuestions.map((q) => ({
         questionId: q._id,
         userAnswer: quizAnswers[q._id] || ''
       }));
@@ -74,12 +91,64 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
       });
 
       if (res?.isLessonMastered || res?.lessonReviewData?.passed) {
-        setEnrollNotice('Chúc mừng! Bạn đã hoàn thành bài học và mở khóa bài tiếp theo.');
+        setEnrollNotice('Lesson completed! The next module on your curriculum DAG is now unlocked.');
         await fetchLessons();
       }
     } catch (err) {
       console.warn('[Quiz Submit Error]:', err.message);
+    } finally {
+      setIsSubmittingQuiz(false);
     }
+  };
+
+  const handleCheckSingleQuestion = async (q) => {
+    const userAns = (quizAnswers[q._id] || '').trim();
+    if (!userAns) return;
+
+    const cleanAns = userAns.toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').replace(/[.,!?;:]+$/, '');
+    const correctAns = (q.correctAnswer || '').trim().toLowerCase().replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').replace(/[.,!?;:]+$/, '');
+
+    const hasVariant =
+      (q.options && q.options.some((opt) => opt.trim().toLowerCase().replace(/[.,!?;:]+$/, '') === cleanAns && cleanAns === correctAns)) ||
+      (q.acceptableAnswers && q.acceptableAnswers.some((opt) => opt.trim().toLowerCase().replace(/[.,!?;:]+$/, '') === cleanAns));
+
+    const isCorrect = cleanAns === correctAns || hasVariant;
+
+    const updatedResults = {
+      ...questionResults,
+      [q._id]: {
+        checked: true,
+        isCorrect,
+        userAnswer: userAns,
+        correctAnswer: q.correctAnswer,
+        explanation: q.explanation || ''
+      }
+    };
+    setQuestionResults(updatedResults);
+
+    const allQuestions = lessonDetail?.questions || [];
+    if (Object.keys(updatedResults).length === allQuestions.length) {
+      await submitCompletedQuiz(updatedResults);
+    }
+  };
+
+  const handleRetryQuestion = (qId) => {
+    setQuestionResults((prev) => {
+      const next = { ...prev };
+      delete next[qId];
+      return next;
+    });
+    setQuizAnswers((prev) => ({
+      ...prev,
+      [qId]: ''
+    }));
+  };
+
+  const handleResetQuiz = () => {
+    setCurrentQuizIndex(0);
+    setQuizAnswers({});
+    setQuestionResults({});
+    setQuizFinished(false);
   };
 
   const handleEnrollSingleVocab = async (vocabId) => {
@@ -89,11 +158,11 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
     }
     try {
       await api.post('/reviews/enroll', { vocabId });
-      setEnrolledVocabs(prev => new Set([...prev, vocabId]));
-      setEnrollNotice('Đã thêm từ vào Hộp 1 SRS!');
+      setEnrolledVocabs((prev) => new Set([...prev, vocabId]));
+      setEnrollNotice('Enrolled in Leitner Box 1 for spaced review!');
       setTimeout(() => setEnrollNotice(''), 2500);
     } catch (err) {
-      setEnrollNotice(`Lỗi: ${err.message}`);
+      setEnrollNotice(`Error: ${err.message}`);
     }
   };
 
@@ -102,16 +171,16 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
       if (onOpenAuth) onOpenAuth();
       return;
     }
-    const vocabIds = (lessonDetail?.vocabularies || []).map(v => v._id);
+    const vocabIds = (lessonDetail?.vocabularies || []).map((v) => v._id);
     if (vocabIds.length === 0) return;
 
     try {
       await api.post('/reviews/enroll', { vocabIds });
-      setEnrolledVocabs(prev => new Set([...prev, ...vocabIds]));
-      setEnrollNotice(`Đã nạp toàn bộ ${vocabIds.length} từ của bài vào Hộp 1 SRS!`);
+      setEnrolledVocabs((prev) => new Set([...prev, ...vocabIds]));
+      setEnrollNotice(`All ${vocabIds.length} academic words enrolled in Leitner Box 1!`);
       setTimeout(() => setEnrollNotice(''), 3000);
     } catch (err) {
-      setEnrollNotice(`Lỗi: ${err.message}`);
+      setEnrollNotice(`Error: ${err.message}`);
     }
   };
 
@@ -147,7 +216,7 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
 
   const handleOpenLesson = async (lesson) => {
     if (!lesson.isUnlocked && !lesson.isMastered) {
-      return; // Locked
+      return;
     }
 
     if (lesson.contentType === 'practice') {
@@ -157,8 +226,11 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
 
     setActiveLessonId(lesson._id);
     setActiveTab('theory');
+    setCurrentQuizIndex(0);
     setQuizAnswers({});
-    setQuizSubmitted(false);
+    setQuestionResults({});
+    setQuizFinished(false);
+    setEnrollNotice('');
 
     try {
       setLoadingDetail(true);
@@ -176,76 +248,89 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
   };
 
   return (
-    <div className="stack" style={{ gap: 24 }}>
-      {/* ─── Top Header ─── */}
-      <div className="row-between">
-        <div>
-          <h1 style={{ fontSize: 26, marginBottom: 4 }}>Thư viện bài học theo kỹ năng</h1>
-          <p style={{ color: 'var(--fg-muted)', fontSize: 15 }}>
-            Khám phá lộ trình bài học vi mô, học lý thuyết, nạp từ vựng và mở khóa các mốc điều kiện tiên quyết (DAG).
-          </p>
-        </div>
-        <button
-          className="btn btn-secondary"
-          onClick={() => (onBack ? onBack() : navigate('/'))}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
-        >
-          <ArrowLeft size={16} />
-          <span>Về Dashboard</span>
-        </button>
-      </div>
-
-      {/* ─── Skill Filter Tabs ─── */}
-      <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
-        {SKILLS.map((sk) => {
-          const Icon = sk.icon;
-          const isActive = selectedSkill === sk.key;
-          return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
+      {/* ─── 1. Academic Syllabus Header ─── */}
+      <section className="catalog-header">
+        <div className="section-head" style={{ marginBottom: 'var(--space-sm)' }}>
+          <span className="section-kicker">
+            <BookMarked size={13} aria-hidden="true" /> IELTS Writing Hub · Micro-Skill Curriculum
+          </span>
+          <div className="section-head-row">
+            <div>
+              <h1 className="section-title">Curriculum Library & Prerequisite DAG Graph</h1>
+              <p className="section-desc">
+                Structured academic micro-lessons arranged in a prerequisite learning graph: acquire sentence theory, master academic collocations, and evaluate drills to activate subsequent milestones.
+              </p>
+            </div>
             <button
-              key={sk.key}
-              className={`btn ${isActive ? 'btn-primary' : 'btn-secondary'}`}
-              style={{ fontSize: 13, padding: '8px 14px', display: 'inline-flex', alignItems: 'center', gap: 6 }}
-              onClick={() => handleSelectSkill(sk.key)}
-            >
-              <Icon size={15} />
-              <span>{sk.label}</span>
+              className="btn btn-secondary btn-sm"
+              onClick={() => (onBack ? onBack() : navigate('/'))}>
+              <ArrowLeft size={14} aria-hidden="true" />
+              <span>Back to Workspace</span>
             </button>
-          );
-        })}
-      </div>
+          </div>
+        </div>
+      </section>
 
-      {/* ─── Level Filter Sub-tabs ─── */}
-      <div className="row" style={{ gap: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--fg-muted)', fontWeight: 600 }}>Cấp độ:</span>
-        {['all', '0', '1', '2', '3'].map((lvl) => (
-          <button
-            key={lvl}
-            className={`pill ${selectedLevel === lvl ? 'pill-cobalt' : 'pill-muted'}`}
-            style={{ cursor: 'pointer', fontSize: 12, padding: '4px 10px' }}
-            onClick={() => setSelectedLevel(lvl)}
-          >
-            {lvl === 'all' ? 'Tất cả level' : `Level ${lvl}`}
-          </button>
-        ))}
-      </div>
+      {/* ─── 2. Filter Bar: Skill Tracks & Stages ─── */}
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+        {/* Track filter row */}
+        <div className="filter-track-bar" role="tablist" aria-label="Filter by skill track">
+          {SKILLS.map((sk) => {
+            const Icon = sk.icon;
+            const isActive = selectedSkill === sk.key;
+            return (
+              <button
+                key={sk.key}
+                role="tab"
+                aria-selected={isActive}
+                className={`filter-chip ${isActive ? 'active' : ''}`}
+                onClick={() => handleSelectSkill(sk.key)}
+              >
+                <Icon size={14} aria-hidden="true" />
+                <span>{sk.label}</span>
+              </button>
+            );
+          })}
+        </div>
 
-      {/* ─── Lessons List ─── */}
+        {/* Stage / Level sub-filter */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--color-ink-muted)', textTransform: 'uppercase', marginRight: 4 }}>
+            Stage:
+          </span>
+          {STAGES.map((stg) => (
+            <button
+              key={stg.key}
+              className={`pill ${selectedLevel === stg.key ? 'pill-cobalt' : 'pill-muted'}`}
+              style={{ cursor: 'pointer', padding: '5px 12px' }}
+              onClick={() => setSelectedLevel(stg.key)}
+            >
+              {stg.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── 3. Course Syllabus Cards Grid ─── */}
       {loading && (
-        <div className="card" style={{ textAlign: 'center', padding: 48 }}>
-          <p style={{ color: 'var(--fg-muted)' }}>Đang tải danh sách bài học...</p>
+        <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+          <p style={{ color: 'var(--color-ink-muted)', fontSize: 14 }}>
+            Loading curriculum modules...
+          </p>
         </div>
       )}
 
       {!loading && lessons.length === 0 && (
-        <div className="card" style={{ textAlign: 'center', padding: 48 }}>
-          <p style={{ color: 'var(--fg-muted)', fontSize: 15 }}>
-            Chưa có bài học nào được xuất bản cho kỹ năng và cấp độ này.
+        <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+          <p style={{ color: 'var(--color-ink-muted)', fontSize: 14 }}>
+            No lessons published for this skill track and stage combination.
           </p>
         </div>
       )}
 
       {!loading && lessons.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+        <div className="syllabus-grid">
           {lessons.map((lesson) => {
             const isMastered = lesson.status === 'mastered';
             const isUnlocked = lesson.status === 'unlocked' || isMastered;
@@ -253,69 +338,65 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
             return (
               <div
                 key={lesson._id}
-                className="card"
+                className={`syllabus-card ${!isUnlocked ? 'is-locked' : ''}`}
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  gap: 14,
-                  opacity: isUnlocked ? 1 : 0.65,
                   borderLeft: isMastered
-                    ? '4px solid var(--color-emerald)'
+                    ? '3px solid var(--color-moss)'
                     : isUnlocked
-                    ? '4px solid var(--color-cobalt)'
-                    : '4px solid var(--border-strong)'
+                    ? '3px solid var(--color-accent)'
+                    : '3px solid var(--color-border)'
                 }}
               >
                 <div>
-                  <div className="row-between" style={{ marginBottom: 8 }}>
-                    <span className="soft-pill" style={{ textTransform: 'uppercase', fontSize: 11, fontWeight: 700 }}>
-                      Level {lesson.level} · {lesson.skill} {lesson.contentType === 'practice' ? '· Bài đọc' : '· Lý thuyết'}
+                  <div className="syllabus-meta-row">
+                    <span className="syllabus-badge">
+                      LEVEL {lesson.level} · {lesson.skill?.toUpperCase()} {lesson.contentType === 'practice' ? '· PRACTICE & READING' : '· THEORY & DRILL'}
                     </span>
                     {isMastered ? (
-                      <span className="pill pill-success" style={{ fontSize: 11 }}>
-                        <Check size={12} /> Đã thuộc
+                      <span className="syllabus-badge mastered">
+                        <Check size={11} aria-hidden="true" /> MASTERED
                       </span>
                     ) : isUnlocked ? (
-                      <span className="pill pill-cobalt" style={{ fontSize: 11 }}>
-                        Sẵn sàng học
+                      <span className="syllabus-badge" style={{ color: 'var(--color-accent)' }}>
+                        READY TO LEARN
                       </span>
                     ) : (
-                      <span className="pill pill-muted" style={{ fontSize: 11 }}>
-                        <Lock size={12} /> Bị khóa
+                      <span className="syllabus-badge">
+                        <Lock size={11} aria-hidden="true" /> LOCKED (PREREQUISITES)
                       </span>
                     )}
                   </div>
 
-                  <h3 style={{ fontSize: 17, margin: '6px 0', lineHeight: 1.3 }}>{lesson.title}</h3>
-                  <p style={{ fontSize: 13, color: 'var(--fg-muted)' }}>Chủ đề: {lesson.topic || 'General'}</p>
+                  <h3 className="syllabus-title">{lesson.title}</h3>
+                  <p className="syllabus-summary">
+                    Topic: {lesson.topic || 'General Academic'}
+                  </p>
 
                   {lesson.prerequisites && lesson.prerequisites.length > 0 && !isUnlocked && (
-                    <div style={{ marginTop: 8, fontSize: 11, color: 'var(--color-rose)' }}>
-                      Yêu cầu hoàn thành trước:{' '}
-                      {lesson.prerequisites.map((p) => (typeof p === 'object' ? p.title : p)).join(', ')}
+                    <div style={{ marginTop: 'var(--space-xs)', fontSize: 11, color: 'var(--color-brick)', fontFamily: 'var(--font-mono)' }}>
+                      Prerequisites required: {lesson.prerequisites.map((p) => (typeof p === 'object' ? p.title : p)).join(', ')}
                     </div>
                   )}
                 </div>
 
-                <div style={{ paddingTop: 10, borderTop: '1px solid var(--border)' }}>
+                <div style={{ paddingTop: 'var(--space-sm)', borderTop: '1px solid var(--color-rule)' }}>
                   {isUnlocked ? (
                     <button
                       className="btn btn-primary"
-                      style={{ width: '100%', fontSize: 13, padding: '8px 14px' }}
+                      style={{ width: '100%' }}
                       onClick={() => handleOpenLesson(lesson)}
                     >
-                      <Play size={14} fill="currentColor" />
-                      <span>{isMastered ? 'Học lại bài này' : 'Vào học ngay'}</span>
+                      <Play size={13} fill="currentColor" aria-hidden="true" />
+                      <span>{isMastered ? 'Review Lesson' : 'Open Lesson'}</span>
                     </button>
                   ) : (
                     <button
                       className="btn btn-secondary"
-                      style={{ width: '100%', fontSize: 13, padding: '8px 14px', cursor: 'not-allowed' }}
+                      style={{ width: '100%', opacity: 0.6 }}
                       disabled
                     >
-                      <Lock size={14} />
-                      <span>Chưa mở khóa</span>
+                      <Lock size={13} aria-hidden="true" />
+                      <span>Locked (Prerequisites)</span>
                     </button>
                   )}
                 </div>
@@ -325,263 +406,549 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
         </div>
       )}
 
-      {/* ─── Lesson Study Modal ─── */}
+      {/* ─── 4. Outer Study Workspace Modal Container ─── */}
+      {/* Outer shell formatted cleanly, ready to host specific user editor and feedback panels */}
       {activeLessonId && (
-        <div className="modal-backdrop" style={{ display: 'grid' }}>
-          <div
-            className="modal-box"
-            style={{
-              maxWidth: 780,
-              width: '100%',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              textAlign: 'left',
-              padding: 28
-            }}
-          >
+        <div className="study-modal-backdrop" role="dialog" aria-modal="true" aria-label="Lesson Study Sanctuary">
+          <div className="study-workspace-shell">
             {/* Modal Topbar */}
-            <div className="row-between" style={{ marginBottom: 16, borderBottom: '1px solid var(--border)', paddingBottom: 12 }}>
-              <div>
-                <span className="soft-pill" style={{ textTransform: 'uppercase', fontSize: 11, fontWeight: 700 }}>
-                  Level {lessonDetail?.lesson?.level ?? 0} · {lessonDetail?.lesson?.skill}
+            <div className="study-topbar">
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <span className="syllabus-badge" style={{ marginBottom: 4 }}>
+                  LEVEL {lessonDetail?.lesson?.level ?? 0} · {lessonDetail?.lesson?.skill?.toUpperCase()}
                 </span>
-                <h2 style={{ fontSize: 22, marginTop: 6 }}>{lessonDetail?.lesson?.title || 'Đang tải bài học...'}</h2>
+                <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--color-ink)' }}>
+                  {lessonDetail?.lesson?.title || 'Loading lesson...'}
+                </h2>
               </div>
               <button
                 className="btn btn-ghost"
+                style={{ padding: 8 }}
                 onClick={() => {
                   setActiveLessonId(null);
                   setLessonDetail(null);
                 }}
+                aria-label="Close study window"
               >
                 <X size={18} />
               </button>
             </div>
 
             {loadingDetail ? (
-              <p style={{ color: 'var(--fg-muted)', padding: 30, textAlign: 'center' }}>Đang nạp dữ liệu bài học...</p>
+              <div style={{ padding: 'var(--space-3xl)', textAlign: 'center', color: 'var(--color-ink-muted)' }}>
+                Loading lesson framework and practice blocks...
+              </div>
             ) : (
               <>
                 {/* Lesson Navigation Tabs */}
-                <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+                <div className="study-tab-strip" role="tablist">
                   <button
-                    className={`btn ${activeTab === 'theory' ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ fontSize: 13, padding: '7px 14px' }}
+                    role="tab"
+                    aria-selected={activeTab === 'theory'}
+                    className={`study-tab-btn ${activeTab === 'theory' ? 'active' : ''}`}
                     onClick={() => setActiveTab('theory')}
                   >
-                    1. Lý thuyết bài học
+                    1. Theoretical Framework & Rules
                   </button>
                   <button
-                    className={`btn ${activeTab === 'vocab' ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ fontSize: 13, padding: '7px 14px' }}
+                    role="tab"
+                    aria-selected={activeTab === 'vocab'}
+                    className={`study-tab-btn ${activeTab === 'vocab' ? 'active' : ''}`}
                     onClick={() => setActiveTab('vocab')}
                   >
-                    2. Từ vựng cốt lõi ({lessonDetail?.vocabularies?.length || 0})
+                    2. Core Academic Lexis ({lessonDetail?.vocabularies?.length || 0})
                   </button>
                   <button
-                    className={`btn ${activeTab === 'quiz' ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ fontSize: 13, padding: '7px 14px' }}
+                    role="tab"
+                    aria-selected={activeTab === 'quiz'}
+                    className={`study-tab-btn ${activeTab === 'quiz' ? 'active' : ''}`}
                     onClick={() => setActiveTab('quiz')}
                   >
-                    3. Bài tập thực hành ({lessonDetail?.questions?.length || 0})
+                    3. Practice Drills & Application ({lessonDetail?.questions?.length || 0})
                   </button>
                 </div>
 
-                {/* Tab 1: Theory */}
-                {activeTab === 'theory' && (
-                  <div className="card" style={{ background: 'var(--surface-subtle)', padding: 24 }}>
-                    <MarkdownView content={lessonDetail?.lesson?.contentMarkdown} />
-                    {lessonDetail?.questions && lessonDetail.questions.length > 0 && (
-                      <div style={{ marginTop: 24, textAlign: 'center', paddingTop: 16, borderTop: '1px solid var(--border)' }}>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => setActiveTab('quiz')}
-                          style={{ fontSize: 14, padding: '8px 18px' }}
-                        >
-                          Làm bài kiểm tra nhanh ({lessonDetail.questions.length} câu)
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Tab 2: Vocabularies */}
-                {activeTab === 'vocab' && (
-                  <div className="stack" style={{ gap: 14 }}>
-                    {enrollNotice && (
-                      <div
-                        style={{
-                          padding: '10px 14px',
-                          borderRadius: 8,
-                          fontSize: 13,
-                          fontWeight: 600,
-                          background: 'var(--color-emerald-surface)',
-                          color: 'var(--color-emerald)',
-                          border: '1px solid var(--color-emerald-border)',
-                          textAlign: 'center'
-                        }}
-                      >
-                        {enrollNotice}
-                      </div>
-                    )}
-
-                    {lessonDetail?.vocabularies && lessonDetail.vocabularies.length > 0 && (
-                      <div className="row-between" style={{ padding: '4px 0' }}>
-                        <span style={{ fontSize: 13, color: 'var(--fg-muted)' }}>
-                          {lessonDetail.vocabularies.length} từ vựng trọng tâm
-                        </span>
-                        <button
-                          className="btn btn-primary"
-                          style={{ fontSize: 12, padding: '6px 12px' }}
-                          onClick={handleEnrollAllVocabsInLesson}
-                        >
-                          + Nạp tất cả từ này vào Hộp 1 SRS
-                        </button>
-                      </div>
-                    )}
-
-                    {(!lessonDetail?.vocabularies || lessonDetail.vocabularies.length === 0) && (
-                      <p style={{ color: 'var(--fg-muted)', fontSize: 14 }}>Bài học này không đính kèm từ vựng mới.</p>
-                    )}
-
-                    {lessonDetail?.vocabularies?.map((v) => {
-                      const isEnrolled = enrolledVocabs.has(v._id);
-                      return (
-                        <div key={v._id} className="card" style={{ background: 'var(--surface-subtle)', padding: 18 }}>
-                          <div className="row-between">
-                            <div>
-                              <h3 style={{ fontSize: 20, margin: 0 }}>{v.word}</h3>
-                              <span className="ipa" style={{ color: 'var(--color-cobalt)', fontSize: 14 }}>
-                                {v.ipa} · {v.pos}
-                              </span>
-                            </div>
-                            <div className="row" style={{ gap: 8 }}>
-                              <button
-                                className="btn btn-secondary"
-                                onClick={() => playAudio(v.media?.url, v.word)}
-                                style={{ gap: 6, fontSize: 12 }}
-                              >
-                                <Volume2 size={14} />
-                                <span>Nghe</span>
-                              </button>
-                              <button
-                                className={`btn ${isEnrolled ? 'btn-secondary' : 'btn-primary'}`}
-                                style={{ fontSize: 12, padding: '5px 10px' }}
-                                onClick={() => handleEnrollSingleVocab(v._id)}
-                                disabled={isEnrolled}
-                              >
-                                {isEnrolled ? '✓ Đã trong SRS' : '+ Thêm vào SRS'}
-                              </button>
-                            </div>
-                          </div>
-                          <p style={{ marginTop: 8, fontSize: 14, fontWeight: 600 }}>Nghĩa: {v.meaningVi}</p>
-                          {v.exampleSentence && (
-                            <p style={{ marginTop: 4, fontSize: 13, color: 'var(--fg-muted)' }}>Ví dụ: "{v.exampleSentence}"</p>
-                          )}
-                          {v.collocations && v.collocations.length > 0 && (
-                            <div style={{ marginTop: 6, fontSize: 12, color: 'var(--color-emerald)' }}>
-                              Collocations: {v.collocations.join(', ')}
-                            </div>
-                          )}
+                {/* Main Content Sanctuary Body */}
+                <div className="study-content-container">
+                  {/* Tab 1: Theory */}
+                  {activeTab === 'theory' && (
+                    <div className="card" style={{ background: 'var(--color-surface)', padding: 'var(--space-xl)' }}>
+                      <MarkdownView content={lessonDetail?.lesson?.contentMarkdown} />
+                      {lessonDetail?.questions && lessonDetail.questions.length > 0 && (
+                        <div style={{ marginTop: 'var(--space-xl)', textAlign: 'center', paddingTop: 'var(--space-lg)', borderTop: '1px solid var(--color-rule)' }}>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => setActiveTab('quiz')}
+                          >
+                            <span>Proceed to Practice Drill ({lessonDetail.questions.length} questions)</span>
+                            <ArrowRight size={14} aria-hidden="true" />
+                          </button>
                         </div>
-                      );
-                    })}
-                  </div>
-                )}
+                      )}
+                    </div>
+                  )}
 
-                {/* Tab 3: Practice Questions */}
-                {activeTab === 'quiz' && (
-                  <div className="stack" style={{ gap: 16 }}>
-                    {(!lessonDetail?.questions || lessonDetail.questions.length === 0) && (
-                      <p style={{ color: 'var(--fg-muted)', fontSize: 14 }}>Chưa có câu hỏi trắc nghiệm cho bài này.</p>
-                    )}
-                    {lessonDetail?.questions?.map((q, idx) => {
-                      const userAns = quizAnswers[q._id];
-                      const cleanAns = (userAns || '').trim().toLowerCase();
-                      const isExact = cleanAns === (q.correctAnswer || '').trim().toLowerCase();
-                      const isVariant = q.options && q.options.some((opt) => cleanAns === opt.toLowerCase().trim());
-                      const isCorrect = userAns && (isExact || isVariant);
+                  {/* Tab 2: Vocabularies */}
+                  {activeTab === 'vocab' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+                      {enrollNotice && (
+                        <div
+                          style={{
+                            padding: '10px 16px',
+                            borderRadius: 'var(--radius-sm)',
+                            fontSize: 13,
+                            fontWeight: 600,
+                            background: 'var(--color-moss-soft)',
+                            color: 'var(--color-moss)',
+                            border: '1px solid var(--color-rule)',
+                            textAlign: 'center'
+                          }}
+                        >
+                          {enrollNotice}
+                        </div>
+                      )}
 
-                      return (
-                        <div key={q._id} className="card" style={{ background: 'var(--surface-subtle)', padding: 18 }}>
-                          <span style={{ fontSize: 12, color: 'var(--color-cobalt)', fontWeight: 700 }}>
-                            CÂU {idx + 1} ({q.type ? q.type.toUpperCase() : 'PRACTICE'} · {q.errorTaxonomy || 'ERR_LEX'})
+                      {lessonDetail?.vocabularies && lessonDetail.vocabularies.length > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 0' }}>
+                          <span style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}>
+                            {lessonDetail.vocabularies.length} Core Academic Collocations
                           </span>
-                          <p style={{ fontSize: 16, fontWeight: 600, margin: '8px 0 12px' }}>{q.prompt}</p>
+                          <button
+                            className="btn btn-secondary btn-sm"
+                            onClick={handleEnrollAllVocabsInLesson}
+                          >
+                            + Enroll All in Box 1 SRS
+                          </button>
+                        </div>
+                      )}
 
-                          {q.type === 'dictation' && (
-                            <div style={{ marginBottom: 12 }}>
+                      {(!lessonDetail?.vocabularies || lessonDetail.vocabularies.length === 0) && (
+                        <p style={{ color: 'var(--color-ink-muted)', fontSize: 14 }}>
+                          No vocabulary items attached to this module.
+                        </p>
+                      )}
+
+                      {lessonDetail?.vocabularies?.map((v) => {
+                        const isEnrolled = enrolledVocabs.has(v._id);
+                        return (
+                          <div key={v._id} className="card" style={{ padding: 'var(--space-md)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                              <div>
+                                <h3 style={{ fontSize: 18, margin: 0, fontWeight: 700 }}>{v.word}</h3>
+                                <span className="ipa" style={{ color: 'var(--color-accent)', fontSize: 13, display: 'inline-block', marginTop: 2 }}>
+                                  {v.ipa} · {v.pos}
+                                </span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <button
+                                  className="btn btn-secondary btn-sm"
+                                  onClick={() => playAudio(v.media?.url, v.word)}
+                                >
+                                  <Volume2 size={13} />
+                                  <span>Listen</span>
+                                </button>
+                                <button
+                                  className={`btn ${isEnrolled ? 'btn-secondary' : 'btn-primary'} btn-sm`}
+                                  onClick={() => handleEnrollSingleVocab(v._id)}
+                                  disabled={isEnrolled}
+                                >
+                                  {isEnrolled ? '✓ In SRS' : '+ Add to SRS'}
+                                </button>
+                              </div>
+                            </div>
+                            {/* MeaningVi preserved per Language Policy rule 3: abstract concept anchor for A2-B1 learners */}
+                            <p style={{ marginTop: 8, fontSize: 13.5, fontWeight: 600, color: 'var(--color-ink)' }}>
+                              Meaning (Nghĩa tiếng Việt): {v.meaningVi}
+                            </p>
+                            {v.exampleSentence && (
+                              <p style={{ marginTop: 4, fontSize: 13, color: 'var(--color-ink-muted)' }}>
+                                Academic Example: "{v.exampleSentence}"
+                              </p>
+                            )}
+                            {v.collocations && v.collocations.length > 0 && (
+                              <div style={{ marginTop: 6, fontSize: 12, color: 'var(--color-moss)', fontFamily: 'var(--font-mono)' }}>
+                                Collocations: {v.collocations.join(', ')}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Tab 3: Practice Questions (One-by-one check stepper container) */}
+                  {activeTab === 'quiz' && (() => {
+                    const allQuestions = lessonDetail?.questions || [];
+                    const checkedKeys = Object.keys(questionResults);
+                    const correctCount = checkedKeys.filter((k) => questionResults[k]?.isCorrect).length;
+                    const passedPercentage = allQuestions.length > 0 ? Math.round((correctCount / allQuestions.length) * 100) : 0;
+                    const q = allQuestions[currentQuizIndex];
+
+                    return (
+                      <div>
+                        {allQuestions.length === 0 ? (
+                          <div className="card" style={{ padding: 32, textAlign: 'center' }}>
+                            <p style={{ color: 'var(--color-ink-muted)', fontSize: 14 }}>
+                              No practice drill questions attached to this lesson.
+                            </p>
+                          </div>
+                        ) : quizFinished ? (
+                          /* Quiz Summary */
+                          <div className="card" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
+                            <div
+                              style={{
+                                width: 52,
+                                height: 52,
+                                margin: '0 auto var(--space-md)',
+                                borderRadius: '50%',
+                                background: passedPercentage >= 75 ? 'var(--color-moss-soft)' : 'var(--color-brick-soft)',
+                                color: passedPercentage >= 75 ? 'var(--color-moss)' : 'var(--color-brick)',
+                                display: 'grid',
+                                placeItems: 'center'
+                              }}
+                            >
+                              {passedPercentage >= 75 ? <Trophy size={26} /> : <XCircle size={26} />}
+                            </div>
+
+                            <h3 style={{ fontSize: 20, margin: '0 0 6px' }}>
+                              {passedPercentage >= 75 ? 'Drill Completed Successfully!' : 'Benchmark Not Reached (Requires ≥ 75%)'}
+                            </h3>
+
+                            <div
+                              style={{
+                                fontSize: 28,
+                                fontWeight: 700,
+                                margin: '10px 0',
+                                color: passedPercentage >= 75 ? 'var(--color-moss)' : 'var(--color-brick)',
+                                fontFamily: 'var(--font-mono)'
+                              }}
+                            >
+                              {correctCount} / {allQuestions.length} correct ({passedPercentage}%)
+                            </div>
+
+                            <p style={{ color: 'var(--color-ink-muted)', fontSize: 14, maxWidth: 460, margin: '0 auto 20px', lineHeight: 1.5 }}>
+                              {passedPercentage >= 75
+                                ? 'Congratulations! You have demonstrated mastery of this syntactic structure and unlocked the next curriculum milestone.'
+                                : 'You scored below the 75% accuracy threshold. Review the coach feedback on incorrect items or retry the drill.'}
+                            </p>
+
+                            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
                               <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() => playAudio(q.media?.url, q.correctAnswer)}
-                                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, padding: '6px 12px' }}
+                                onClick={() => {
+                                  setQuizFinished(false);
+                                  setCurrentQuizIndex(0);
+                                }}
                               >
-                                <Volume2 size={16} style={{ color: 'var(--color-cobalt)' }} />
-                                <span>Nghe phát âm từ vựng</span>
+                                <span>Review Questions One by One</span>
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleResetQuiz}
+                              >
+                                <RotateCcw size={14} />
+                                <span>Retry Practice Drill</span>
                               </button>
                             </div>
-                          )}
-
-                          {q.type === 'choice' && q.options && (
-                            <div className="option-grid" style={{ marginTop: 8 }}>
-                              {q.options.map((opt) => (
-                                <button
-                                  key={opt}
-                                  className={`option-btn ${userAns === opt ? 'selected' : ''}`}
-                                  onClick={() => setQuizAnswers({ ...quizAnswers, [q._id]: opt })}
-                                >
-                                  <span>{opt}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
-
-                          {q.type !== 'choice' && (
-                            <input
-                              type="text"
-                              className="input-text"
-                              placeholder={q.type === 'dictation' ? "Gõ từ khóa nghe được..." : "Nhập câu trả lời..."}
-                              value={userAns || ''}
-                              onChange={(e) => setQuizAnswers({ ...quizAnswers, [q._id]: e.target.value })}
-                            />
-                          )}
-
-                          {quizSubmitted && (
+                          </div>
+                        ) : q ? (
+                          /* Single Question Workbench Frame */
+                          <div className="card" style={{ padding: 'var(--space-xl)' }}>
                             <div
                               style={{
-                                marginTop: 12,
-                                padding: '10px 14px',
-                                borderRadius: 8,
-                                fontSize: 13,
-                                background: isCorrect ? 'var(--color-emerald-surface)' : 'var(--color-rose-surface)',
-                                color: isCorrect ? 'var(--color-emerald)' : 'var(--color-rose)'
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 10,
+                                marginBottom: 16,
+                                paddingBottom: 14,
+                                borderBottom: '1px solid var(--color-rule)'
                               }}
                             >
-                              <strong>{isCorrect ? 'Chính xác!' : `Chưa đúng. Đáp án: ${q.correctAnswer}`}</strong>
-                              {q.explanation && <p style={{ marginTop: 4, color: 'var(--fg)' }}>{q.explanation}</p>}
-                              {q.options && q.options.length > 0 && q.type === 'dictation' && (
-                                <div style={{ marginTop: 6, fontSize: 12, opacity: 0.9 }}>
-                                  <strong>Từ đồng nghĩa (Paraphrases): </strong> {q.options.join(', ')}
-                                </div>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+                                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-accent)', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
+                                  Question {currentQuizIndex + 1} of {allQuestions.length}
+                                </span>
+                                <span style={{ fontSize: 12, color: 'var(--color-ink-muted)' }}>
+                                  Progress: {Object.keys(questionResults).length}/{allQuestions.length} answered
+                                </span>
+                              </div>
+
+                              {/* Numbered Stepper */}
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  gap: 6,
+                                  alignItems: 'center',
+                                  overflowX: 'auto',
+                                  padding: '4px 2px',
+                                  scrollbarWidth: 'none'
+                                }}
+                              >
+                                {allQuestions.map((item, idx) => {
+                                  const qRes = questionResults[item._id];
+                                  const isCurrent = idx === currentQuizIndex;
+                                  let bg = 'var(--color-paper)';
+                                  let border = '1px solid var(--color-border)';
+                                  let color = 'var(--color-ink-muted)';
+
+                                  if (qRes?.checked) {
+                                    if (qRes.isCorrect) {
+                                      bg = 'var(--color-moss-soft)';
+                                      border = '1px solid var(--color-moss)';
+                                      color = 'var(--color-moss)';
+                                    } else {
+                                      bg = 'var(--color-brick-soft)';
+                                      border = '1px solid var(--color-brick)';
+                                      color = 'var(--color-brick)';
+                                    }
+                                  } else if (isCurrent) {
+                                    border = '2px solid var(--color-accent)';
+                                    color = 'var(--color-accent)';
+                                    bg = 'var(--color-accent-soft)';
+                                  }
+
+                                  return (
+                                    <button
+                                      key={item._id}
+                                      type="button"
+                                      onClick={() => setCurrentQuizIndex(idx)}
+                                      style={{
+                                        minWidth: 28,
+                                        width: 28,
+                                        height: 28,
+                                        borderRadius: 'var(--radius-sm)',
+                                        fontSize: 12,
+                                        fontWeight: 600,
+                                        display: 'grid',
+                                        placeItems: 'center',
+                                        cursor: 'pointer',
+                                        background: bg,
+                                        border,
+                                        color,
+                                        padding: 0
+                                      }}
+                                    >
+                                      {qRes?.checked ? (qRes.isCorrect ? '✓' : '✗') : idx + 1}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* Question Prompt */}
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                              <span className="syllabus-badge">
+                                {q.type ? q.type.toUpperCase() : 'PRACTICE'} · {q.errorTaxonomy || 'ERR_STRUCTURE'}
+                              </span>
+                              {questionResults[q._id]?.checked && (
+                                <span
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 700,
+                                    color: questionResults[q._id].isCorrect ? 'var(--color-moss)' : 'var(--color-brick)',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 4
+                                  }}
+                                >
+                                  {questionResults[q._id].isCorrect ? <CheckCircle size={14} /> : <XCircle size={14} />}
+                                  <span>{questionResults[q._id].isCorrect ? 'Accurate' : 'Needs Review'}</span>
+                                </span>
                               )}
                             </div>
-                          )}
-                        </div>
-                      );
-                    })}
 
-                    <div style={{ textAlign: 'right', marginTop: 12 }}>
-                      <button
-                        className="btn btn-primary"
-                        onClick={handleCheckQuiz}
-                        disabled={lessonDetail?.questions?.length === 0}
-                      >
-                        Kiểm tra kết quả bài tập
-                      </button>
-                    </div>
-                  </div>
-                )}
+                            <p style={{ fontSize: 16, fontWeight: 600, margin: '8px 0 16px', lineHeight: 1.5 }}>
+                              {q.prompt}
+                            </p>
+
+                            {/* Dictation audio */}
+                            {q.type === 'dictation' && (
+                              <div style={{ marginBottom: 14 }}>
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary btn-sm"
+                                  onClick={() => playAudio(q.media?.url, q.correctAnswer)}
+                                >
+                                  <Volume2 size={15} />
+                                  <span>Listen to Pronunciation</span>
+                                </button>
+                              </div>
+                            )}
+
+                            {/* Choice Options */}
+                            {q.type === 'choice' && q.options && (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+                                {q.options.map((opt) => {
+                                  const userAns = quizAnswers[q._id] || '';
+                                  const isSelected = userAns === opt;
+                                  const isChecked = !!questionResults[q._id]?.checked;
+                                  let customStyle = {};
+
+                                  if (isChecked) {
+                                    const optClean = opt.trim().toLowerCase();
+                                    const isThisCorrect = optClean === (q.correctAnswer || '').trim().toLowerCase();
+                                    if (isThisCorrect) {
+                                      customStyle = {
+                                        background: 'var(--color-moss-soft)',
+                                        borderColor: 'var(--color-moss)',
+                                        color: 'var(--color-moss)',
+                                        fontWeight: 600
+                                      };
+                                    } else if (isSelected && !isThisCorrect) {
+                                      customStyle = {
+                                        background: 'var(--color-brick-soft)',
+                                        borderColor: 'var(--color-brick)',
+                                        color: 'var(--color-brick)',
+                                        fontWeight: 600
+                                      };
+                                    } else {
+                                      customStyle = { opacity: 0.6 };
+                                    }
+                                  } else if (isSelected) {
+                                    customStyle = {
+                                      borderColor: 'var(--color-accent)',
+                                      background: 'var(--color-accent-soft)',
+                                      fontWeight: 600
+                                    };
+                                  }
+
+                                  return (
+                                    <button
+                                      key={opt}
+                                      type="button"
+                                      disabled={isChecked}
+                                      style={{
+                                        ...customStyle,
+                                        width: '100%',
+                                        padding: '12px 16px',
+                                        textAlign: 'left',
+                                        borderRadius: 'var(--radius-sm)',
+                                        border: '1px solid var(--color-border)',
+                                        background: customStyle.background || 'var(--color-surface)',
+                                        cursor: isChecked ? 'default' : 'pointer',
+                                        fontSize: 14,
+                                        transition: 'border-color var(--dur-fast) var(--ease-out)'
+                                      }}
+                                      onClick={() => setQuizAnswers({ ...quizAnswers, [q._id]: opt })}
+                                    >
+                                      {opt}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            {/* Text Input */}
+                            {q.type !== 'choice' && (
+                              <div style={{ marginTop: 8 }}>
+                                <input
+                                  type="text"
+                                  disabled={!!questionResults[q._id]?.checked}
+                                  className="input-text"
+                                  placeholder={q.type === 'dictation' ? 'Type the key academic word you hear...' : 'Type your answer here...'}
+                                  value={quizAnswers[q._id] || ''}
+                                  onChange={(e) => setQuizAnswers({ ...quizAnswers, [q._id]: e.target.value })}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !questionResults[q._id]?.checked && (quizAnswers[q._id] || '').trim()) {
+                                      handleCheckSingleQuestion(q);
+                                    }
+                                  }}
+                                />
+                              </div>
+                            )}
+
+                            {/* Immediate Feedback Box (Pedagogical contrastive notes preserved in Vietnamese) */}
+                            {questionResults[q._id]?.checked && (
+                              <div
+                                style={{
+                                  marginTop: 14,
+                                  padding: '12px 16px',
+                                  borderRadius: 'var(--radius-sm)',
+                                  fontSize: 13,
+                                  background: questionResults[q._id].isCorrect ? 'var(--color-moss-soft)' : 'var(--color-brick-soft)',
+                                  color: questionResults[q._id].isCorrect ? 'var(--color-moss)' : 'var(--color-brick)',
+                                  border: '1px solid var(--color-rule)'
+                                }}
+                              >
+                                <div style={{ fontWeight: 700, fontSize: 13.5 }}>
+                                  {questionResults[q._id].isCorrect
+                                    ? '✓ Accurate!'
+                                    : `✗ Revision needed. Accepted standard: ${q.correctAnswer}`}
+                                </div>
+                                {q.explanation && (
+                                  <p style={{ marginTop: 4, color: 'var(--color-ink)', fontSize: 13, lineHeight: 1.5 }}>
+                                    <strong>Coach Explanation:</strong> {q.explanation}
+                                  </p>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Question Bottom Action Stepper */}
+                            <div
+                              style={{
+                                marginTop: 18,
+                                paddingTop: 14,
+                                borderTop: '1px solid var(--color-rule)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                gap: 10,
+                                flexWrap: 'wrap'
+                              }}
+                            >
+                              {questionResults[q._id]?.checked ? (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-ghost btn-sm"
+                                    onClick={() => handleRetryQuestion(q._id)}
+                                  >
+                                    <RotateCcw size={13} />
+                                    <span>Retry Question</span>
+                                  </button>
+
+                                  {currentQuizIndex < allQuestions.length - 1 ? (
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm"
+                                      onClick={() => setCurrentQuizIndex(currentQuizIndex + 1)}
+                                    >
+                                      <span>Next Question</span>
+                                      <ArrowRight size={14} />
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary btn-sm"
+                                      onClick={() => setQuizFinished(true)}
+                                    >
+                                      <span>View Drill Summary</span>
+                                      <ArrowRight size={14} />
+                                    </button>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  <div />
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm"
+                                    onClick={() => handleCheckSingleQuestion(q)}
+                                    disabled={!(quizAnswers[q._id] || '').trim()}
+                                  >
+                                    <span>Check Answer</span>
+                                  </button>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })()}
+                </div>
               </>
             )}
           </div>

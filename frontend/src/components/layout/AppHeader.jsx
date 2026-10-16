@@ -1,20 +1,20 @@
+/* Hallmark · macrostructure: Workbench · tone: editorial · anchor hue: 44 */
+/* Hallmark · genre: editorial · macrostructure: Workbench · design-system: design.md · designed-as-app */
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Sparkles,
+  PenLine,
   LayoutDashboard,
-  BookOpen,
   GraduationCap,
   Boxes,
   ShieldAlert,
   Settings,
-  Flame,
   Target,
   ArrowLeft,
   Sun,
   Moon,
   Keyboard,
-  PenLine,
+  BookOpen,
 } from 'lucide-react';
 
 export default function AppHeader({
@@ -35,52 +35,38 @@ export default function AppHeader({
     return path.startsWith(p);
   };
 
-  // ─── Dedicated Admin Portal Header ───
+  // ─── Dedicated Admin Header ───
   if (path.startsWith('/admin')) {
     return (
-      <header className='app-header' style={{ borderBottom: '2px solid var(--color-cobalt)' }}>
+      <header className='app-header'>
         <div className='header-inner'>
           <div className='brand' onClick={() => navigate('/admin')}>
-            <div className='brand-mark' style={{ background: 'var(--color-cobalt)' }}>
-              <Settings size={18} />
+            <div className='brand-mark'>
+              <Settings size={17} />
             </div>
-            <span>IELTS Admin Portal</span>
-            <span
-              style={{
-                fontSize: 11,
-                background: 'var(--color-cobalt-soft)',
-                color: 'var(--color-cobalt)',
-                padding: '2px 8px',
-                borderRadius: 999,
-                fontWeight: 700,
-              }}>
-                Quản trị viên
-            </span>
+            <div className='brand-title'>
+              <span className='brand-name'>IELTS Writing Hub</span>
+              <span className='brand-sub'>System Administration</span>
+            </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <button
               className='btn btn-ghost'
-              style={{
-                padding: '7px 9px',
-                borderRadius: 'var(--radius-pill)',
-                display: 'inline-flex',
-                alignItems: 'center',
-              }}
+              style={{ padding: '6px 10px' }}
               onClick={onToggleTheme}
-              title={theme === 'dark' ? 'Chuyển sang giao diện Sáng' : 'Chuyển sang giao diện Tối'}
+              title={theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
               aria-label='Toggle theme'>
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
             </button>
             <button
-              className='btn btn-secondary'
-              style={{ fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              className='btn btn-secondary btn-sm'
               onClick={() => navigate('/')}>
-              <ArrowLeft size={14} />
+              <ArrowLeft size={13} />
               <span>Back to Student View</span>
             </button>
-            <button className='btn btn-ghost' style={{ fontSize: 13 }} onClick={onLogout}>
-              Đăng xuất
+            <button className='btn btn-ghost btn-sm' onClick={onLogout}>
+              Sign Out
             </button>
           </div>
         </div>
@@ -88,67 +74,74 @@ export default function AppHeader({
     );
   }
 
-  // ─── Student Learning Portal Header ───
+  // ─── Student Learning Portal Header (English Primary Language) ───
   return (
     <header className='app-header'>
       <div className='header-inner'>
-        <div className='brand' onClick={() => navigate('/')}>
-          <div className='brand-mark'>
-            <Sparkles size={18} />
+        <div
+          className='brand'
+          onClick={() => navigate('/')}
+          role='button'
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && navigate('/')}>
+          <div className='brand-mark' aria-hidden='true'>
+            <PenLine size={16} />
           </div>
-          <span>IELTS MicroPath</span>
+          <div className='brand-title'>
+            <span className='brand-name'>IELTS Writing Hub</span>
+            <span className='brand-sub'>Studio & Guided Practice</span>
+          </div>
         </div>
 
-        <nav className='nav-tabs' aria-label='Application Sections'>
+        <nav className='nav-tabs' aria-label='Primary Navigation'>
           <button
             className={`nav-tab ${isCurrent('/') ? 'active' : ''}`}
             onClick={() => navigate('/')}>
-            <LayoutDashboard size={16} />
-            <span>Dashboard</span>
+            <LayoutDashboard size={14} />
+            <span>Workspace</span>
           </button>
           <button
             className={`nav-tab ${isCurrent('/lessons') && !location.search.includes('reading') ? 'active' : ''}`}
             onClick={() => navigate('/lessons')}>
-            <GraduationCap size={16} />
-            <span>Lessons</span>
-          </button>
-          <button
-            className={`nav-tab ${isCurrent('/reading') || isCurrent('/paraphrases') || (isCurrent('/lessons') && location.search.includes('reading')) ? 'active' : ''}`}
-            onClick={() => navigate('/lessons?skill=reading')}>
-            <BookOpen size={16} />
-            <span>Reading</span>
-          </button>
-          <button
-            className={`nav-tab ${isCurrent('/vocabulary') || isCurrent('/srs') ? 'active' : ''}`}
-            onClick={() => navigate('/vocabulary')}>
-            <Boxes size={16} />
-            <span>Vocabulary</span>
-          </button>
-          <button
-            className={`nav-tab ${isCurrent('/typing') ? 'active' : ''}`}
-            onClick={() => navigate('/typing')}>
-            <Keyboard size={16} />
-            <span>Typing</span>
+            <GraduationCap size={14} />
+            <span>Curriculum</span>
           </button>
           <button
             className={`nav-tab ${isCurrent('/writing') ? 'active' : ''}`}
             onClick={() => navigate('/writing')}>
-            <PenLine size={16} />
-            <span>Writing</span>
+            <PenLine size={14} />
+            <span>Writing Studio</span>
+          </button>
+          <button
+            className={`nav-tab ${isCurrent('/reading') || (isCurrent('/lessons') && location.search.includes('reading')) ? 'active' : ''}`}
+            onClick={() => navigate('/lessons?skill=reading')}>
+            <BookOpen size={14} />
+            <span>Reading & Paraphrase</span>
+          </button>
+          <button
+            className={`nav-tab ${isCurrent('/vocabulary') || isCurrent('/srs') ? 'active' : ''}`}
+            onClick={() => navigate('/vocabulary')}>
+            <Boxes size={14} />
+            <span>Lexical Bank</span>
+          </button>
+          <button
+            className={`nav-tab ${isCurrent('/typing') ? 'active' : ''}`}
+            onClick={() => navigate('/typing')}>
+            <Keyboard size={14} />
+            <span>Typing Drill</span>
           </button>
           <button
             className={`nav-tab ${isCurrent('/mistakes') ? 'active' : ''}`}
             onClick={() => navigate('/mistakes')}>
-            <ShieldAlert size={16} />
-            <span>Mistakes</span>
+            <ShieldAlert size={14} />
+            <span>Mistake Vault</span>
           </button>
           {isAdmin && (
             <button
               className={`nav-tab ${isCurrent('/admin') ? 'active' : ''}`}
-              onClick={() => navigate('/admin')}
-              title='Admin CMS'>
-              <Settings size={16} />
-              <span>Admin CMS</span>
+              onClick={() => navigate('/admin')}>
+              <Settings size={14} />
+              <span>CMS</span>
             </button>
           )}
         </nav>
@@ -156,14 +149,14 @@ export default function AppHeader({
         <div className='user-badge'>
           {isAuthenticated && (
             <>
-              <span className='streak-chip' title='Current Learning Streak'>
-                <Flame size={16} />
-                <span>{dashboardData?.user?.streak ?? 0} days</span>
+              <span className='streak-chip' title='Consecutive Learning Streak'>
+                <span className='dot-active' aria-hidden='true'></span>
+                <span><strong>{dashboardData?.user?.streak ?? 0}</strong> Day Streak</span>
               </span>
               {dashboardData?.user?.targetBand && (
-                <span className='target-chip'>
-                  <Target size={15} />
-                  <span>Target: Band {dashboardData.user.targetBand}</span>
+                <span className='target-chip' title='Target Band Score'>
+                  <Target size={13} aria-hidden='true' />
+                  <span>Target: <strong>Band {dashboardData.user.targetBand}</strong></span>
                 </span>
               )}
             </>
@@ -171,25 +164,20 @@ export default function AppHeader({
 
           <button
             className='btn btn-ghost'
-            style={{
-              padding: '7px 9px',
-              borderRadius: 'var(--radius-pill)',
-              display: 'inline-flex',
-              alignItems: 'center',
-            }}
+            style={{ padding: '6px 8px' }}
             onClick={onToggleTheme}
-            title={theme === 'dark' ? 'Chuyển sang giao diện Sáng' : 'Chuyển sang giao diện Tối'}
-            aria-label='Toggle theme'>
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+            aria-label='Toggle color theme'>
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
 
           {isAuthenticated ? (
-            <button className='btn btn-ghost' style={{ fontSize: 13 }} onClick={onLogout}>
-              Đăng xuất
+            <button className='btn btn-ghost btn-sm' onClick={onLogout}>
+              Sign Out
             </button>
           ) : (
-            <button className='btn btn-primary' style={{ padding: '6px 14px', fontSize: 13 }} onClick={onOpenAuth}>
-              Đăng nhập
+            <button className='btn btn-primary btn-sm' onClick={onOpenAuth}>
+              Sign In
             </button>
           )}
         </div>

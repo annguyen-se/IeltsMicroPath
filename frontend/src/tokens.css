@@ -1,0 +1,125 @@
+/* Hallmark · tokens.css · Warm Atelier & Academic Writing Studio
+ * Vibe: Warm paper, charcoal ink, terracotta accent, scholarly restraint
+ */
+:root {
+  /* ─── Base Palette: Warm Paper & Charcoal Ink ─── */
+  --color-paper: oklch(97.2% 0.012 75);         /* Cream parchment, no pure #fff */
+  --color-paper-2: oklch(95.6% 0.015 75);       /* Slightly darker paper band */
+  --color-paper-3: oklch(93.8% 0.018 75);       /* Recessed surface / paper gutter */
+  --color-surface: oklch(98.8% 0.008 75);       /* Primary desk surface */
+  --color-surface-elev: oklch(100% 0.004 75);   /* Elevated card surface */
+  --color-surface-subtle: oklch(94.8% 0.014 75);/* Subtle pill / tab background */
+
+  --color-ink: oklch(21% 0.016 50);             /* Deep charcoal ink, contrast > 11:1 */
+  --color-ink-muted: oklch(46% 0.020 50);       /* Muted text, contrast > 5.5:1 */
+  --color-ink-faint: oklch(64% 0.014 50);       /* Hairline captions, metadata */
+
+  --color-rule: oklch(88% 0.012 75);            /* Book rule / Hairline border */
+  --color-border: oklch(88% 0.012 75);
+  --color-border-strong: oklch(76% 0.022 75);   /* Stronger tactile divider */
+
+  /* ─── Accent Hue: Warm Terracotta / Cinnabar (Anchor hue: 44) ─── */
+  --color-accent: oklch(56% 0.17 44);           /* Terracotta accent, <3% viewport */
+  --color-accent-soft: oklch(94.5% 0.035 44);   /* Soft wash for active badges */
+  --color-accent-ink: oklch(98% 0.005 75);      /* Text on accent button */
+  --color-accent-hover: oklch(50% 0.18 44);
+  --color-focus: oklch(56% 0.17 44);            /* Instant high-contrast focus ring */
+
+  /* ─── Pedagogical Secondary Signals (Quiet scholar tones) ─── */
+  --color-moss: oklch(52% 0.13 145);            /* Mastery, correct, Box 5 */
+  --color-moss-soft: oklch(94% 0.03 145);
+  --color-amber: oklch(64% 0.14 70);            /* Ongoing review, attention, Box 2 */
+  --color-amber-soft: oklch(94% 0.035 70);
+  --color-brick: oklch(52% 0.18 28);            /* Mistakes, traps, Box 1 */
+  --color-brick-soft: oklch(94% 0.035 28);
+  --color-cobalt: oklch(54% 0.14 245);          /* Grammar, syntactic analysis */
+  --color-cobalt-soft: oklch(94% 0.03 245);
+
+  /* ─── Backward-compatible variable aliases ─── */
+  --bg: var(--color-paper);
+  --surface: var(--color-surface);
+  --surface-elev: var(--color-surface-elev);
+  --surface-subtle: var(--color-surface-subtle);
+  --fg: var(--color-ink);
+  --fg-muted: var(--color-ink-muted);
+  --border: var(--color-border);
+  --border-strong: var(--color-border-strong);
+
+  /* ─── Typography Stacks ─── */
+  --font-display: 'Lexend', 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  --font-body: 'Be Vietnam Pro', 'Lexend', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-ipa: 'Noto Sans', 'Charis SIL', sans-serif;
+
+  /* ─── Type Scale ─── */
+  --text-display: clamp(1.85rem, 3.5vw, 2.45rem);
+  --text-xl: 1.35rem;
+  --text-lg: 1.125rem;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+
+  --lh-tight: 1.15;
+  --lh-normal: 1.6;
+  --measure-prose: 68ch;
+
+  /* ─── Spacing Scale (Strict 4-pt base) ─── */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* ─── Geometry & Tactile Radii ─── */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 9999px;
+  --container-max: 1160px;
+  --header-height: 64px;
+
+  /* ─── Transitions & Easings ─── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-normal: 200ms;
+}
+
+/* ─── Dark Mode (Night Study Room / Warm Obsidian) ─── */
+[data-theme='dark'] {
+  --color-paper: oklch(16% 0.014 55);           /* Deep warm charcoal/cedar, not #000 */
+  --color-paper-2: oklch(18.5% 0.016 55);
+  --color-paper-3: oklch(21% 0.018 55);
+  --color-surface: oklch(19% 0.015 55);
+  --color-surface-elev: oklch(23% 0.018 55);
+  --color-surface-subtle: oklch(22% 0.016 55);
+
+  --color-ink: oklch(93% 0.010 75);             /* Warm ivory ink, not #fff */
+  --color-ink-muted: oklch(72% 0.015 70);
+  --color-ink-faint: oklch(52% 0.015 70);
+
+  --color-rule: oklch(28% 0.020 55);
+  --color-border: oklch(28% 0.020 55);
+  --color-border-strong: oklch(38% 0.025 55);
+
+  --color-accent: oklch(68% 0.15 44);           /* Lighter terracotta glow for contrast */
+  --color-accent-soft: oklch(25% 0.04 44);
+  --color-accent-ink: oklch(14% 0.015 55);
+  --color-accent-hover: oklch(74% 0.16 44);
+  --color-focus: oklch(68% 0.15 44);
+
+  --color-moss: oklch(66% 0.14 145);
+  --color-moss-soft: oklch(24% 0.035 145);
+  --color-amber: oklch(74% 0.14 70);
+  --color-amber-soft: oklch(25% 0.04 70);
+  --color-brick: oklch(64% 0.18 28);
+  --color-brick-soft: oklch(24% 0.04 28);
+  --color-cobalt: oklch(66% 0.14 245);
+  --color-cobalt-soft: oklch(24% 0.035 245);
+
+  color-scheme: dark;
+}

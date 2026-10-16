@@ -45,7 +45,7 @@ export default function VocabularyHub({ isAuthenticated = false, onOpenAuth }) {
             onClick={() => handleSwitchTab('srs')}
           >
             <Boxes size={17} />
-            <span>1. Ôn tập Leitner (SRS 5 Hộp)</span>
+            <span>1. Leitner Review (5-Box SRS)</span>
           </button>
 
           <button
@@ -61,14 +61,14 @@ export default function VocabularyHub({ isAuthenticated = false, onOpenAuth }) {
             onClick={() => handleSwitchTab('topics')}
           >
             <BookOpen size={17} />
-            <span>2. Từ vựng theo chủ đề (Chủ điểm IELTS)</span>
+            <span>2. Lexis by Topic (IELTS Themes)</span>
           </button>
         </div>
 
         <div style={{ fontSize: 12.5, color: 'var(--fg-muted)', paddingRight: 8 }}>
           {currentTab === 'srs'
-            ? 'Ôn ngắt quãng theo 5 Hộp Ebbinghaus'
-            : 'Học từ vựng theo bối cảnh & chủ đề thi'}
+            ? 'Spaced repetition queue across 5 Ebbinghaus boxes'
+            : 'Explore academic vocabulary organized by test domain'}
         </div>
       </div>
 

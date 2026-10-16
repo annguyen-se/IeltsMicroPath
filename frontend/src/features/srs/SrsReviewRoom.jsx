@@ -1,4 +1,7 @@
+/* Hallmark · macrostructure: Workbench · tone: editorial · anchor hue: 44 */
+/* Hallmark · genre: editorial · macrostructure: Workbench · design-system: design.md · designed-as-app */
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../../api/apiClient';
 import { playWordAudio, preloadAudio } from '../../utils/audio';
 import {
@@ -16,11 +19,15 @@ import {
 } from 'lucide-react';
 
 export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenAuth }) {
+  const [searchParams] = useSearchParams();
+  const boxParam = searchParams.get('box');
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(isAuthenticated);
-  const [mode, setMode] = useState('due'); // 'due' | 'all'
-  const [selectedBox, setSelectedBox] = useState('all'); // 'all' | 1..5
-  const [selectedTopic, setSelectedTopic] = useState('all'); // 'all' | 'listening-179' | 'reading-538'
+  const [mode, setMode] = useState(boxParam ? 'all' : 'due'); // 'due' | 'all'
+  const [selectedBox, setSelectedBox] = useState(
+    boxParam && ['1', '2', '3', '4', '5'].includes(boxParam) ? boxParam : 'all'
+  );
+  const [selectedTopic, setSelectedTopic] = useState('all');
   const [dueCount, setDueCount] = useState(0);
   const [totalTracked, setTotalTracked] = useState(0);
 
@@ -28,6 +35,14 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
   const [isFlipped, setIsFlipped] = useState(false);
   const [notification, setNotification] = useState('');
   const [isEnrolling, setIsEnrolling] = useState(false);
+
+  useEffect(() => {
+    const b = searchParams.get('box');
+    if (b && ['1', '2', '3', '4', '5'].includes(b)) {
+      setSelectedBox(b);
+      setMode('all');
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -63,13 +78,13 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
       setIsEnrolling(true);
       const res = await api.post('/reviews/enroll-all', { topic, limit: 1000 });
       const count = res?.enrolledCount ?? 0;
-      setNotification(`Đã nạp ${count} từ thuộc ${label} vào Hộp 1 SRS!`);
+      setNotification(`Enrolled ${count} words from ${label} into Box 1!`);
       setTimeout(() => setNotification(''), 3000);
       setMode('all');
       setSelectedTopic(topic);
       await fetchItems();
     } catch (err) {
-      setNotification(`Lỗi nạp từ: ${err.message}`);
+      setNotification(`Enrollment error: ${err.message}`);
     } finally {
       setIsEnrolling(false);
     }
@@ -80,14 +95,14 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
       setIsEnrolling(true);
       const res = await api.post('/reviews/enroll-all', { limit: 1000 });
       const count = res?.enrolledCount ?? 0;
-      setNotification(`Đã nạp thành công ${count} từ vựng vào Hộp 1! Bắt đầu học ngay.`);
+      setNotification(`Enrolled ${count} words into Box 1. Ready for review!`);
       setTimeout(() => setNotification(''), 3000);
       setMode('all');
       setSelectedBox('all');
       setSelectedTopic('all');
       await fetchItems();
     } catch (err) {
-      setNotification(`Lỗi nạp từ: ${err.message}`);
+      setNotification(`Enrollment error: ${err.message}`);
     } finally {
       setIsEnrolling(false);
     }
@@ -150,7 +165,6 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
     if (currentIndex + 1 < items.length) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      // Completed current queue
       setItems([]);
       setCurrentIndex(0);
       fetchItems();
@@ -161,56 +175,55 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
   const vocab = currentItem?.vocabId || {};
 
   return (
-    <div className="stack" style={{ gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
       {/* ─── Top Header ─── */}
-      <div className="row-between" style={{ flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <h1 style={{ fontSize: 26, marginBottom: 4 }}>Phòng Ôn tập ngắt quãng (Leitner SRS)</h1>
-          <p style={{ color: 'var(--fg-muted)', fontSize: 15 }}>
-            Tự do ôn tập từ vựng độc lập theo Ebbinghaus Forgetting Curve trên 5 hộp trí nhớ dài hạn.
-          </p>
-        </div>
-        <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
-          {isAuthenticated && (
-            <>
-              <button
-                className="btn btn-secondary"
-                style={{ fontSize: 12, padding: '6px 11px', display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                onClick={() => handleEnrollTopic('listening-179', 'Listening 179')}
-                disabled={isEnrolling}
-                title="Nạp 179 từ khóa Listening vào Hộp 1"
-              >
-                <Plus size={13} />
-                <span>+ Listening 179</span>
+      <div className="section-head" style={{ marginBottom: 0 }}>
+        <div className="section-head-row">
+          <div>
+            <span className="section-kicker">
+              <Layers size={13} aria-hidden="true" /> Spaced Repetition System
+            </span>
+            <h1 className="section-title">Leitner Memory Review Room</h1>
+            <p className="section-desc">
+              Long-term academic lexis retention tracked across five Ebbinghaus interval boxes.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+            {isAuthenticated && (
+              <>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => handleEnrollTopic('listening-179', 'Listening 179')}
+                  disabled={isEnrolling}
+                  title="Enroll 179 Listening keywords into Box 1">
+                  <Plus size={13} />
+                  <span>+ Listening 179</span>
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => handleEnrollTopic('reading-538', 'Reading 538')}
+                  disabled={isEnrolling}
+                  title="Enroll 538 Reading keywords into Box 1">
+                  <Plus size={13} />
+                  <span>+ Reading 538</span>
+                </button>
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={handleEnrollAll}
+                  disabled={isEnrolling}
+                  title="Enroll all available database lexis into Box 1">
+                  <Plus size={13} />
+                  <span>{isEnrolling ? 'Enrolling...' : 'Enroll All Lexis'}</span>
+                </button>
+              </>
+            )}
+            {onBack && (
+              <button className="btn btn-secondary btn-sm" onClick={onBack}>
+                <ArrowLeft size={14} />
+                <span>Workspace</span>
               </button>
-              <button
-                className="btn btn-secondary"
-                style={{ fontSize: 12, padding: '6px 11px', display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                onClick={() => handleEnrollTopic('reading-538', 'Reading 538')}
-                disabled={isEnrolling}
-                title="Nạp từ khóa Reading vào Hộp 1"
-              >
-                <Plus size={13} />
-                <span>+ Reading 538</span>
-              </button>
-              <button
-                className="btn btn-primary"
-                style={{ fontSize: 12, padding: '6px 12px', display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                onClick={handleEnrollAll}
-                disabled={isEnrolling}
-                title="Nạp các từ vựng có trong database vào Hộp 1 để học"
-              >
-                <Plus size={13} />
-                <span>{isEnrolling ? 'Đang nạp...' : 'Nạp tất cả'}</span>
-              </button>
-            </>
-          )}
-          {onBack && (
-            <button className="btn btn-secondary" onClick={onBack} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <ArrowLeft size={16} />
-              <span>Về Dashboard</span>
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -218,45 +231,45 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
         <div
           style={{
             padding: '10px 16px',
-            borderRadius: 8,
+            borderRadius: 'var(--radius-sm)',
             fontSize: 13,
             fontWeight: 600,
-            background: 'var(--color-emerald-surface)',
-            color: 'var(--color-emerald)',
-            border: '1px solid var(--color-emerald-border)',
+            background: 'var(--color-moss-soft)',
+            color: 'var(--color-moss)',
+            border: '1px solid var(--color-rule)',
             textAlign: 'center'
-          }}
-        >
+          }}>
           {notification}
         </div>
       )}
 
       {!isAuthenticated ? (
-        <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
+        <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
           <div
-            className="empty-icon"
             style={{
-              width: 56,
-              height: 56,
+              width: 52,
+              height: 52,
               margin: '0 auto 16px',
-              background: 'var(--color-cobalt-surface)',
-              color: 'var(--color-cobalt)',
-              borderColor: 'var(--color-cobalt-border)'
-            }}
-          >
-            <Lock size={28} />
+              borderRadius: '50%',
+              background: 'var(--color-paper-2)',
+              color: 'var(--color-accent)',
+              border: '1px solid var(--color-border)',
+              display: 'grid',
+              placeItems: 'center'
+            }}>
+            <Lock size={24} />
           </div>
-          <h2 style={{ fontSize: 22, marginBottom: 6 }}>Phòng Ôn tập yêu cầu đăng nhập</h2>
-          <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, maxWidth: 440, margin: '0 auto 24px' }}>
-            Hàng đợi 5 hộp Leitner được cá nhân hóa theo từng tài khoản học viên để tự động xếp lịch ôn theo Ebbinghaus Forgetting Curve.
+          <h2 style={{ fontSize: 20, marginBottom: 6 }}>Review Room Requires Authentication</h2>
+          <p style={{ color: 'var(--color-ink-muted)', fontSize: 14, maxWidth: 460, margin: '0 auto 24px' }}>
+            Your 5 Leitner boxes are personalized to track your individual forgetting curve and schedule daily recall intervals.
           </p>
-          <div className="row" style={{ justifyContent: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
             <button className="btn btn-primary" onClick={onOpenAuth}>
-              <span>Đăng nhập ngay</span>
+              <span>Sign In Now</span>
             </button>
             {onBack && (
               <button className="btn btn-secondary" onClick={onBack}>
-                <span>Về Dashboard</span>
+                <span>Back to Workspace</span>
               </button>
             )}
           </div>
@@ -264,127 +277,128 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
       ) : (
         <>
           {/* ─── Mode & Box Filter Bar ─── */}
-          <div className="row-between" style={{ flexWrap: 'wrap', gap: 12 }}>
-            <div className="row" style={{ gap: 8 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+            <div style={{ display: 'flex', gap: 8 }}>
               <button
-                className={`btn ${mode === 'due' ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ fontSize: 13, padding: '7px 14px' }}
-                onClick={() => setMode('due')}
-              >
-                Cần ôn hôm nay ({dueCount})
+                className={`btn btn-sm ${mode === 'due' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => setMode('due')}>
+                Due Today ({dueCount})
               </button>
               <button
-                className={`btn ${mode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-                style={{ fontSize: 13, padding: '7px 14px' }}
-                onClick={() => setMode('all')}
-              >
-                Tất cả từ đã lưu ({totalTracked})
+                className={`btn btn-sm ${mode === 'all' ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={() => setMode('all')}>
+                All Enrolled Cards ({totalTracked})
               </button>
             </div>
 
-            <div className="row" style={{ gap: 6, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 600 }}>Chủ đề:</span>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 12, color: 'var(--color-ink-muted)', fontWeight: 600 }}>Topic:</span>
               <button
                 className={`pill ${selectedTopic === 'all' ? 'pill-cobalt' : 'pill-muted'}`}
-                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
-                onClick={() => setSelectedTopic('all')}
-              >
-                Tất cả
+                style={{ cursor: 'pointer', padding: '3px 8px' }}
+                onClick={() => setSelectedTopic('all')}>
+                All
               </button>
               <button
                 className={`pill ${selectedTopic === 'listening-179' ? 'pill-cobalt' : 'pill-muted'}`}
-                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
-                onClick={() => setSelectedTopic('listening-179')}
-              >
+                style={{ cursor: 'pointer', padding: '3px 8px' }}
+                onClick={() => setSelectedTopic('listening-179')}>
                 Listening 179
               </button>
               <button
                 className={`pill ${selectedTopic === 'reading-538' ? 'pill-cobalt' : 'pill-muted'}`}
-                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
-                onClick={() => setSelectedTopic('reading-538')}
-              >
+                style={{ cursor: 'pointer', padding: '3px 8px' }}
+                onClick={() => setSelectedTopic('reading-538')}>
                 Reading 538
               </button>
 
-              <span style={{ fontSize: 12, color: 'var(--fg-muted)', fontWeight: 600, marginLeft: 8 }}>Hộp:</span>
+              <span style={{ fontSize: 12, color: 'var(--color-ink-muted)', fontWeight: 600, marginLeft: 8 }}>Box:</span>
               <button
                 className={`pill ${selectedBox === 'all' ? 'pill-cobalt' : 'pill-muted'}`}
-                style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
-                onClick={() => setSelectedBox('all')}
-              >
-                Tất cả
+                style={{ cursor: 'pointer', padding: '3px 8px' }}
+                onClick={() => setSelectedBox('all')}>
+                All
               </button>
               {[1, 2, 3, 4, 5].map((b) => (
                 <button
                   key={b}
                   className={`pill ${selectedBox === String(b) ? 'pill-cobalt' : 'pill-muted'}`}
-                  style={{ cursor: 'pointer', fontSize: 11, padding: '3px 8px' }}
-                  onClick={() => setSelectedBox(String(b))}
-                >
-                  Hộp {b}
+                  style={{ cursor: 'pointer', padding: '3px 8px' }}
+                  onClick={() => setSelectedBox(String(b))}>
+                  Box {b}
                 </button>
               ))}
             </div>
           </div>
 
           {loading && (
-            <div className="card" style={{ textAlign: 'center', padding: 48 }}>
-              <p style={{ color: 'var(--fg-muted)' }}>Đang tải hàng đợi thẻ từ vựng...</p>
+            <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+              <p style={{ color: 'var(--color-ink-muted)', fontSize: 14 }}>Loading flashcard queue...</p>
             </div>
           )}
 
-          {/* Empty state: No words tracked yet in entire system for this user */}
+          {/* Empty State: No cards enrolled */}
           {!loading && totalTracked === 0 && (
-            <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
+            <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
               <div
-                className="empty-icon"
                 style={{
-                  width: 56,
-                  height: 56,
+                  width: 52,
+                  height: 52,
                   margin: '0 auto 16px',
-                  background: 'var(--color-cobalt-surface)',
-                  color: 'var(--color-cobalt)',
-                  borderColor: 'var(--color-cobalt-border)'
-                }}
-              >
-                <Layers size={28} />
+                  borderRadius: '50%',
+                  background: 'var(--color-paper-2)',
+                  color: 'var(--color-accent)',
+                  border: '1px solid var(--color-border)',
+                  display: 'grid',
+                  placeItems: 'center'
+                }}>
+                <Layers size={24} />
               </div>
-              <h2 style={{ fontSize: 22, marginBottom: 8 }}>Hộp từ vựng của bạn đang trống</h2>
-              <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, maxWidth: 500, margin: '0 auto 24px' }}>
-                Hệ thống đã có sẵn từ vựng trong cơ sở dữ liệu. Bấm nút bên dưới để nạp toàn bộ vào Hộp 1 và bắt đầu lật thẻ ôn tập ngay bây giờ!
+              <h2 style={{ fontSize: 20, marginBottom: 8 }}>Your Flashcard Deck is Empty</h2>
+              <p style={{ color: 'var(--color-ink-muted)', fontSize: 14, maxWidth: 480, margin: '0 auto 24px' }}>
+                Academic lexis is available in the library. Enroll vocabulary into Box 1 to start your spaced review routine.
               </p>
               <button
-                className="btn btn-primary btn-lg"
+                className="btn btn-primary"
                 onClick={handleEnrollAll}
-                disabled={isEnrolling}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
-              >
-                <Sparkles size={16} />
-                <span>{isEnrolling ? 'Đang nạp từ...' : 'Nạp toàn bộ từ vựng vào Hộp 1 ngay'}</span>
+                disabled={isEnrolling}>
+                <Sparkles size={15} />
+                <span>{isEnrolling ? 'Enrolling words...' : 'Enroll All Lexis into Box 1 Now'}</span>
               </button>
             </div>
           )}
 
-          {/* Empty state: No due cards today, but user has words in other boxes */}
+          {/* Empty State: No due cards today */}
           {!loading && totalTracked > 0 && items.length === 0 && (
-            <div className="card" style={{ textAlign: 'center', padding: '56px 24px' }}>
-              <div className="empty-icon" style={{ width: 56, height: 56, margin: '0 auto 16px' }}>
-                <CheckCircle2 size={32} />
+            <div className="card" style={{ textAlign: 'center', padding: 'var(--space-3xl)' }}>
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  margin: '0 auto 16px',
+                  borderRadius: '50%',
+                  background: 'var(--color-moss-soft)',
+                  color: 'var(--color-moss)',
+                  border: '1px solid var(--color-rule)',
+                  display: 'grid',
+                  placeItems: 'center'
+                }}>
+                <CheckCircle2 size={26} />
               </div>
-              <h2 style={{ fontSize: 22, marginBottom: 6 }}>Bạn đã hoàn thành các từ đến hạn hôm nay!</h2>
-              <p style={{ color: 'var(--fg-muted)', fontSize: 14.5, maxWidth: 480, margin: '0 auto 24px' }}>
+              <h2 style={{ fontSize: 20, marginBottom: 6 }}>All Scheduled Cards Reviewed for Today!</h2>
+              <p style={{ color: 'var(--color-ink-muted)', fontSize: 14, maxWidth: 480, margin: '0 auto 24px' }}>
                 {mode === 'due'
-                  ? `Hiện tại không còn từ nào đến hạn ôn trong ngày. Bạn có tổng cộng ${totalTracked} từ đang được lên lịch theo các hộp.`
-                  : 'Không có từ nào trong hộp được chọn.'}
+                  ? `No more cards due today. You have ${totalTracked} total words scheduled across your Leitner boxes.`
+                  : 'No vocabulary items found in the selected box filter.'}
               </p>
-              <div className="row" style={{ justifyContent: 'center', gap: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
                 {mode === 'due' && (
                   <button className="btn btn-primary" onClick={() => setMode('all')}>
-                    <span>Ôn luyện trước tất cả từ ({totalTracked})</span>
+                    <span>Review Ahead ({totalTracked} Cards)</span>
                   </button>
                 )}
                 <button className="btn btn-secondary" onClick={handleEnrollAll} disabled={isEnrolling}>
-                  <span>Nạp thêm từ mới vào Hộp 1</span>
+                  <span>Enroll Additional Lexis into Box 1</span>
                 </button>
               </div>
             </div>
@@ -398,47 +412,43 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                 textAlign: 'center',
                 maxWidth: 620,
                 margin: '12px auto',
-                padding: '48px 36px',
-                width: '100%'
-              }}
-            >
+                padding: '44px 36px',
+                width: '100%',
+                background: 'var(--color-surface)'
+              }}>
               {/* Box Pill */}
-              <div style={{ marginBottom: 20 }}>
-                <span className="pill pill-err">
-                  <Clock size={13} />
-                  <span>
-                    BOX {currentItem.box} · ({currentIndex + 1} / {items.length})
-                  </span>
+              <div style={{ marginBottom: 18 }}>
+                <span className="syllabus-badge" style={{ color: 'var(--color-accent)', fontWeight: 700 }}>
+                  <Clock size={12} style={{ display: 'inline', verticalAlign: -1, marginRight: 4 }} />
+                  BOX {currentItem.box} · ({currentIndex + 1} OF {items.length})
                 </span>
               </div>
 
               {/* Word Heading */}
               <div
                 style={{
-                  fontSize: 44,
+                  fontSize: 'clamp(2rem, 4vw, 2.75rem)',
                   fontWeight: 600,
                   fontFamily: 'var(--font-display)',
-                  letterSpacing: '-0.01em',
-                  marginBottom: 8,
-                  color: 'var(--fg)',
+                  letterSpacing: '-0.02em',
+                  marginBottom: 6,
+                  color: 'var(--color-ink)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: 12
-                }}
-              >
+                }}>
                 <span>{vocab.word}</span>
                 <button
                   className="btn btn-ghost"
                   onClick={() => playAudio(vocab.media?.url, vocab.word)}
-                  title="Play pronunciation"
-                  style={{ padding: 6, borderRadius: '50%' }}
-                >
-                  <Volume2 size={22} style={{ color: 'var(--color-cobalt)' }} />
+                  title="Listen to pronunciation"
+                  style={{ padding: 6, borderRadius: '50%' }}>
+                  <Volume2 size={20} style={{ color: 'var(--color-accent)' }} />
                 </button>
               </div>
 
-              <div className="ipa" style={{ color: 'var(--color-cobalt)', fontSize: 18, marginBottom: 24 }}>
+              <div className="ipa" style={{ color: 'var(--color-accent)', fontSize: 17, marginBottom: 24 }}>
                 {vocab.ipa} {vocab.pos ? `· ${vocab.pos}` : ''}
               </div>
 
@@ -446,76 +456,78 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
               {isFlipped && (
                 <div
                   style={{
-                    padding: 22,
-                    background: 'var(--surface-subtle)',
-                    borderRadius: 'var(--radius)',
-                    border: '1px solid var(--border)',
-                    marginBottom: 26,
-                    fontSize: 15,
+                    padding: 'var(--space-md)',
+                    background: 'var(--color-paper-2)',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid var(--color-rule)',
+                    marginBottom: 24,
+                    fontSize: 14.5,
                     textAlign: 'left',
-                    lineHeight: 1.65
-                  }}
-                >
+                    lineHeight: 1.6
+                  }}>
                   {vocab.definitionEn && (
                     <p>
                       <strong>Definition:</strong> {vocab.definitionEn}
                     </p>
                   )}
                   {vocab.exampleSentence && (
-                    <p style={{ marginTop: 10 }}>
-                      <strong>Example:</strong> <em>"{vocab.exampleSentence}"</em>
+                    <p style={{ marginTop: 8 }}>
+                      <strong>Academic Example:</strong> <em>"{vocab.exampleSentence}"</em>
                     </p>
                   )}
+                  {/* MeaningVi preserved per Language Policy rule 3: abstract concept anchor for Vietnamese learners */}
                   {vocab.meaningVi && (
                     <div
                       style={{
-                        marginTop: 12,
-                        paddingTop: 10,
-                        borderTop: '1px dashed var(--border)',
+                        marginTop: 10,
+                        paddingTop: 8,
+                        borderTop: '1px dashed var(--color-rule)',
                         fontSize: 13,
-                        color: 'var(--fg-muted)'
-                      }}
-                    >
-                      <strong>Nghĩa tiếng Việt:</strong> {vocab.meaningVi}
+                        color: 'var(--color-ink-muted)'
+                      }}>
+                      <strong>Vietnamese Meaning (Nghĩa tiếng Việt):</strong> {vocab.meaningVi}
                     </div>
                   )}
                   {vocab.collocations && vocab.collocations.length > 0 && (
-                    <div style={{ marginTop: 10, fontSize: 13, color: 'var(--color-emerald)' }}>
+                    <div style={{ marginTop: 8, fontSize: 12.5, color: 'var(--color-moss)', fontFamily: 'var(--font-mono)' }}>
                       <strong>Collocations:</strong> {vocab.collocations.join(', ')}
                     </div>
                   )}
                   {vocab.paraphrases && vocab.paraphrases.length > 0 && (
-                    <div style={{ marginTop: 10, fontSize: 13, color: 'var(--color-cobalt)' }}>
-                      <strong>Từ đồng nghĩa (Paraphrases):</strong> {vocab.paraphrases.join(', ')}
+                    <div style={{ marginTop: 8, fontSize: 12.5, color: 'var(--color-accent)' }}>
+                      <strong>Paraphrases:</strong> {vocab.paraphrases.join(', ')}
                     </div>
                   )}
                 </div>
               )}
 
               {/* Flashcard Actions */}
-              <div className="row" style={{ justifyContent: 'center', gap: 14 }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
                 {!isFlipped ? (
                   <button className="btn btn-secondary" onClick={() => setIsFlipped(true)}>
-                    <RefreshCw size={16} />
-                    <span>Lật thẻ xem nghĩa (Flip)</span>
+                    <RefreshCw size={15} />
+                    <span>Flip Card to View Meaning</span>
                   </button>
                 ) : (
-                  <div className="row" style={{ gap: 12 }}>
-                    <button className="btn btn-danger" onClick={() => handleGrade(false)}>
-                      <X size={16} />
-                      <span>Chưa thuộc (Về Hộp 1)</span>
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <button
+                      className="btn btn-secondary"
+                      style={{ borderColor: 'var(--color-brick)', color: 'var(--color-brick)' }}
+                      onClick={() => handleGrade(false)}>
+                      <X size={15} />
+                      <span>Needs Review (Box 1)</span>
                     </button>
                     <button className="btn btn-primary" onClick={() => handleGrade(true)}>
-                      <Check size={16} />
-                      <span>Đã thuộc (Lên Hộp kế)</span>
+                      <Check size={15} />
+                      <span>Recalled (+1 Box)</span>
                     </button>
                   </div>
                 )}
               </div>
 
               {/* Keyboard Shortcuts Hint */}
-              <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--fg-muted)', marginTop: 16 }}>
-                Phím tắt: [Space/↓] Lật thẻ · [1/←] Quên (Hộp 1) · [2/→] Nhớ (+1 Hộp) · [ ` ] Phát âm
+              <p style={{ textAlign: 'center', fontSize: 11.5, color: 'var(--color-ink-muted)', marginTop: 16, fontFamily: 'var(--font-mono)' }}>
+                Shortcuts: [Space/↓] Flip · [1/←] Forgot (Box 1) · [2/→] Remembered (+1 Box) · [ ` ] Audio
               </p>
             </div>
           )}
