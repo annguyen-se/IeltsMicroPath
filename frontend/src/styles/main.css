@@ -1,0 +1,14 @@
+/* Hallmark & Frontend-Design Typography Base */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #292524; /* stone-800: Đen ấm thay vì đen tuyền */
+  line-height: 1.6;
+}
+
+/* Mẹo giúp chữ Inter nhìn sắc nét và hiện đại hơn */
+h1, h2, h3 {
+  font-weight: 600; /* Không dùng 700/800 */
+  letter-spacing: -0.02em;
+}

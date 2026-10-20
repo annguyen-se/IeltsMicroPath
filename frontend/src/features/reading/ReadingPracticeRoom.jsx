@@ -7,12 +7,10 @@ import {
   BookOpen,
   CheckCircle2,
   XCircle,
-  HelpCircle,
   Volume2,
   ExternalLink,
   Award,
   Sparkles,
-  ChevronRight,
   RotateCcw
 } from 'lucide-react';
 
@@ -94,7 +92,6 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
       if (reviewData) {
         setReviewResult(reviewData);
       } else {
-        // Fallback: re-fetch lesson detail
         await fetchLessonData();
       }
     } catch (err) {
@@ -157,7 +154,7 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
       const next = ranges[i];
       if (next.start < current.end) {
         current.end = Math.max(current.end, next.end);
-        if (next.type === 'pair') current.type = 'pair'; // Prioritize pair highlight
+        if (next.type === 'pair') current.type = 'pair';
       } else {
         merged.push(current);
         current = { ...next };
@@ -178,14 +175,11 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
       elements.push(
         <mark
           key={idx}
-          style={{
-            background: isPair ? 'rgba(16, 185, 129, 0.25)' : 'rgba(99, 102, 241, 0.2)',
-            color: 'inherit',
-            padding: '2px 4px',
-            borderRadius: 4,
-            fontWeight: 600,
-            borderBottom: isPair ? '2px solid var(--color-emerald)' : '2px solid var(--color-cobalt)'
-          }}
+          className={`px-1 py-0.5 rounded font-semibold ${
+            isPair
+              ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-200 border-b-2 border-emerald-600'
+              : 'bg-indigo-100 text-indigo-900 dark:bg-indigo-950/60 dark:text-indigo-200 border-b-2 border-indigo-600'
+          }`}
           title={isPair ? 'Cụm từ Paraphrase đối chiếu' : 'Từ vựng mục tiêu'}
         >
           {matchedSnippet}
@@ -203,19 +197,22 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
 
   if (loading) {
     return (
-      <div className="container" style={{ padding: '60px 20px', textAlign: 'center' }}>
-        <p style={{ color: 'var(--fg-muted)', fontSize: 16 }}>Đang nạp bài đọc IELTS...</p>
+      <div className="max-w-4xl mx-auto py-16 px-4 text-center">
+        <p className="text-stone-500 text-base">Đang nạp bài đọc IELTS...</p>
       </div>
     );
   }
 
   if (errorMsg && !lesson) {
     return (
-      <div className="container" style={{ padding: '40px 20px', maxWidth: 600, textAlign: 'center' }}>
-        <div className="card" style={{ padding: 30, border: '1px solid var(--color-rose)' }}>
-          <h2 style={{ fontSize: 20, color: 'var(--color-rose)', marginBottom: 8 }}>Không thể truy cập bài đọc</h2>
-          <p style={{ color: 'var(--fg-muted)', marginBottom: 20 }}>{errorMsg}</p>
-          <button className="btn btn-primary" onClick={() => navigate('/lessons')}>
+      <div className="max-w-md mx-auto py-16 px-4 text-center">
+        <div className="bg-white dark:bg-stone-900 border border-red-300 dark:border-red-800 rounded-2xl p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">Không thể truy cập bài đọc</h2>
+          <p className="text-sm text-stone-600 dark:text-stone-400 mb-5">{errorMsg}</p>
+          <button
+            className="px-4 py-2 bg-orange-700 hover:bg-orange-800 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
+            onClick={() => navigate('/lessons')}
+          >
             Về Danh mục bài học
           </button>
         </div>
@@ -230,31 +227,30 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
   const paragraphs = lesson?.passage?.paragraphs || [];
 
   return (
-    <div className="container" style={{ maxWidth: 1200, paddingTop: 16, paddingBottom: 60 }}>
+    <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 pt-4 pb-16">
       {/* ─── Top Control Bar ─── */}
-      <div className="row-between" style={{ marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+        <div className="flex items-center gap-3">
           <button
-            className="btn btn-secondary"
+            className="px-3 py-1.5 text-xs font-semibold rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors inline-flex items-center gap-1.5 shadow-sm"
             onClick={() => navigate('/lessons')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={14} />
             <span>Danh mục</span>
           </button>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span className="soft-pill" style={{ textTransform: 'uppercase', fontSize: 11, fontWeight: 700 }}>
+            <div className="flex items-center gap-2">
+              <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-semibold uppercase tracking-wider bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
                 Level {lesson?.level ?? 2} · Reading Practice
               </span>
               {reviewResult?.passed && (
-                <span className="pill pill-success" style={{ fontSize: 11 }}>
-                  <Award size={12} /> Đã thành thạo
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  <Award size={11} /> Đã thành thạo
                 </span>
               )}
             </div>
-            <h1 style={{ fontSize: 22, margin: '4px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <BookOpen size={22} style={{ color: 'var(--color-emerald)' }} />
+            <h1 className="text-xl font-semibold text-stone-800 dark:text-stone-100 tracking-tight mt-1 flex items-center gap-2">
+              <BookOpen size={20} className="text-emerald-700 dark:text-emerald-500" />
               <span>{lesson?.title}</span>
             </h1>
           </div>
@@ -262,117 +258,96 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
 
         {isReviewUnlocked && (
           <button
-            className="btn btn-secondary"
+            className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors inline-flex items-center gap-1.5 shadow-sm"
             onClick={() => {
               setReviewResult(null);
               setAnswers({});
             }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
           >
-            <RotateCcw size={15} />
+            <RotateCcw size={14} />
             <span>Làm lại bài này</span>
           </button>
         )}
       </div>
 
       {/* ─── Mobile Tab Toggles ─── */}
-      <div className="mobile-only" style={{ display: 'none', marginBottom: 16 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            className={`btn ${activeMobileTab === 'passage' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ flex: 1 }}
-            onClick={() => setActiveMobileTab('passage')}
-          >
-            Đoạn văn (Passage)
-          </button>
-          <button
-            className={`btn ${activeMobileTab === 'questions' ? 'btn-primary' : 'btn-secondary'}`}
-            style={{ flex: 1 }}
-            onClick={() => setActiveMobileTab('questions')}
-          >
-            Câu hỏi ({questions.length})
-          </button>
-        </div>
+      <div className="lg:hidden flex gap-2 mb-4 bg-stone-100 dark:bg-stone-800 p-1 rounded-lg border border-stone-200 dark:border-stone-700">
+        <button
+          className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
+            activeMobileTab === 'passage'
+              ? 'bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 shadow-sm'
+              : 'text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+          }`}
+          onClick={() => setActiveMobileTab('passage')}
+        >
+          Đoạn văn (Passage)
+        </button>
+        <button
+          className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
+            activeMobileTab === 'questions'
+              ? 'bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-100 shadow-sm'
+              : 'text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+          }`}
+          onClick={() => setActiveMobileTab('questions')}
+        >
+          Câu hỏi ({questions.length})
+        </button>
       </div>
 
       {/* ─── Review Result Banner (If Submitted) ─── */}
       {reviewResult && (
         <div
-          className="card"
-          style={{
-            marginBottom: 20,
-            padding: 20,
-            background: reviewResult.passed ? 'var(--color-emerald-surface)' : 'var(--color-rose-surface)',
-            borderColor: reviewResult.passed ? 'var(--color-emerald-border)' : 'var(--color-rose-border)',
-            color: reviewResult.passed ? 'var(--color-emerald)' : 'var(--color-rose)'
-          }}
+          className={`p-4 sm:p-5 rounded-xl border mb-6 flex items-center justify-between flex-wrap gap-4 ${
+            reviewResult.passed
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
+              : 'bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800'
+          }`}
         >
-          <div className="row-between" style={{ flexWrap: 'wrap', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              {reviewResult.passed ? <CheckCircle2 size={32} /> : <XCircle size={32} />}
-              <div>
-                <h3 style={{ fontSize: 18, margin: 0, fontWeight: 700 }}>
-                  {reviewResult.passed ? 'Hoàn thành xuất sắc!' : 'Chưa đạt ngưỡng thành thạo (≥ 75%)'}
-                </h3>
-                <p style={{ margin: '4px 0 0', fontSize: 14 }}>{reviewResult.message}</p>
-              </div>
+          <div className="flex items-center gap-3">
+            {reviewResult.passed ? <CheckCircle2 size={28} className="shrink-0" /> : <XCircle size={28} className="shrink-0" />}
+            <div>
+              <h3 className="text-base font-semibold">
+                {reviewResult.passed ? 'Hoàn thành xuất sắc!' : 'Chưa đạt ngưỡng thành thạo (≥ 75%)'}
+              </h3>
+              <p className="text-xs opacity-90 mt-0.5">{reviewResult.message}</p>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 24, fontWeight: 800 }}>
-                {reviewResult.scorePercentage != null ? `${reviewResult.scorePercentage}%` : ''}
-              </div>
-              <div style={{ fontSize: 12, opacity: 0.85 }}>Lượt nộp: #{reviewResult.attemptNumber || 1}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold font-mono">
+              {reviewResult.scorePercentage != null ? `${reviewResult.scorePercentage}%` : ''}
             </div>
+            <div className="text-[11px] opacity-75">Lượt nộp: #{reviewResult.attemptNumber || 1}</div>
           </div>
         </div>
       )}
 
       {/* ─── Main Split-Screen Layout ─── */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(320px, 1.15fr) minmax(320px, 0.85fr)',
-          gap: 24,
-          alignItems: 'start'
-        }}
-      >
+      <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-6 items-start">
         {/* ─── LEFT COLUMN: Reading Passage ─── */}
         <div
-          className={`card ${activeMobileTab === 'questions' ? 'hide-on-mobile' : ''}`}
-          style={{ padding: 24, position: 'sticky', top: 20, maxHeight: 'calc(100vh - 60px)', overflowY: 'auto' }}
+          className={`bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 sm:p-6 lg:sticky lg:top-20 max-h-[calc(100vh-80px)] overflow-y-auto shadow-sm ${
+            activeMobileTab === 'questions' ? 'hidden lg:block' : ''
+          }`}
         >
-          <div className="row-between" style={{ marginBottom: 16, borderBottom: '1px solid var(--border)', paddingBottom: 10 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--fg-muted)', textTransform: 'uppercase' }}>
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-stone-200 dark:border-stone-800">
+            <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
               Đoạn văn đọc hiểu (Reading Passage)
             </span>
-            <span style={{ fontSize: 12, color: 'var(--fg-muted)' }}>
+            <span className="text-xs font-mono text-stone-500">
               {paragraphs.length} đoạn · Band {lesson?.level === 2 ? '5.5–6.0' : lesson?.level === 3 ? '6.5–7.0' : '7.5+'}
             </span>
           </div>
 
-          <div className="stack" style={{ gap: 20, lineHeight: 1.7, fontSize: 15 }}>
+          <div className="flex flex-col gap-5 text-[15px] leading-relaxed text-stone-800 dark:text-stone-200 font-sans">
             {paragraphs.map((p) => (
               <div
                 key={p.label}
-                style={{
-                  position: 'relative',
-                  paddingLeft: 34,
-                  borderLeft: '3px solid var(--border)'
-                }}
+                className="relative pl-8 border-l-2 border-stone-200 dark:border-stone-700"
               >
-                <span
-                  style={{
-                    position: 'absolute',
-                    left: 6,
-                    top: 0,
-                    fontWeight: 800,
-                    fontSize: 14,
-                    color: 'var(--color-cobalt)'
-                  }}
-                >
+                <span className="absolute left-2 top-0 font-mono font-bold text-xs text-orange-700 dark:text-orange-500">
                   [{p.label}]
                 </span>
-                <p style={{ margin: 0, textAlign: 'justify' }}>
+                <p className="m-0 text-justify">
                   {renderHighlightedText(p.text, p.label, vocabAnchors, paraphrasePairs)}
                 </p>
               </div>
@@ -381,42 +356,41 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
 
           {/* ─── Paraphrase Mapping Table (Shown after review unlocked) ─── */}
           {isReviewUnlocked && paraphrasePairs.length > 0 && (
-            <div style={{ marginTop: 28, borderTop: '1px solid var(--border)', paddingTop: 20 }}>
-              <h4 style={{ fontSize: 16, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Sparkles size={16} style={{ color: 'var(--color-emerald)' }} />
+            <div className="mt-8 pt-5 border-t border-stone-200 dark:border-stone-800">
+              <h4 className="text-sm font-semibold text-stone-800 dark:text-stone-100 flex items-center gap-1.5 mb-3">
+                <Sparkles size={15} className="text-emerald-600" />
                 <span>Bảng Đối chiếu Cặp Paraphrase (Question ↔ Passage)</span>
               </h4>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
                   <thead>
-                    <tr style={{ background: 'var(--surface-subtle)', textAlign: 'left' }}>
-                      <th style={{ padding: '8px 10px', borderBottom: '1px solid var(--border)' }}>Cụm trong câu hỏi</th>
-                      <th style={{ padding: '8px 10px', borderBottom: '1px solid var(--border)' }}>Cụm trong bài đọc</th>
-                      <th style={{ padding: '8px 10px', borderBottom: '1px solid var(--border)' }}>Từ vựng gốc</th>
+                    <tr className="bg-stone-50 dark:bg-stone-800/60 border-b border-stone-200 dark:border-stone-700">
+                      <th className="p-2 font-semibold text-stone-600 dark:text-stone-300">Cụm trong câu hỏi</th>
+                      <th className="p-2 font-semibold text-stone-600 dark:text-stone-300">Cụm trong bài đọc</th>
+                      <th className="p-2 font-semibold text-stone-600 dark:text-stone-300">Từ vựng gốc</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-stone-100 dark:divide-stone-800">
                     {paraphrasePairs.map((pair, idx) => (
-                      <tr key={idx} style={{ borderBottom: '1px solid var(--border)' }}>
-                        <td style={{ padding: '8px 10px', fontWeight: 600, color: 'var(--color-cobalt)' }}>
+                      <tr key={idx} className="hover:bg-stone-50/50 dark:hover:bg-stone-800/30">
+                        <td className="p-2 font-medium text-blue-700 dark:text-blue-400">
                           "{pair.questionText}"
                         </td>
-                        <td style={{ padding: '8px 10px', color: 'var(--color-emerald)', fontWeight: 600 }}>
+                        <td className="p-2 font-medium text-emerald-700 dark:text-emerald-400">
                           "{pair.passageText}" [{pair.paragraphLabel}]
                         </td>
-                        <td style={{ padding: '8px 10px' }}>
+                        <td className="p-2">
                           {pair.vocabId?.word ? (
                             <button
-                              className="btn btn-ghost"
-                              style={{ padding: '2px 6px', fontSize: 12, fontWeight: 700 }}
+                              className="text-xs font-semibold text-stone-700 dark:text-stone-300 hover:text-orange-700 inline-flex items-center gap-1"
                               onClick={() => navigate(`/paraphrases?word=${pair.vocabId.word}`)}
                               title="Xem trong Paraphrase Explorer"
                             >
-                              {pair.vocabId.word}
-                              <ExternalLink size={11} style={{ marginLeft: 4 }} />
+                              <span>{pair.vocabId.word}</span>
+                              <ExternalLink size={10} />
                             </button>
                           ) : (
-                            <span style={{ color: 'var(--fg-muted)' }}>Cấu trúc</span>
+                            <span className="text-stone-400">Cấu trúc</span>
                           )}
                         </td>
                       </tr>
@@ -429,15 +403,17 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
         </div>
 
         {/* ─── RIGHT COLUMN: Questions & Drill ─── */}
-        <div className={`card ${activeMobileTab === 'passage' ? 'hide-on-mobile' : ''}`} style={{ padding: 24 }}>
-          <div className="row-between" style={{ marginBottom: 16, borderBottom: '1px solid var(--border)', paddingBottom: 10 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--fg-muted)', textTransform: 'uppercase' }}>
+        <div className={`bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 sm:p-6 shadow-sm ${
+          activeMobileTab === 'passage' ? 'hidden lg:block' : ''
+        }`}>
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-stone-200 dark:border-stone-800">
+            <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">
               Bài tập thực hành ({questions.length} câu)
             </span>
-            <span style={{ fontSize: 12, color: 'var(--fg-muted)' }}>Ngưỡng đạt: ≥ 75%</span>
+            <span className="text-xs font-mono text-stone-500">Ngưỡng đạt: ≥ 75%</span>
           </div>
 
-          <div className="stack" style={{ gap: 24 }}>
+          <div className="flex flex-col gap-5">
             {detailedQuestions.map((q, qIdx) => {
               const currentAns = answers[q._id] || '';
               const isCorrect = q.isCorrect;
@@ -445,64 +421,48 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
               return (
                 <div
                   key={q._id}
-                  style={{
-                    padding: 16,
-                    borderRadius: 8,
-                    background: isReviewUnlocked
+                  className={`p-4 rounded-xl border text-left transition-all ${
+                    isReviewUnlocked
                       ? isCorrect
-                        ? 'rgba(16, 185, 129, 0.05)'
-                        : 'rgba(239, 68, 68, 0.05)'
-                      : 'var(--surface-subtle)',
-                    border: '1px solid',
-                    borderColor: isReviewUnlocked
-                      ? isCorrect
-                        ? 'var(--color-emerald-border)'
-                        : 'var(--color-rose-border)'
-                      : 'var(--border)'
-                  }}
+                        ? 'bg-emerald-50/30 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800'
+                        : 'bg-red-50/30 dark:bg-red-950/20 border-red-300 dark:border-red-800'
+                      : 'bg-stone-50/80 dark:bg-stone-800/40 border-stone-200 dark:border-stone-700/60'
+                  }`}
                 >
                   {/* Question Header */}
-                  <div className="row-between" style={{ marginBottom: 8 }}>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-cobalt)', textTransform: 'uppercase' }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-500">
                       Câu {q.orderIndex || qIdx + 1} · {q.format?.toUpperCase() || 'QUESTION'}
                     </span>
                     {isReviewUnlocked && (
                       <span
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 700,
-                          color: isCorrect ? 'var(--color-emerald)' : 'var(--color-rose)',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 4
-                        }}
+                        className={`text-xs font-semibold inline-flex items-center gap-1 ${
+                          isCorrect ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'
+                        }`}
                       >
-                        {isCorrect ? <CheckCircle2 size={14} /> : <XCircle size={14} />}
-                        {isCorrect ? 'Chính xác' : 'Chưa đúng'}
+                        {isCorrect ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
+                        <span>{isCorrect ? 'Chính xác' : 'Chưa đúng'}</span>
                       </span>
                     )}
                   </div>
 
                   {/* Prompt */}
-                  <p style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', lineHeight: 1.5 }}>
+                  <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3 leading-relaxed">
                     {q.prompt}
                   </p>
 
                   {/* Input by format */}
                   {q.format === 'tfng' ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+                    <div className="grid grid-cols-3 gap-2">
                       {['TRUE', 'FALSE', 'NOT GIVEN'].map((opt) => (
                         <button
                           key={opt}
                           disabled={isReviewUnlocked}
-                          className={`btn ${currentAns === opt ? 'btn-primary' : 'btn-secondary'}`}
-                          style={{
-                            fontSize: 12,
-                            padding: '8px 4px',
-                            fontWeight: 700,
-                            borderColor:
-                              isReviewUnlocked && q.correctAnswer === opt ? 'var(--color-emerald)' : undefined
-                          }}
+                          className={`py-2 px-1 text-xs font-semibold rounded-md border transition-all ${
+                            currentAns === opt
+                              ? 'bg-orange-700 text-white border-orange-700 shadow-sm'
+                              : 'bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 border-stone-200 dark:border-stone-700 hover:bg-stone-100'
+                          } ${isReviewUnlocked && q.correctAnswer === opt ? 'ring-2 ring-emerald-500 border-emerald-500' : ''}`}
                           onClick={() => handleAnswerChange(q._id, opt)}
                         >
                           {opt}
@@ -510,7 +470,7 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
                       ))}
                     </div>
                   ) : q.format === 'mcq' || q.format === 'vocab-context' ? (
-                    <div className="stack" style={{ gap: 6 }}>
+                    <div className="flex flex-col gap-2">
                       {(q.options || []).map((opt, optIdx) => {
                         const isSelected = currentAns === opt;
                         const isRightAnswer = isReviewUnlocked && q.correctAnswer === opt;
@@ -518,60 +478,53 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
                           <button
                             key={optIdx}
                             disabled={isReviewUnlocked}
-                            className={`btn ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
-                            style={{
-                              textAlign: 'left',
-                              fontSize: 13,
-                              padding: '8px 12px',
-                              justifyContent: 'flex-start',
-                              background: isRightAnswer
-                                ? 'var(--color-emerald-surface)'
-                                : undefined,
-                              borderColor: isRightAnswer ? 'var(--color-emerald)' : undefined,
-                              color: isRightAnswer ? 'var(--color-emerald)' : undefined
-                            }}
+                            className={`p-2.5 text-xs text-left rounded-lg border transition-all flex items-start gap-2 ${
+                              isRightAnswer
+                                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-600 text-emerald-900 dark:text-emerald-200 font-bold'
+                                : isSelected
+                                ? 'bg-orange-50 dark:bg-orange-950/30 border-orange-600 text-orange-900 dark:text-orange-200 font-semibold'
+                                : 'bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 border-stone-200 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-700/50'
+                            }`}
                             onClick={() => handleAnswerChange(q._id, opt)}
                           >
-                            <span style={{ marginRight: 8, opacity: 0.6 }}>•</span>
-                            <span>{opt}</span>
+                            <span className="opacity-40">•</span>
+                            <span className="leading-snug">{opt}</span>
                           </button>
                         );
                       })}
                     </div>
                   ) : (
-                    // Sentence completion / Cloze
                     <div>
                       <input
                         type="text"
                         disabled={isReviewUnlocked}
-                        className="input"
+                        className="w-full px-3.5 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-600 text-xs"
                         placeholder="Nhập 1 từ điền vào chỗ trống..."
                         value={currentAns}
                         onChange={(e) => handleAnswerChange(q._id, e.target.value)}
-                        style={{ fontSize: 14 }}
                       />
                     </div>
                   )}
 
                   {/* Detailed Explanation & Evidence (When review is unlocked) */}
                   {isReviewUnlocked && (
-                    <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px dashed var(--border)', fontSize: 13 }}>
-                      <div style={{ marginBottom: 4 }}>
-                        <strong>Đáp án đúng:</strong>{' '}
-                        <span style={{ color: 'var(--color-emerald)', fontWeight: 700 }}>
+                    <div className="mt-3 pt-2.5 border-t border-dashed border-stone-200 dark:border-stone-700 text-xs leading-relaxed">
+                      <div className="mb-1">
+                        <strong className="text-stone-700 dark:text-stone-300">Đáp án đúng:</strong>{' '}
+                        <span className="text-emerald-700 dark:text-emerald-400 font-bold">
                           {q.correctAnswer}
                         </span>
                       </div>
                       {q.evidence?.text ? (
-                        <div style={{ marginBottom: 4, color: 'var(--fg-muted)' }}>
+                        <div className="mb-1 text-stone-500">
                           <strong>Bằng chứng [{q.evidence.paragraphLabel}]:</strong> <em>"{q.evidence.text}"</em>
                         </div>
                       ) : q.correctAnswer === 'NOT GIVEN' ? (
-                        <div style={{ marginBottom: 4, color: 'var(--fg-muted)' }}>
+                        <div className="mb-1 text-stone-500">
                           <strong>Bằng chứng:</strong> <em>Đoạn văn không cung cấp thông tin cho nội dung này.</em>
                         </div>
                       ) : null}
-                      <p style={{ margin: '4px 0 0', color: 'var(--fg)' }}>
+                      <p className="text-stone-600 dark:text-stone-400 mt-1">
                         <strong>Giải thích:</strong> {q.explanation}
                       </p>
                     </div>
@@ -583,14 +536,13 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
 
           {/* Submit Action */}
           {!isReviewUnlocked && (
-            <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
+            <div className="mt-6 pt-4 border-t border-stone-200 dark:border-stone-800">
               {errorMsg && (
-                <p style={{ color: 'var(--color-rose)', fontSize: 13, marginBottom: 12 }}>{errorMsg}</p>
+                <p className="text-red-600 text-xs mb-3">{errorMsg}</p>
               )}
               <button
-                className="btn btn-primary"
+                className="w-full py-3 px-4 text-sm font-semibold text-white bg-orange-700 hover:bg-orange-800 active:translate-y-px rounded-lg shadow-sm transition-all disabled:opacity-50"
                 disabled={submitting}
-                style={{ width: '100%', padding: '10px 18px', fontSize: 15, fontWeight: 700 }}
                 onClick={handleSubmit}
               >
                 {submitting ? 'Đang chấm điểm...' : 'Nộp bài kiểm tra'}
@@ -600,40 +552,31 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
 
           {/* Vocabulary Recap (After Review Unlocked) */}
           {isReviewUnlocked && lesson?.vocabIds && lesson.vocabIds.length > 0 && (
-            <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
-              <h4 style={{ fontSize: 15, margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Award size={16} style={{ color: 'var(--color-emerald)' }} />
+            <div className="mt-6 pt-5 border-t border-stone-200 dark:border-stone-800 text-left">
+              <h4 className="text-sm font-semibold text-stone-800 dark:text-stone-100 flex items-center gap-1.5 mb-1.5">
+                <Award size={15} className="text-orange-700 dark:text-orange-500" />
                 <span>Từ vựng trọng tâm bài đọc ({lesson.vocabIds.length} từ)</span>
               </h4>
-              <p style={{ fontSize: 12, color: 'var(--fg-muted)', margin: '0 0 12px' }}>
+              <p className="text-xs text-stone-500 mb-3">
                 Toàn bộ từ vựng đã được nạp tự động vào Hộp 1 SRS của bạn (Lịch ôn tập: Ngày mai).
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8 }}>
+              <div className="flex flex-col gap-2">
                 {lesson.vocabIds.map((v) => (
                   <div
                     key={v._id}
-                    className="row-between"
-                    style={{
-                      padding: '8px 12px',
-                      background: 'var(--surface-subtle)',
-                      borderRadius: 6,
-                      fontSize: 13
-                    }}
+                    className="flex items-center justify-between p-2.5 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/60 rounded-lg text-xs"
                   >
                     <div>
-                      <strong style={{ fontSize: 14 }}>{v.word}</strong>{' '}
-                      <span style={{ color: 'var(--fg-muted)', fontStyle: 'italic', fontSize: 12 }}>
-                        ({v.pos})
-                      </span>
-                      <div style={{ fontSize: 12, color: 'var(--fg)' }}>{v.meaningVi}</div>
+                      <strong className="text-stone-800 dark:text-stone-200">{v.word}</strong>{' '}
+                      <span className="text-stone-400 italic">({v.pos})</span>
+                      <div className="text-stone-600 dark:text-stone-400 mt-0.5">{v.meaningVi}</div>
                     </div>
                     <button
-                      className="btn btn-ghost"
+                      className="p-1.5 text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 rounded-md hover:bg-stone-200/50"
                       onClick={() => playWordAudio(v.media?.url, v.word)}
                       title="Nghe phát âm"
-                      style={{ padding: 4 }}
                     >
-                      <Volume2 size={16} style={{ color: 'var(--color-cobalt)' }} />
+                      <Volume2 size={15} className="text-blue-700 dark:text-blue-400" />
                     </button>
                   </div>
                 ))}

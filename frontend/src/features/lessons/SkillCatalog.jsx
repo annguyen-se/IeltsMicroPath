@@ -407,23 +407,32 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
       )}
 
       {/* ─── 4. Outer Study Workspace Modal Container ─── */}
-      {/* Outer shell formatted cleanly, ready to host specific user editor and feedback panels */}
       {activeLessonId && (
-        <div className="study-modal-backdrop" role="dialog" aria-modal="true" aria-label="Lesson Study Sanctuary">
-          <div className="study-workspace-shell">
+        <div
+          className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Lesson Study Sanctuary"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setActiveLessonId(null);
+              setLessonDetail(null);
+            }
+          }}
+        >
+          <div className="bg-[#fcfbf9] dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-2xl max-w-4xl w-full min-h-[580px] max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
             {/* Modal Topbar */}
-            <div className="study-topbar">
+            <div className="flex items-center justify-between gap-4 px-6 py-4 bg-white dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 shrink-0">
               <div style={{ minWidth: 0, flex: 1 }}>
-                <span className="syllabus-badge" style={{ marginBottom: 4 }}>
+                <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-semibold uppercase tracking-wider bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 mb-1">
                   LEVEL {lessonDetail?.lesson?.level ?? 0} · {lessonDetail?.lesson?.skill?.toUpperCase()}
                 </span>
-                <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--color-ink)' }}>
+                <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100 tracking-tight">
                   {lessonDetail?.lesson?.title || 'Loading lesson...'}
                 </h2>
               </div>
               <button
-                className="btn btn-ghost"
-                style={{ padding: 8 }}
+                className="p-1.5 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
                 onClick={() => {
                   setActiveLessonId(null);
                   setLessonDetail(null);
@@ -435,17 +444,21 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
             </div>
 
             {loadingDetail ? (
-              <div style={{ padding: 'var(--space-3xl)', textAlign: 'center', color: 'var(--color-ink-muted)' }}>
+              <div className="p-12 text-center text-sm text-stone-500">
                 Loading lesson framework and practice blocks...
               </div>
             ) : (
               <>
                 {/* Lesson Navigation Tabs */}
-                <div className="study-tab-strip" role="tablist">
+                <div className="flex items-center gap-1 px-6 bg-stone-100 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700 shrink-0 overflow-x-auto" role="tablist">
                   <button
                     role="tab"
                     aria-selected={activeTab === 'theory'}
-                    className={`study-tab-btn ${activeTab === 'theory' ? 'active' : ''}`}
+                    className={`px-4 py-3 text-xs font-semibold border-b-2 transition-all whitespace-nowrap ${
+                      activeTab === 'theory'
+                        ? 'border-orange-700 text-orange-700 dark:border-orange-500 dark:text-orange-500 font-bold'
+                        : 'border-transparent text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+                    }`}
                     onClick={() => setActiveTab('theory')}
                   >
                     1. Theoretical Framework & Rules
@@ -453,7 +466,11 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                   <button
                     role="tab"
                     aria-selected={activeTab === 'vocab'}
-                    className={`study-tab-btn ${activeTab === 'vocab' ? 'active' : ''}`}
+                    className={`px-4 py-3 text-xs font-semibold border-b-2 transition-all whitespace-nowrap ${
+                      activeTab === 'vocab'
+                        ? 'border-orange-700 text-orange-700 dark:border-orange-500 dark:text-orange-500 font-bold'
+                        : 'border-transparent text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+                    }`}
                     onClick={() => setActiveTab('vocab')}
                   >
                     2. Core Academic Lexis ({lessonDetail?.vocabularies?.length || 0})
@@ -461,7 +478,11 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                   <button
                     role="tab"
                     aria-selected={activeTab === 'quiz'}
-                    className={`study-tab-btn ${activeTab === 'quiz' ? 'active' : ''}`}
+                    className={`px-4 py-3 text-xs font-semibold border-b-2 transition-all whitespace-nowrap ${
+                      activeTab === 'quiz'
+                        ? 'border-orange-700 text-orange-700 dark:border-orange-500 dark:text-orange-500 font-bold'
+                        : 'border-transparent text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+                    }`}
                     onClick={() => setActiveTab('quiz')}
                   >
                     3. Practice Drills & Application ({lessonDetail?.questions?.length || 0})
@@ -469,7 +490,7 @@ export default function SkillCatalog({ onBack, isAuthenticated = false, onOpenAu
                 </div>
 
                 {/* Main Content Sanctuary Body */}
-                <div className="study-content-container">
+                <div className="flex-1 overflow-y-auto p-6 sm:p-8 max-w-3xl w-full mx-auto">
                   {/* Tab 1: Theory */}
                   {activeTab === 'theory' && (
                     <div className="card" style={{ background: 'var(--color-surface)', padding: 'var(--space-xl)' }}>

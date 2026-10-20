@@ -4,6 +4,10 @@
 
 @import './tokens.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ─── Global Reset & Anti-Slop Base (Gates 34, 51) ─── */
 *,
 *::before,
@@ -20,13 +24,13 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: var(--lh-normal);
+  line-height: 1.6;
   letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Gate 38a & 51: Roman display headers (NO ITALIC HEADERS), overflow-wrap anywhere */
+/* Mẹo giúp chữ Inter nhìn sắc nét và hiện đại hơn */
 h1,
 h2,
 h3,
@@ -36,28 +40,30 @@ h6 {
   margin: 0;
   font-family: var(--font-display);
   font-style: normal; /* Gate 38a: strict upright roman headers */
-  font-weight: 600;
+  font-weight: 600; /* Không dùng 700/800 */
   color: var(--color-ink);
   line-height: var(--lh-tight);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   overflow-wrap: anywhere; /* Gate 51 */
   min-width: 0;
 }
 
 h1 {
   font-size: var(--text-display);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 h2 {
   font-size: var(--text-xl);
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 h3 {
   font-size: var(--text-lg);
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 p {
@@ -225,8 +231,8 @@ textarea {
   gap: 5px;
   padding: 4px 10px;
   border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-family: var(--font-body);
+  font-size: 12px;
   font-weight: 500;
   white-space: nowrap; /* Gate 49 */
   border: 1px solid var(--color-rule);
@@ -236,6 +242,7 @@ textarea {
 
 .streak-chip strong,
 .target-chip strong {
+  font-family: var(--font-mono);
   color: var(--color-ink);
   font-weight: 600;
 }
@@ -290,9 +297,9 @@ textarea {
 }
 
 .section-kicker {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.06em;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-accent);
   font-weight: 600;
@@ -449,9 +456,9 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-accent);
   margin-bottom: var(--space-xs);
@@ -460,7 +467,8 @@ textarea {
 
 .tutor-headline {
   font-size: clamp(1.4rem, 2.4vw, 1.85rem);
-  font-weight: 700;
+  font-weight: 600; /* Không dùng 700/800 để chữ thanh thoát, lòng chữ mở rộng */
+  letter-spacing: -0.02em;
   line-height: var(--lh-tight);
   color: var(--color-ink);
   margin-bottom: var(--space-xs);
@@ -500,13 +508,20 @@ textarea {
 }
 
 .routine-step-num {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-body);
+  font-size: 11.5px;
   color: var(--color-ink-muted);
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.routine-step-num span:first-child {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-accent);
 }
 
 .routine-step-title {
@@ -606,10 +621,10 @@ textarea {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-body);
+  font-size: 11.5px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--color-accent);
   font-weight: 600;
   margin-bottom: var(--space-xs);
@@ -914,6 +929,34 @@ textarea {
   color: var(--color-ink-muted);
   line-height: 1.5;
   margin-top: 6px;
+}
+
+/* ─── Generic Modal Dialog System (Auth, Summary, Overlay Dialogs) ─── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklch, var(--color-ink) 55%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: var(--space-md);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.modal-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  max-width: 460px;
+  width: 100%;
+  padding: var(--space-xl);
+  position: relative;
+  box-shadow: 0 20px 48px color-mix(in oklch, var(--color-ink) 18%, transparent);
+  box-sizing: border-box;
+  text-align: left;
 }
 
 /* ─── Outer Study Workspace Modal Container (The Sanctuary) ─── */

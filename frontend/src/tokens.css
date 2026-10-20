@@ -3,36 +3,36 @@
  */
 :root {
   /* ─── Base Palette: Warm Paper & Charcoal Ink ─── */
-  --color-paper: oklch(97.2% 0.012 75);         /* Cream parchment, no pure #fff */
-  --color-paper-2: oklch(95.6% 0.015 75);       /* Slightly darker paper band */
-  --color-paper-3: oklch(93.8% 0.018 75);       /* Recessed surface / paper gutter */
-  --color-surface: oklch(98.8% 0.008 75);       /* Primary desk surface */
-  --color-surface-elev: oklch(100% 0.004 75);   /* Elevated card surface */
-  --color-surface-subtle: oklch(94.8% 0.014 75);/* Subtle pill / tab background */
+  --color-paper: oklch(97.2% 0.012 75); /* Cream parchment, no pure #fff */
+  --color-paper-2: oklch(95.6% 0.015 75); /* Slightly darker paper band */
+  --color-paper-3: oklch(93.8% 0.018 75); /* Recessed surface / paper gutter */
+  --color-surface: oklch(98.8% 0.008 75); /* Primary desk surface */
+  --color-surface-elev: oklch(100% 0.004 75); /* Elevated card surface */
+  --color-surface-subtle: oklch(94.8% 0.014 75); /* Subtle pill / tab background */
 
-  --color-ink: oklch(21% 0.016 50);             /* Deep charcoal ink, contrast > 11:1 */
-  --color-ink-muted: oklch(46% 0.020 50);       /* Muted text, contrast > 5.5:1 */
-  --color-ink-faint: oklch(64% 0.014 50);       /* Hairline captions, metadata */
+  --color-ink: #292524;                         /* stone-800: Đen ấm thay vì đen tuyền */
+  --color-ink-muted: #57534e;                   /* stone-600: Đậm hơn 1 nấc, sắc nét, chống mỏi mắt */
+  --color-ink-faint: #78716c;                   /* stone-500: Metadata mờ */
 
-  --color-rule: oklch(88% 0.012 75);            /* Book rule / Hairline border */
+  --color-rule: oklch(88% 0.012 75); /* Book rule / Hairline border */
   --color-border: oklch(88% 0.012 75);
-  --color-border-strong: oklch(76% 0.022 75);   /* Stronger tactile divider */
+  --color-border-strong: oklch(76% 0.022 75); /* Stronger tactile divider */
 
   /* ─── Accent Hue: Warm Terracotta / Cinnabar (Anchor hue: 44) ─── */
-  --color-accent: oklch(56% 0.17 44);           /* Terracotta accent, <3% viewport */
-  --color-accent-soft: oklch(94.5% 0.035 44);   /* Soft wash for active badges */
-  --color-accent-ink: oklch(98% 0.005 75);      /* Text on accent button */
+  --color-accent: oklch(56% 0.17 44); /* Terracotta accent, <3% viewport */
+  --color-accent-soft: oklch(94.5% 0.035 44); /* Soft wash for active badges */
+  --color-accent-ink: oklch(98% 0.005 75); /* Text on accent button */
   --color-accent-hover: oklch(50% 0.18 44);
-  --color-focus: oklch(56% 0.17 44);            /* Instant high-contrast focus ring */
+  --color-focus: oklch(56% 0.17 44); /* Instant high-contrast focus ring */
 
   /* ─── Pedagogical Secondary Signals (Quiet scholar tones) ─── */
-  --color-moss: oklch(52% 0.13 145);            /* Mastery, correct, Box 5 */
+  --color-moss: oklch(52% 0.13 145); /* Mastery, correct, Box 5 */
   --color-moss-soft: oklch(94% 0.03 145);
-  --color-amber: oklch(64% 0.14 70);            /* Ongoing review, attention, Box 2 */
+  --color-amber: oklch(64% 0.14 70); /* Ongoing review, attention, Box 2 */
   --color-amber-soft: oklch(94% 0.035 70);
-  --color-brick: oklch(52% 0.18 28);            /* Mistakes, traps, Box 1 */
+  --color-brick: oklch(52% 0.18 28); /* Mistakes, traps, Box 1 */
   --color-brick-soft: oklch(94% 0.035 28);
-  --color-cobalt: oklch(54% 0.14 245);          /* Grammar, syntactic analysis */
+  --color-cobalt: oklch(54% 0.14 245); /* Grammar, syntactic analysis */
   --color-cobalt-soft: oklch(94% 0.03 245);
 
   /* ─── Backward-compatible variable aliases ─── */
@@ -46,20 +46,21 @@
   --border-strong: var(--color-border-strong);
 
   /* ─── Typography Stacks ─── */
-  --font-display: 'Lexend', 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
-  --font-body: 'Be Vietnam Pro', 'Lexend', system-ui, -apple-system, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
   --font-ipa: 'Noto Sans', 'Charis SIL', sans-serif;
 
-  /* ─── Type Scale ─── */
-  --text-display: clamp(1.85rem, 3.5vw, 2.45rem);
+  /* ─── Type Scale (15px base reading comfort) ─── */
+  --text-display: clamp(1.85rem, 3.5vw, 2.35rem);
   --text-xl: 1.35rem;
   --text-lg: 1.125rem;
-  --text-base: 1rem;
-  --text-sm: 0.875rem;
+  --text-base: 0.9375rem; /* 15px */
+  --text-sm: 0.84375rem; /* 13.5px */
   --text-xs: 0.75rem;
 
-  --lh-tight: 1.15;
+  --lh-tight: 1.2;
   --lh-normal: 1.6;
   --measure-prose: 68ch;
 
@@ -91,22 +92,22 @@
 
 /* ─── Dark Mode (Night Study Room / Warm Obsidian) ─── */
 [data-theme='dark'] {
-  --color-paper: oklch(16% 0.014 55);           /* Deep warm charcoal/cedar, not #000 */
+  --color-paper: oklch(16% 0.014 55); /* Deep warm charcoal/cedar, not #000 */
   --color-paper-2: oklch(18.5% 0.016 55);
   --color-paper-3: oklch(21% 0.018 55);
   --color-surface: oklch(19% 0.015 55);
   --color-surface-elev: oklch(23% 0.018 55);
   --color-surface-subtle: oklch(22% 0.016 55);
 
-  --color-ink: oklch(93% 0.010 75);             /* Warm ivory ink, not #fff */
-  --color-ink-muted: oklch(72% 0.015 70);
-  --color-ink-faint: oklch(52% 0.015 70);
+  --color-ink: #f5f5f4; /* stone-100: Trắng ngà dịu mắt, không lóa */
+  --color-ink-muted: #d6d3d1; /* stone-300: Đậm nét, đọc rõ trên nền tối */
+  --color-ink-faint: #a8a29e; /* stone-400 */
 
-  --color-rule: oklch(28% 0.020 55);
-  --color-border: oklch(28% 0.020 55);
+  --color-rule: oklch(28% 0.02 55);
+  --color-border: oklch(28% 0.02 55);
   --color-border-strong: oklch(38% 0.025 55);
 
-  --color-accent: oklch(68% 0.15 44);           /* Lighter terracotta glow for contrast */
+  --color-accent: oklch(68% 0.15 44); /* Lighter terracotta glow for contrast */
   --color-accent-soft: oklch(25% 0.04 44);
   --color-accent-ink: oklch(14% 0.015 55);
   --color-accent-hover: oklch(74% 0.16 44);

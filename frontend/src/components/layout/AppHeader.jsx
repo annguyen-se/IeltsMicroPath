@@ -1,5 +1,3 @@
-/* Hallmark · macrostructure: Workbench · tone: editorial · anchor hue: 44 */
-/* Hallmark · genre: editorial · macrostructure: Workbench · design-system: design.md · designed-as-app */
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -38,34 +36,43 @@ export default function AppHeader({
   // ─── Dedicated Admin Header ───
   if (path.startsWith('/admin')) {
     return (
-      <header className='app-header'>
-        <div className='header-inner'>
-          <div className='brand' onClick={() => navigate('/admin')}>
-            <div className='brand-mark'>
+      <header className="sticky top-0 z-50 bg-[#fbfaf8]/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800 h-16 flex items-center">
+        <div className="w-full max-w-[1160px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+          <div
+            className="flex items-center gap-3 cursor-pointer select-none"
+            onClick={() => navigate('/admin')}
+            role="button"
+            tabIndex={0}
+          >
+            <div className="w-8 h-8 rounded-md bg-stone-800 dark:bg-stone-100 text-stone-100 dark:text-stone-900 flex items-center justify-center border border-stone-300 dark:border-stone-700">
               <Settings size={17} />
             </div>
-            <div className='brand-title'>
-              <span className='brand-name'>IELTS Writing Hub</span>
-              <span className='brand-sub'>System Administration</span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-sans font-semibold text-[15px] text-stone-800 dark:text-stone-100 tracking-tight">IELTS Writing Hub</span>
+              <span className="font-mono text-[10.5px] uppercase tracking-wider text-stone-500">System Administration</span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="flex items-center gap-2">
             <button
-              className='btn btn-ghost'
-              style={{ padding: '6px 10px' }}
+              className="p-2 text-stone-500 hover:text-stone-800 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors"
               onClick={onToggleTheme}
               title={theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
-              aria-label='Toggle theme'>
+              aria-label="Toggle theme"
+            >
               {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
             </button>
             <button
-              className='btn btn-secondary btn-sm'
-              onClick={() => navigate('/')}>
+              className="px-3 py-1.5 text-xs font-semibold rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors flex items-center gap-1.5"
+              onClick={() => navigate('/')}
+            >
               <ArrowLeft size={13} />
               <span>Back to Student View</span>
             </button>
-            <button className='btn btn-ghost btn-sm' onClick={onLogout}>
+            <button
+              className="px-3 py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white rounded-md transition-colors"
+              onClick={onLogout}
+            >
               Sign Out
             </button>
           </div>
@@ -74,109 +81,163 @@ export default function AppHeader({
     );
   }
 
-  // ─── Student Learning Portal Header (English Primary Language) ───
+  // ─── Student Learning Portal Header ───
   return (
-    <header className='app-header'>
-      <div className='header-inner'>
+    <header className="sticky top-0 z-50 bg-[#fbfaf8]/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800 h-16 flex items-center">
+      <div className="w-full max-w-[1160px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+        {/* Brand */}
         <div
-          className='brand'
+          className="flex items-center gap-3 cursor-pointer select-none shrink-0"
           onClick={() => navigate('/')}
-          role='button'
+          role="button"
           tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && navigate('/')}>
-          <div className='brand-mark' aria-hidden='true'>
+          onKeyDown={(e) => e.key === 'Enter' && navigate('/')}
+        >
+          <div className="w-8 h-8 rounded-md bg-stone-800 dark:bg-stone-100 text-stone-100 dark:text-stone-900 flex items-center justify-center border border-stone-300 dark:border-stone-700">
             <PenLine size={16} />
           </div>
-          <div className='brand-title'>
-            <span className='brand-name'>IELTS Writing Hub</span>
-            <span className='brand-sub'>Studio & Guided Practice</span>
+          <div className="flex flex-col leading-tight">
+            <span className="font-sans font-semibold text-[15.5px] text-stone-800 dark:text-stone-100 tracking-tight">
+              IELTS Writing Hub
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-stone-500">
+              Studio & Guided Practice
+            </span>
           </div>
         </div>
 
-        <nav className='nav-tabs' aria-label='Primary Navigation'>
+        {/* Primary Navigation Tabs */}
+        <nav className="hidden lg:flex items-center gap-1 bg-stone-100 dark:bg-stone-800/80 p-1 rounded-lg border border-stone-200 dark:border-stone-700/60 overflow-x-auto" aria-label="Primary Navigation">
           <button
-            className={`nav-tab ${isCurrent('/') ? 'active' : ''}`}
-            onClick={() => navigate('/')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/') && !location.search.includes('reading')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/')}
+          >
             <LayoutDashboard size={14} />
             <span>Workspace</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/lessons') && !location.search.includes('reading') ? 'active' : ''}`}
-            onClick={() => navigate('/lessons')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/lessons') && !location.search.includes('reading')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/lessons')}
+          >
             <GraduationCap size={14} />
             <span>Curriculum</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/writing') ? 'active' : ''}`}
-            onClick={() => navigate('/writing')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/writing')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/writing')}
+          >
             <PenLine size={14} />
             <span>Writing Studio</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/reading') || (isCurrent('/lessons') && location.search.includes('reading')) ? 'active' : ''}`}
-            onClick={() => navigate('/lessons?skill=reading')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/reading') || (isCurrent('/lessons') && location.search.includes('reading'))
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/lessons?skill=reading')}
+          >
             <BookOpen size={14} />
             <span>Reading & Paraphrase</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/vocabulary') || isCurrent('/srs') ? 'active' : ''}`}
-            onClick={() => navigate('/vocabulary')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/vocabulary') || isCurrent('/srs')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/vocabulary')}
+          >
             <Boxes size={14} />
             <span>Lexical Bank</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/typing') ? 'active' : ''}`}
-            onClick={() => navigate('/typing')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/typing')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/typing')}
+          >
             <Keyboard size={14} />
-            <span>Typing Drill</span>
+            <span>Typing</span>
           </button>
           <button
-            className={`nav-tab ${isCurrent('/mistakes') ? 'active' : ''}`}
-            onClick={() => navigate('/mistakes')}>
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/mistakes')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/mistakes')}
+          >
             <ShieldAlert size={14} />
-            <span>Mistake Vault</span>
+            <span>Mistakes</span>
           </button>
           {isAdmin && (
             <button
-              className={`nav-tab ${isCurrent('/admin') ? 'active' : ''}`}
-              onClick={() => navigate('/admin')}>
+              className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+                isCurrent('/admin')
+                  ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+              }`}
+              onClick={() => navigate('/admin')}
+            >
               <Settings size={14} />
               <span>CMS</span>
             </button>
           )}
         </nav>
 
-        <div className='user-badge'>
+        {/* User Badges & Action Controls */}
+        <div className="flex items-center gap-2.5 shrink-0">
           {isAuthenticated && (
             <>
-              <span className='streak-chip' title='Consecutive Learning Streak'>
-                <span className='dot-active' aria-hidden='true'></span>
-                <span><strong>{dashboardData?.user?.streak ?? 0}</strong> Day Streak</span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-600"></span>
+                <span><strong className="font-mono text-stone-800 dark:text-stone-100">{dashboardData?.user?.streak ?? 0}</strong>d streak</span>
               </span>
               {dashboardData?.user?.targetBand && (
-                <span className='target-chip' title='Target Band Score'>
-                  <Target size={13} aria-hidden='true' />
-                  <span>Target: <strong>Band {dashboardData.user.targetBand}</strong></span>
+                <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 whitespace-nowrap">
+                  <Target size={13} className="text-orange-600" />
+                  <span>Band <strong className="font-mono text-stone-800 dark:text-stone-100">{dashboardData.user.targetBand}</strong></span>
                 </span>
               )}
             </>
           )}
 
           <button
-            className='btn btn-ghost'
-            style={{ padding: '6px 8px' }}
+            className="p-2 text-stone-500 hover:text-stone-800 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors"
             onClick={onToggleTheme}
             title={theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-            aria-label='Toggle color theme'>
+            aria-label="Toggle color theme"
+          >
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
 
           {isAuthenticated ? (
-            <button className='btn btn-ghost btn-sm' onClick={onLogout}>
+            <button
+              className="px-3 py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white rounded-md transition-colors"
+              onClick={onLogout}
+            >
               Sign Out
             </button>
           ) : (
-            <button className='btn btn-primary btn-sm' onClick={onOpenAuth}>
+            <button
+              className="px-3.5 py-1.5 text-xs font-semibold rounded-md bg-orange-700 hover:bg-orange-800 text-white shadow-sm transition-colors"
+              onClick={onOpenAuth}
+            >
               Sign In
             </button>
           )}
