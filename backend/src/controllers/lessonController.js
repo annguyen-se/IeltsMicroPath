@@ -1,6 +1,9 @@
 const contentService = require('../services/contentService');
 const User = require('../models/User');
+const Lesson = require('../models/Lesson');
 const { sendSuccess } = require('../utils/apiResponse');
+const AppError = require('../utils/appError');
+const { synthesizeAudio, saveLessonAudio } = require('../services/ttsService');
 
 const getLessons = async (req, res, next) => {
   try {
@@ -75,7 +78,49 @@ const getLessonDetail = async (req, res, next) => {
   }
 };
 
+/**
+ * Tier 2 — On-demand audio for lessons without pre-generated audio.
+ * Synthesizes the audioTranscript via edge-tts (Kokoro as backup), persists
+ * the mp3 + media.url so subsequent hits are served as a static file.
+ */
+const streamLessonAudio = async (req, res, next) => {
+  try {
+    const lesson = await Lesson.findById(req.params.id).select(
+      'slug title audioTranscript media status',
+    );
+    if (!lesson) throw new AppError('Lesson not found', 404, 'NOT_FOUND');
+
+    // Already materialized -> serve the static file directly.
+    if (lesson.media?.url && !lesson.media.url.includes('/api/v1/lessons/')) {
+      return res.redirect(302, lesson.media.url);
+    }
+
+    if (!(lesson.audioTranscript || '').trim()) {
+      throw new AppError('Lesson has no audio transcript to synthesize', 404, 'NO_TRANSCRIPT');
+    }
+
+    const { buffer, engine } = await synthesizeAudio(lesson.audioTranscript, { prefer: 'edge' });
+    const { media } = saveLessonAudio(lesson.slug || String(lesson._id), buffer, {
+      engine,
+      transcript: lesson.audioTranscript,
+    });
+
+    lesson.media = media;
+    await lesson.save({ validateBeforeSave: false });
+
+    res.set({
+      'Content-Type': 'audio/mpeg',
+      'Content-Length': buffer.length,
+      'Cache-Control': 'public, max-age=86400',
+    });
+    return res.send(buffer);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getLessons,
-  getLessonDetail
+  getLessonDetail,
+  streamLessonAudio
 };

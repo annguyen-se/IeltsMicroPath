@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const routes = require('./routes');
@@ -10,6 +11,18 @@ const app = express();
 
 // Security HTTP headers
 app.use(helmet());
+
+// Generated TTS audio (Tier 1 Kokoro batch / Tier 2 edge-tts fallback).
+// cross-origin resource policy is required: the SPA on clientUrl loads
+// /audio/*.mp3 directly from this origin inside <audio> elements.
+app.use(
+  '/audio',
+  helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }),
+  express.static(path.resolve(__dirname, '../public/audio'), {
+    maxAge: '7d',
+    fallthrough: false,
+  }),
+);
 
 // CORS Configuration
 app.use(cors({

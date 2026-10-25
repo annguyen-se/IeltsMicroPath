@@ -446,7 +446,9 @@ async function processLessonAndQuestionsBatch(
       // Chuẩn hóa format & type (sử dụng normalizeQuestionFormat để bắt alias như 'mcq-single')
       const format = normalizeQuestionFormat(q.format);
       let type = q.type || 'cloze';
-      if (CHOICE_FORMATS.includes(format)) {
+      if (/sắp xếp|reorder|unscramble/i.test(q.prompt || '')) {
+        type = 'reorder';
+      } else if (CHOICE_FORMATS.includes(format)) {
         type = 'choice';
       } else if (['writing-prompt', 'speaking-prompt'].includes(format)) {
         type = 'open';
@@ -461,6 +463,18 @@ async function processLessonAndQuestionsBatch(
       }
       if (format === 'ynng' && options.length === 0) {
         options = ['YES', 'NO', 'NOT GIVEN'];
+      }
+      if (type === 'reorder') {
+        const rawAns = String(q.correctAnswer || '').trim();
+        if (options.length === 1 && options[0].includes('/')) {
+          options = options[0].split('/').map((s) => s.trim()).filter(Boolean);
+        } else if (options.length <= 1 && rawAns) {
+          options = rawAns.replace(/[.?!;:]+$/, '').split(/\s+/).filter(Boolean);
+        }
+        for (let j = options.length - 1; j > 0; j--) {
+          const k = Math.floor(Math.random() * (j + 1));
+          [options[j], options[k]] = [options[k], options[j]];
+        }
       }
 
       // Chuẩn hóa correctAnswer

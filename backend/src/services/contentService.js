@@ -3,6 +3,28 @@ const Lesson = require('../models/Lesson');
 const Question = require('../models/Question');
 const LessonAttempt = require('../models/LessonAttempt');
 const AppError = require('../utils/appError');
+const env = require('../config/env');
+
+/**
+ * Lessons with an audioTranscript but no pre-generated audio get a virtual
+ * media.url pointing at the on-demand TTS endpoint (Tier 2). The endpoint
+ * synthesizes once, persists the mp3, and later requests are served the file.
+ */
+const buildAudioMedia = (lesson) => {
+  if (lesson.media?.url && !lesson.media.url.includes('/api/v1/lessons/')) {
+    return lesson.media;
+  }
+  if ((lesson.audioTranscript || '').trim()) {
+    return {
+      type: 'audio',
+      provider: 'self-hosted',
+      url: `${env.audioBaseUrl}/api/v1/lessons/${lesson._id}/audio`,
+      duration: 0,
+      credit: 'TTS on-demand (edge-tts)',
+    };
+  }
+  return lesson.media || null;
+};
 
 const shuffleArray = (array) => {
   const arr = [...array];
@@ -312,7 +334,61 @@ const getLessonById = async (id, user = null) => {
       ? lesson.audioTranscript
       : (relatedPracticeLessons[0]?.audioTranscript || '');
 
-  if (isReviewUnlocked || lesson.contentType !== 'practice') {
+  const isDrill =
+    isReviewUnlocked ||
+    lesson.contentType !== 'practice' ||
+    lesson.skill === 'grammar' ||
+    lesson.skill === 'phonetics';
+
+  const processQuestions = (questions, isSanitized = false) => {
+    return questions.map((q) => {
+      let options = Array.isArray(q.options) ? [...q.options] : [];
+      const isReorder =
+        q.type === 'reorder' ||
+        q.format === 'reorder' ||
+        /sắp xếp|reorder|unscramble/i.test(q.prompt || '');
+      const questionType = isReorder ? 'reorder' : q.type;
+
+      if (isReorder) {
+        if (options.length === 1 && options[0].includes('/')) {
+          options = shuffleArray(options[0].split('/').map((s) => s.trim()).filter(Boolean));
+        } else if (options.length <= 1 && q.correctAnswer) {
+          const cleanAns = q.correctAnswer.trim().replace(/[.?!;:]+$/, '');
+          options = shuffleArray(cleanAns.split(/\s+/).filter(Boolean));
+        } else if (options.length > 1) {
+          options = shuffleArray(options);
+        }
+      } else if (isSanitized && (q.format === 'mcq' || q.format === 'vocab-context')) {
+        options = shuffleArray(options);
+      }
+
+      if (isSanitized) {
+        return {
+          _id: q._id,
+          type: questionType,
+          format: q.format || 'standard',
+          prompt: q.prompt,
+          options,
+          orderIndex: q.orderIndex,
+          metadata: q.metadata
+            ? {
+                maxWords: q.metadata.maxWords,
+                requiredSelections: q.metadata.requiredSelections,
+              }
+            : undefined,
+        };
+      }
+
+      const base = q.toObject ? q.toObject() : { ...q };
+      return {
+        ...base,
+        type: questionType,
+        options,
+      };
+    });
+  };
+
+  if (isDrill) {
     // Return full data with answers & explanations for modal theory/skill drills
     return {
       lesson: {
@@ -320,12 +396,13 @@ const getLessonById = async (id, user = null) => {
         contentMarkdown: effectiveContentMarkdown,
         passage: effectivePassage,
         audioTranscript: effectiveAudioTranscript,
+        media: buildAudioMedia(lesson),
         relatedTheoryLesson,
         relatedPracticeLessons,
         effectivePracticeLessonId
       },
       effectivePracticeLessonId,
-      questions: rawQuestions,
+      questions: processQuestions(rawQuestions, false),
       vocabularies,
       relatedTheoryLesson,
       relatedPracticeLessons,
@@ -352,7 +429,7 @@ const getLessonById = async (id, user = null) => {
     topic: lesson.topic,
     contentType: lesson.contentType,
     orderIndex: lesson.orderIndex,
-    media: lesson.media,
+    media: buildAudioMedia(lesson),
     prerequisites: lesson.prerequisites,
     contentMarkdown: effectiveContentMarkdown,
     passage: effectivePassage,
@@ -361,24 +438,7 @@ const getLessonById = async (id, user = null) => {
     relatedPracticeLessons
   };
 
-  const sanitizedQuestions = rawQuestions.map(q => {
-    let options = q.options ? [...q.options] : [];
-    if (q.format === 'mcq' || q.format === 'vocab-context') {
-      options = shuffleArray(options);
-    }
-    return {
-      _id: q._id,
-      type: q.type,
-      format: q.format || 'standard',
-      prompt: q.prompt,
-      options,
-      orderIndex: q.orderIndex,
-      metadata: q.metadata ? {
-        maxWords: q.metadata.maxWords,
-        requiredSelections: q.metadata.requiredSelections
-      } : undefined
-    };
-  });
+  const sanitizedQuestions = processQuestions(rawQuestions, true);
 
   return {
     lesson: sanitizedLesson,

@@ -44,3 +44,7 @@ coverage/
 *.lcov
 .temp/
 .tmp/
+
+# Generated TTS audio (Kokoro / edge-tts pipeline output)
+backend/public/audio/
+!backend/public/audio/.gitkeep
