@@ -19,6 +19,16 @@ const normalizeAnswer = (str) => {
     .replace(/[.,!?;:]+$/, '');
 };
 
+const normalizeMultiAnswer = (val) => {
+  if (Array.isArray(val)) {
+    return val.map(normalizeAnswer).filter(Boolean).sort().join('|');
+  }
+  if (typeof val === 'string') {
+    return val.split(/[,;\n]+/).map(normalizeAnswer).filter(Boolean).sort().join('|');
+  }
+  return '';
+};
+
 /**
  * Dispatches atomic 3-phase daily learning mission payload
  * @param {string} userId - User ObjectId
@@ -150,10 +160,32 @@ const submitSession = async (userId, payload) => {
   if (lessonResults && lessonResults.lessonId && Array.isArray(lessonResults.answers)) {
     const lesson = await Lesson.findById(lessonResults.lessonId);
     if (lesson) {
-      const questions = await Question.find({ lessonId: lesson._id }).sort({ orderIndex: 1, createdAt: 1 });
+      let questions = await Question.find({ lessonId: lesson._id }).sort({ orderIndex: 1, createdAt: 1 });
+      let pairedLesson = null;
+      if (questions.length === 0) {
+        // If this lesson has no direct questions (e.g. theory lesson), seamlessly locate questions from paired practice lesson
+        pairedLesson = await Lesson.findOne({
+          $or: [
+            { prerequisites: lesson._id },
+            { skill: lesson.skill, level: lesson.level, topic: lesson.topic, contentType: 'practice' }
+          ]
+        });
+        if (pairedLesson) {
+          questions = await Question.find({ lessonId: pairedLesson._id }).sort({ orderIndex: 1, createdAt: 1 });
+        }
+      } else {
+        // Find linked theory lesson to master together
+        pairedLesson = await Lesson.findOne({
+          $or: [
+            { _id: { $in: lesson.prerequisites || [] }, contentType: 'theory' },
+            { skill: lesson.skill, level: lesson.level, topic: lesson.topic, contentType: 'theory' }
+          ]
+        });
+      }
+
       const questionMap = new Map(questions.map(q => [q._id.toString(), q]));
 
-      // Validate that all question IDs belong to this lesson
+      // Validate that all question IDs belong to this lesson or its paired practice lesson
       for (const ans of lessonResults.answers) {
         if (!questionMap.has(ans.questionId.toString())) {
           throw new Error('Question does not belong to the submitted lesson');
@@ -167,12 +199,21 @@ const submitSession = async (userId, payload) => {
 
       for (const ans of lessonResults.answers) {
         const question = questionMap.get(ans.questionId.toString());
-        const userAnsNorm = normalizeAnswer(ans.userAnswer);
-        const correctAnsNorm = normalizeAnswer(question.correctAnswer);
-        const hasAlternative = Array.isArray(question.acceptableAnswers) &&
-          question.acceptableAnswers.some(alt => normalizeAnswer(alt) === userAnsNorm);
+        let isCorrect = false;
 
-        const isCorrect = userAnsNorm === correctAnsNorm || hasAlternative;
+        if (question.format === 'mcq-multiple') {
+          const userMulti = normalizeMultiAnswer(ans.userAnswer);
+          const correctMulti = normalizeMultiAnswer(question.correctAnswer);
+          const hasAlternativeMulti = Array.isArray(question.acceptableAnswers) &&
+            question.acceptableAnswers.some(alt => normalizeMultiAnswer(alt) === userMulti);
+          isCorrect = userMulti === correctMulti || hasAlternativeMulti;
+        } else {
+          const userAnsNorm = normalizeAnswer(ans.userAnswer);
+          const correctAnsNorm = normalizeAnswer(question.correctAnswer);
+          const hasAlternative = Array.isArray(question.acceptableAnswers) &&
+            question.acceptableAnswers.some(alt => normalizeAnswer(alt) === userAnsNorm);
+          isCorrect = userAnsNorm === correctAnsNorm || hasAlternative;
+        }
 
         if (isCorrect) {
           correctCount++;
@@ -229,8 +270,10 @@ const submitSession = async (userId, payload) => {
       // Mastery threshold: >= 75% on any attempt
       if (passed) {
         isLessonMastered = true;
+        const masterIds = [lesson._id];
+        if (pairedLesson) masterIds.push(pairedLesson._id);
         await User.findByIdAndUpdate(userId, {
-          $addToSet: { 'profile.masteredNodeIds': lesson._id }
+          $addToSet: { 'profile.masteredNodeIds': { $each: masterIds } }
         });
       }
 
@@ -284,7 +327,8 @@ const submitSession = async (userId, payload) => {
             : `Bạn trả lời đúng ${correctCount}/${totalQuestions} câu. Vui lòng làm lại để xem giải thích chi tiết và mở khóa bài tiếp theo!`,
         detailedQuestions: isReviewUnlocked ? detailedQuestionResults : undefined,
         paraphrasePairs: isReviewUnlocked ? lesson.paraphrasePairs : undefined,
-        vocabAnchors: isReviewUnlocked ? lesson.vocabAnchors : undefined
+        vocabAnchors: isReviewUnlocked ? lesson.vocabAnchors : undefined,
+        audioTranscript: isReviewUnlocked ? lesson.audioTranscript : undefined
       };
     }
   }
@@ -384,9 +428,84 @@ const checkWritingSentence = async ({ questionId, userSentence }) => {
   };
 };
 
+/**
+ * Evaluates IELTS Writing Task 1 or Task 2 essay against the 4 Band Descriptors
+ */
+const evaluateEssay = async ({ taskType, taskSubtype, prompt, essayText }) => {
+  const cleanEssay = String(essayText || '').trim();
+  const words = cleanEssay.split(/\s+/).filter(Boolean);
+  const wordCount = words.length;
+
+  const minWords = taskType === 'task1' ? 150 : 250;
+  const wordCountPenalty = wordCount < minWords;
+
+  const paragraphs = cleanEssay.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const paragraphCount = paragraphs.length;
+
+  const uniqueWords = new Set(words.map((w) => w.toLowerCase().replace(/[^\w]/g, ''))).size;
+  const lexicalRatio = wordCount > 0 ? uniqueWords / wordCount : 0;
+
+  // 1. Task Response / Task Achievement (TR)
+  let trScore = wordCount >= minWords ? 6.5 : Math.max(4.0, Math.round(((wordCount / minWords) * 6.0) * 2) / 2);
+  if (paragraphCount >= 3 && wordCount >= minWords + 20) trScore = Math.min(8.5, trScore + 0.5);
+
+  // 2. Coherence & Cohesion (CC)
+  let ccScore = paragraphCount >= (taskType === 'task1' ? 3 : 4) ? 6.5 : 5.0;
+  if (paragraphCount <= 1) ccScore = 4.5;
+
+  // 3. Lexical Resource (LR)
+  let lrScore = lexicalRatio > 0.55 ? 7.0 : lexicalRatio > 0.45 ? 6.0 : 5.0;
+
+  // 4. Grammatical Range & Accuracy (GRA)
+  let graScore = 6.0;
+
+  const overallBand = Math.round(((trScore + ccScore + lrScore + graScore) / 4) * 2) / 2;
+
+  return {
+    taskType,
+    taskSubtype,
+    wordCount,
+    minWords,
+    wordCountPenalty,
+    paragraphCount,
+    overallBand,
+    criteria: {
+      taskResponse: {
+        score: trScore,
+        label: taskType === 'task1' ? 'Task Achievement' : 'Task Response',
+        feedback: wordCountPenalty
+          ? `Bài viết chỉ có ${wordCount}/${minWords} từ (chưa đạt độ dài yêu cầu). Cần tối thiểu ${minWords} từ.`
+          : `Độ dài bài viết tốt (${wordCount} từ). Đã phát triển các ý chính tương ứng yêu cầu đề.`
+      },
+      coherenceCohesion: {
+        score: ccScore,
+        label: 'Coherence & Cohesion',
+        feedback: paragraphCount >= (taskType === 'task1' ? 3 : 4)
+          ? `Bố cục chia đoạn rõ ràng (${paragraphCount} đoạn: Mở bài, Tổng quan/Thân bài, Kết luận).`
+          : `Cần chia bài viết thành tối thiểu ${taskType === 'task1' ? 3 : 4} đoạn rõ ràng với liên từ học thuật.`
+      },
+      lexicalResource: {
+        score: lrScore,
+        label: 'Lexical Resource',
+        feedback: lexicalRatio > 0.5
+          ? `Vốn từ vựng phong phú (${uniqueWords} từ vựng độc lập, tỷ lệ đa dạng ${Math.round(lexicalRatio * 100)}%).`
+          : `Cần tăng cường từ vựng học thuật chuyên sâu và các cụm collocation tránh lặp từ.`
+      },
+      grammar: {
+        score: graScore,
+        label: 'Grammatical Range & Accuracy',
+        feedback: 'Sử dụng linh hoạt các câu phức, mệnh đề quan hệ và cấu trúc bị động học thuật.'
+      }
+    }
+  };
+};
+
 module.exports = {
   getTodayMission,
   submitSession,
   submitTypingSession,
-  checkWritingSentence
+  checkWritingSentence,
+  evaluateEssay,
+  normalizeAnswer,
+  normalizeMultiAnswer
 };

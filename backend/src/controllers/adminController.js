@@ -77,6 +77,31 @@ const createQuestion = async (req, res, next) => {
   }
 };
 
+// Curriculum Bundle Import (Full Masterplan Format: { vocabulary, lessons, questions })
+const importCurriculumBundle = async (req, res, next) => {
+  try {
+    const { vocabulary, lessons, questions } = req.body;
+    const { processVocabularyBatch, processLessonAndQuestionsBatch } = require('../scripts/seedPipeline');
+
+    const vocabCount = await processVocabularyBatch(vocabulary || []);
+    const { savedLessons, savedQuestions } = await processLessonAndQuestionsBatch(
+      lessons || [],
+      questions || [],
+      req.body.topic || 'academic-general',
+      req.body.level || 2
+    );
+
+    return sendSuccess(
+      res,
+      200,
+      { vocabCount, savedLessons, savedQuestions },
+      `Curriculum bundle imported successfully (${vocabCount} vocabs, ${savedLessons} lessons, ${savedQuestions} questions)`
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createVocabulary,
   bulkCreateVocabularies,
@@ -85,5 +110,6 @@ module.exports = {
   updateLesson,
   getLessons,
   getLessonById,
-  createQuestion
+  createQuestion,
+  importCurriculumBundle
 };

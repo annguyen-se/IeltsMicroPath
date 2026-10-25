@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../api/apiClient';
 import { playWordAudio } from '../../utils/audio';
+import MarkdownView from '../../components/MarkdownView';
 import {
   ArrowLeft,
   BookOpen,
@@ -11,8 +12,410 @@ import {
   ExternalLink,
   Award,
   Sparkles,
-  RotateCcw
+  RotateCcw,
+  ZoomIn,
+  Lightbulb,
+  X
 } from 'lucide-react';
+
+const FORMAT_LABELS = {
+  tfng: 'TRUE / FALSE / NOT GIVEN',
+  ynng: 'YES / NO / NOT GIVEN',
+  mcq: 'MULTIPLE CHOICE',
+  'mcq-multiple': 'MULTIPLE CHOICE (PICK ANSWERS)',
+  'matching-headings': 'MATCHING HEADINGS',
+  'matching-info': 'MATCHING INFORMATION',
+  'matching-features': 'MATCHING FEATURES',
+  'matching-endings': 'MATCHING SENTENCE ENDINGS',
+  'sentence-completion': 'SENTENCE COMPLETION',
+  'short-answer': 'SHORT-ANSWER QUESTION',
+  'summary-completion': 'SUMMARY COMPLETION',
+  'diagram-label': 'DIAGRAM LABEL COMPLETION',
+  'vocab-context': 'VOCABULARY IN CONTEXT'
+};
+
+function MatchingSelector({
+  q,
+  currentAns,
+  onAnswerChange,
+  isReviewUnlocked,
+  isCorrect,
+  allQuestions,
+  answers,
+  onScrollToParagraph
+}) {
+  const [showOptionsList, setShowOptionsList] = useState(true);
+  const options = q.options || [];
+
+  const peerQuestions = (allQuestions || []).filter(
+    (other) => other._id !== q._id && other.format === q.format
+  );
+
+  const getUsedInQuestion = (opt) => {
+    const cleanOpt = opt.trim().toLowerCase();
+    const found = peerQuestions.find(
+      (other) => (answers[other._id] || '').trim().toLowerCase() === cleanOpt
+    );
+    if (!found) return null;
+    return found.orderIndex || allQuestions.indexOf(found) + 1;
+  };
+
+  const pMatch = q.prompt.match(/(?:Paragraph|Đoạn)\s+([A-Z])|\[([A-Z])\]/i);
+  const targetP = pMatch ? (pMatch[1] || pMatch[2]).toUpperCase() : q.evidence?.paragraphLabel || null;
+
+  return (
+    <div className="space-y-3">
+      {targetP && onScrollToParagraph && (
+        <div>
+          <button
+            type="button"
+            onClick={() => onScrollToParagraph(targetP)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono font-semibold bg-stone-100 dark:bg-stone-800 hover:bg-orange-100 hover:text-orange-800 dark:hover:bg-orange-950/50 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 transition-colors"
+          >
+            <span>Đến đoạn [{targetP}] trong bài đọc</span>
+            <ExternalLink size={11} />
+          </button>
+        </div>
+      )}
+
+      {options.length > 0 && (
+        <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50/70 dark:bg-stone-800/40 p-3">
+          <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-stone-200/60 dark:border-stone-700/60">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">
+              Danh sách lựa chọn ({options.length})
+            </span>
+            <button
+              type="button"
+              className="text-[11px] text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 underline"
+              onClick={() => setShowOptionsList((prev) => !prev)}
+            >
+              {showOptionsList ? 'Thu gọn' : 'Xem tất cả'}
+            </button>
+          </div>
+
+          {showOptionsList && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-52 overflow-y-auto pr-1">
+              {options.map((opt, idx) => {
+                const isSelectedForThis = currentAns === opt;
+                const usedAtQ = getUsedInQuestion(opt);
+                const isRight = isReviewUnlocked && q.correctAnswer === opt;
+
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={isReviewUnlocked}
+                    onClick={() => onAnswerChange(q._id, opt)}
+                    className={`text-left text-xs p-2 rounded border transition-all flex items-start justify-between gap-1.5 ${
+                      isRight
+                        ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200 font-semibold'
+                        : isSelectedForThis
+                        ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-600 text-orange-900 dark:text-orange-200 font-semibold shadow-xs'
+                        : usedAtQ
+                        ? 'opacity-60 bg-stone-100 dark:bg-stone-800/80 border-stone-200 dark:border-stone-700 text-stone-500 line-through'
+                        : 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 hover:border-orange-400'
+                    }`}
+                  >
+                    <span className="line-clamp-2 leading-snug">{opt}</span>
+                    {usedAtQ && !isSelectedForThis && (
+                      <span className="no-underline shrink-0 text-[9px] px-1 py-0.5 rounded bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-300 font-mono">
+                        Câu {usedAtQ}
+                      </span>
+                    )}
+                    {isSelectedForThis && (
+                      <span className="shrink-0 text-[9px] px-1 py-0.5 rounded bg-orange-700 text-white font-mono">
+                        Đang chọn
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div>
+        <select
+          disabled={isReviewUnlocked}
+          className={`w-full px-3.5 py-2.5 rounded-lg border text-xs font-medium transition-all ${
+            isReviewUnlocked
+              ? isCorrect
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200'
+                : 'bg-red-50 dark:bg-red-950/40 border-red-500 text-red-900 dark:text-red-200'
+              : 'bg-white dark:bg-stone-800 border-stone-300 dark:border-stone-700 text-stone-800 dark:text-stone-100 focus:ring-2 focus:ring-orange-600'
+          }`}
+          value={currentAns}
+          onChange={(e) => onAnswerChange(q._id, e.target.value)}
+        >
+          <option value="">-- Chọn phương án ghép nối --</option>
+          {options.map((opt, optIdx) => {
+            const usedAtQ = getUsedInQuestion(opt);
+            const labelSuffix = usedAtQ && currentAns !== opt ? ` [Đã chọn ở Câu ${usedAtQ}]` : '';
+            return (
+              <option key={optIdx} value={opt}>
+                {opt}{labelSuffix}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    </div>
+  );
+}
+
+function SummaryCompletionItem({
+  q,
+  currentAns,
+  onAnswerChange,
+  isReviewUnlocked,
+  isCorrect,
+  onScrollToParagraph
+}) {
+  const hasOptions = Array.isArray(q.options) && q.options.length > 0;
+  const maxWords = q.metadata?.maxWords || 2;
+  const targetP = q.evidence?.paragraphLabel;
+
+  const blankRegex = /(_{3,}|\[\.\.\.\]|\{gap\}|\[blank\])/i;
+  const hasInlineBlank = blankRegex.test(q.prompt);
+
+  return (
+    <div className="space-y-3">
+      {targetP && onScrollToParagraph && (
+        <div>
+          <button
+            type="button"
+            onClick={() => onScrollToParagraph(targetP)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono font-semibold bg-stone-100 dark:bg-stone-800 hover:bg-orange-100 hover:text-orange-800 dark:hover:bg-orange-950/50 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 transition-colors"
+          >
+            <span>Tham chiếu đoạn [{targetP}]</span>
+            <ExternalLink size={11} />
+          </button>
+        </div>
+      )}
+
+      <div className="text-[11px] font-mono font-medium text-stone-500 uppercase tracking-wide">
+        {hasOptions
+          ? 'COMPLETE THE SUMMARY USING THE WORD BANK'
+          : `COMPLETE THE SUMMARY (NO MORE THAN ${maxWords === 1 ? 'ONE WORD' : maxWords === 2 ? 'TWO WORDS' : `${maxWords} WORDS`})`}
+      </div>
+
+      {hasOptions && (
+        <div className="rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50/70 dark:bg-stone-800/40 p-3">
+          <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300 mb-2 pb-1 border-b border-stone-200/60 dark:border-stone-700/60">
+            Ngân hàng từ vựng (Word Bank)
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {q.options.map((opt, idx) => {
+              const isSelected = currentAns === opt;
+              const isRight = isReviewUnlocked && q.correctAnswer === opt;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  disabled={isReviewUnlocked}
+                  onClick={() => onAnswerChange(q._id, opt)}
+                  className={`text-xs px-2.5 py-1.5 rounded border transition-all ${
+                    isRight
+                      ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200 font-semibold'
+                      : isSelected
+                      ? 'bg-orange-700 border-orange-700 text-white font-semibold shadow-xs'
+                      : 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 hover:border-orange-400'
+                  }`}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {hasInlineBlank ? (
+        <div className="p-3.5 rounded-lg border border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-800/30 text-xs sm:text-sm leading-relaxed text-stone-800 dark:text-stone-200">
+          {q.prompt.split(blankRegex).map((part, pIdx) => {
+            if (blankRegex.test(part)) {
+              if (hasOptions) {
+                return (
+                  <select
+                    key={pIdx}
+                    disabled={isReviewUnlocked}
+                    className={`inline-block mx-1.5 px-2 py-1 rounded border text-xs font-semibold ${
+                      isReviewUnlocked
+                        ? isCorrect
+                          ? 'bg-emerald-100 border-emerald-500 text-emerald-900'
+                          : 'bg-red-100 border-red-500 text-red-900'
+                        : 'bg-white dark:bg-stone-800 border-orange-400 text-stone-900 dark:text-stone-100'
+                    }`}
+                    value={currentAns}
+                    onChange={(e) => onAnswerChange(q._id, e.target.value)}
+                  >
+                    <option value="">[____]</option>
+                    {q.options.map((opt, optIdx) => (
+                      <option key={optIdx} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                );
+              }
+              return (
+                <input
+                  key={pIdx}
+                  type="text"
+                  disabled={isReviewUnlocked}
+                  className={`inline-block mx-1.5 px-2.5 py-1 w-36 sm:w-44 rounded border text-xs font-medium focus:outline-none focus:ring-1 focus:ring-orange-600 ${
+                    isReviewUnlocked
+                      ? isCorrect
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
+                        : 'bg-red-50 border-red-500 text-red-900'
+                      : 'bg-white dark:bg-stone-800 border-orange-500 text-stone-900 dark:text-stone-100'
+                  }`}
+                  placeholder="điền từ..."
+                  value={currentAns}
+                  onChange={(e) => onAnswerChange(q._id, e.target.value)}
+                />
+              );
+            }
+            return <span key={pIdx}>{part}</span>;
+          })}
+        </div>
+      ) : hasOptions ? (
+        <select
+          disabled={isReviewUnlocked}
+          className={`w-full px-3.5 py-2.5 rounded-lg border text-xs font-medium transition-all ${
+            isReviewUnlocked
+              ? isCorrect
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200'
+                : 'bg-red-50 dark:bg-red-950/40 border-red-500 text-red-900 dark:text-red-200'
+              : 'bg-white dark:bg-stone-800 border-stone-300 dark:border-stone-700 text-stone-800 dark:text-stone-100 focus:ring-2 focus:ring-orange-600'
+          }`}
+          value={currentAns}
+          onChange={(e) => onAnswerChange(q._id, e.target.value)}
+        >
+          <option value="">-- Chọn từ phù hợp từ Word Bank --</option>
+          {q.options.map((opt, optIdx) => (
+            <option key={optIdx} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type="text"
+          disabled={isReviewUnlocked}
+          className="w-full px-3.5 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-600 text-xs"
+          placeholder={`Nhập từ vào tóm tắt (tối đa ${maxWords} từ)...`}
+          value={currentAns}
+          onChange={(e) => onAnswerChange(q._id, e.target.value)}
+        />
+      )}
+    </div>
+  );
+}
+
+function DiagramLabelItem({
+  q,
+  currentAns,
+  onAnswerChange,
+  isReviewUnlocked,
+  isCorrect,
+  onScrollToParagraph
+}) {
+  const [isZoomed, setIsZoomed] = useState(false);
+  const maxWords = q.metadata?.maxWords || 2;
+  const targetP = q.evidence?.paragraphLabel;
+
+  return (
+    <div className="space-y-3">
+      {targetP && onScrollToParagraph && (
+        <div>
+          <button
+            type="button"
+            onClick={() => onScrollToParagraph(targetP)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-mono font-semibold bg-stone-100 dark:bg-stone-800 hover:bg-orange-100 hover:text-orange-800 dark:hover:bg-orange-950/50 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 transition-colors"
+          >
+            <span>Tham chiếu đoạn [{targetP}]</span>
+            <ExternalLink size={11} />
+          </button>
+        </div>
+      )}
+
+      <div className="text-[11px] font-mono font-medium text-stone-500 uppercase tracking-wide">
+        LABEL THE DIAGRAM ({maxWords === 1 ? 'ONE WORD ONLY' : `NO MORE THAN ${maxWords} WORDS`})
+      </div>
+
+      {q.media?.url && (
+        <div className="relative rounded-xl overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-800/40 p-2.5 group">
+          <img
+            src={q.media.url}
+            alt={q.prompt}
+            className="max-h-60 mx-auto object-contain rounded-lg cursor-zoom-in"
+            onClick={() => setIsZoomed(true)}
+          />
+          <button
+            type="button"
+            className="absolute right-3 bottom-3 px-2 py-1 rounded bg-stone-900/70 hover:bg-stone-900 text-white text-[11px] font-semibold flex items-center gap-1 backdrop-blur-xs transition-opacity opacity-80 group-hover:opacity-100 shadow-sm"
+            onClick={() => setIsZoomed(true)}
+          >
+            <ZoomIn size={12} />
+            <span>Phóng to</span>
+          </button>
+        </div>
+      )}
+
+      {isZoomed && q.media?.url && (
+        <div
+          className="fixed inset-0 z-50 bg-stone-900/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setIsZoomed(false)}
+        >
+          <div
+            className="relative max-w-4xl max-h-[90vh] bg-white dark:bg-stone-900 p-4 rounded-2xl shadow-2xl overflow-auto border border-stone-300 dark:border-stone-700"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-stone-200 dark:border-stone-800">
+              <span className="text-xs font-bold font-mono text-stone-700 dark:text-stone-300">
+                Sơ đồ kỹ thuật (Technical Diagram / Flow-chart)
+              </span>
+              <button
+                type="button"
+                className="p-1 rounded text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800"
+                onClick={() => setIsZoomed(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <img
+              src={q.media.url}
+              alt={q.prompt}
+              className="max-h-[75vh] w-auto mx-auto object-contain rounded"
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="flex items-center gap-2">
+        <span className="shrink-0 px-2.5 py-2 rounded-lg bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs font-mono font-bold text-orange-700 dark:text-orange-500">
+          Nhãn [{q.orderIndex || '1'}]
+        </span>
+        <input
+          type="text"
+          disabled={isReviewUnlocked}
+          className={`w-full px-3.5 py-2 rounded-lg border text-xs focus:outline-none focus:ring-2 focus:ring-orange-600 transition-all ${
+            isReviewUnlocked
+              ? isCorrect
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200 font-semibold'
+                : 'bg-red-50 dark:bg-red-950/40 border-red-500 text-red-900 dark:text-red-200'
+              : 'bg-white dark:bg-stone-800 border-stone-300 dark:border-stone-700 text-stone-800 dark:text-stone-100 placeholder-stone-400'
+          }`}
+          placeholder={`Nhập nhãn từ đoạn văn (tối đa ${maxWords} từ)...`}
+          value={currentAns}
+          onChange={(e) => onAnswerChange(q._id, e.target.value)}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAuth }) {
   const { lessonId } = useParams();
@@ -26,6 +429,7 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
   const [activeMobileTab, setActiveMobileTab] = useState('passage'); // 'passage' | 'questions'
   const [reviewResult, setReviewResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [showTheoryModal, setShowTheoryModal] = useState(false);
 
   useEffect(() => {
     fetchLessonData();
@@ -40,16 +444,41 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
         setLesson(res.lesson);
         setQuestions(res.questions || []);
 
-        // If the user already unlocked review on load
-        if (res.isReviewUnlocked && res.questions?.[0]?.correctAnswer) {
+        // Restore previous attempt IF the user previously took the test
+        if (res.lastAttempt && Array.isArray(res.lastAttempt.answers) && res.lastAttempt.answers.length > 0) {
+          const attemptAnswersMap = new Map(
+            res.lastAttempt.answers.map((a) => [String(a.questionId), a])
+          );
+          const restoredAnswers = {};
+          const detailed = (res.questions || []).map((q) => {
+            const userAtt = attemptAnswersMap.get(String(q._id));
+            const uAns = userAtt ? userAtt.userAnswer : '';
+            restoredAnswers[q._id] = uAns;
+            return {
+              ...q,
+              userAnswer: uAns,
+              isCorrect: userAtt ? !!userAtt.isCorrect : false,
+            };
+          });
+
+          setAnswers(restoredAnswers);
           setReviewResult({
             isReviewUnlocked: true,
-            passed: true,
-            detailedQuestions: res.questions,
+            passed: !!res.lastAttempt.passed,
+            score: res.lastAttempt.score,
+            totalQuestions: res.lastAttempt.totalQuestions,
+            scorePercentage: res.lastAttempt.percentage,
+            attemptNumber: res.lastAttempt.attemptNumber,
+            message: res.lastAttempt.passed
+              ? `Bạn đã hoàn thành bài thi với ${res.lastAttempt.percentage}%.`
+              : `Lượt làm bài trước: ${res.lastAttempt.score}/${res.lastAttempt.totalQuestions} câu.`,
+            detailedQuestions: detailed,
             paraphrasePairs: res.lesson?.paraphrasePairs || [],
             vocabAnchors: res.lesson?.vocabAnchors || [],
-            vocabularies: res.vocabularies || []
           });
+        } else {
+          setReviewResult(null);
+          setAnswers({});
         }
       }
     } catch (err) {
@@ -226,6 +655,22 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
   const vocabAnchors = reviewResult?.vocabAnchors || lesson?.vocabAnchors || [];
   const paragraphs = lesson?.passage?.paragraphs || [];
 
+  const scrollToParagraph = (label) => {
+    if (activeMobileTab === 'questions') {
+      setActiveMobileTab('passage');
+    }
+    setTimeout(() => {
+      const el = document.getElementById(`paragraph-${label}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('bg-orange-50/70', 'dark:bg-orange-950/40');
+        setTimeout(() => {
+          el.classList.remove('bg-orange-50/70', 'dark:bg-orange-950/40');
+        }, 1600);
+      }
+    }, 60);
+  };
+
   return (
     <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 pt-4 pb-16">
       {/* ─── Top Control Bar ─── */}
@@ -256,18 +701,31 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
           </div>
         </div>
 
-        {isReviewUnlocked && (
-          <button
-            className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors inline-flex items-center gap-1.5 shadow-sm"
-            onClick={() => {
-              setReviewResult(null);
-              setAnswers({});
-            }}
-          >
-            <RotateCcw size={14} />
-            <span>Làm lại bài này</span>
-          </button>
-        )}
+        <div className="flex items-center gap-2 flex-wrap">
+          {(lesson?.relatedTheoryLesson?.contentMarkdown || lesson?.contentMarkdown) && (
+            <button
+              type="button"
+              className="px-3 py-1.5 text-xs font-semibold rounded-md border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors inline-flex items-center gap-1.5 shadow-sm"
+              onClick={() => setShowTheoryModal(true)}
+            >
+              <Lightbulb size={14} className="text-amber-600 dark:text-amber-400" />
+              <span>Chiến lược & Lý thuyết</span>
+            </button>
+          )}
+
+          {isReviewUnlocked && (
+            <button
+              className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors inline-flex items-center gap-1.5 shadow-sm"
+              onClick={() => {
+                setReviewResult(null);
+                setAnswers({});
+              }}
+            >
+              <RotateCcw size={14} />
+              <span>Làm lại bài này</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ─── Mobile Tab Toggles ─── */}
@@ -342,7 +800,8 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
             {paragraphs.map((p) => (
               <div
                 key={p.label}
-                className="relative pl-8 border-l-2 border-stone-200 dark:border-stone-700"
+                id={`paragraph-${p.label}`}
+                className="relative pl-8 border-l-2 border-stone-200 dark:border-stone-700 rounded-r p-1 transition-all duration-300"
               >
                 <span className="absolute left-2 top-0 font-mono font-bold text-xs text-orange-700 dark:text-orange-500">
                   [{p.label}]
@@ -432,7 +891,7 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
                   {/* Question Header */}
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-500">
-                      Câu {q.orderIndex || qIdx + 1} · {q.format?.toUpperCase() || 'QUESTION'}
+                      Câu {q.orderIndex || qIdx + 1} · {FORMAT_LABELS[q.format] || q.format?.toUpperCase() || 'QUESTION'}
                     </span>
                     {isReviewUnlocked && (
                       <span
@@ -447,14 +906,19 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
                   </div>
 
                   {/* Prompt */}
-                  <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3 leading-relaxed">
-                    {q.prompt}
-                  </p>
+                  {!(q.format === 'summary-completion' && /(_{3,}|\[\.\.\.\]|\{gap\}|\[blank\])/i.test(q.prompt)) && (
+                    <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-3 leading-relaxed">
+                      {q.prompt}
+                    </p>
+                  )}
 
                   {/* Input by format */}
-                  {q.format === 'tfng' ? (
+                  {q.format === 'tfng' || q.format === 'ynng' ? (
                     <div className="grid grid-cols-3 gap-2">
-                      {['TRUE', 'FALSE', 'NOT GIVEN'].map((opt) => (
+                      {(q.format === 'ynng'
+                        ? ['YES', 'NO', 'NOT GIVEN']
+                        : ['TRUE', 'FALSE', 'NOT GIVEN']
+                      ).map((opt) => (
                         <button
                           key={opt}
                           disabled={isReviewUnlocked}
@@ -493,13 +957,117 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
                         );
                       })}
                     </div>
+                  ) : q.format === 'mcq-multiple' ? (
+                    (() => {
+                      const selectedList = (currentAns || '')
+                        .split(/[,;\n]+/)
+                        .map((s) => s.trim())
+                        .filter(Boolean);
+                      const correctList = isReviewUnlocked
+                        ? String(q.correctAnswer || '')
+                            .split(/[,;\n]+/)
+                            .map((s) => s.trim().toLowerCase())
+                        : [];
+                      const reqSelections = q.metadata?.requiredSelections || 2;
+
+                      const toggleMulti = (opt) => {
+                        if (isReviewUnlocked) return;
+                        let next = [...selectedList];
+                        const idx = next.indexOf(opt);
+                        if (idx > -1) {
+                          next.splice(idx, 1);
+                        } else {
+                          if (next.length >= reqSelections) {
+                            next = [...next.slice(1), opt];
+                          } else {
+                            next.push(opt);
+                          }
+                        }
+                        handleAnswerChange(q._id, next.join(', '));
+                      };
+
+                      return (
+                        <div className="flex flex-col gap-2">
+                          <div className="text-[11px] font-mono text-stone-500 font-medium mb-0.5">
+                            Chọn {reqSelections} đáp án ({selectedList.length}/{reqSelections})
+                          </div>
+                          {(q.options || []).map((opt, optIdx) => {
+                            const isSelected = selectedList.includes(opt);
+                            const isRight = isReviewUnlocked && correctList.includes(opt.trim().toLowerCase());
+                            return (
+                              <button
+                                key={optIdx}
+                                disabled={isReviewUnlocked}
+                                className={`p-2.5 text-xs text-left rounded-lg border transition-all flex items-start gap-2.5 ${
+                                  isRight
+                                    ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-600 text-emerald-900 dark:text-emerald-200 font-bold'
+                                    : isSelected
+                                    ? 'bg-orange-50 dark:bg-orange-950/30 border-orange-600 text-orange-900 dark:text-orange-200 font-semibold'
+                                    : 'bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 border-stone-200 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-700/50'
+                                }`}
+                                onClick={() => toggleMulti(opt)}
+                              >
+                                <span
+                                  className={`inline-flex items-center justify-center w-4 h-4 rounded border text-[10px] shrink-0 mt-0.5 ${
+                                    isSelected
+                                      ? 'bg-orange-700 border-orange-700 text-white'
+                                      : 'border-stone-400 bg-white dark:bg-stone-800 text-transparent'
+                                  }`}
+                                >
+                                  ✓
+                                </span>
+                                <span className="leading-snug">{opt}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      );
+                    })()
+                  ) : ['matching-headings', 'matching-info', 'matching-features', 'matching-endings'].includes(q.format) ? (
+                    <MatchingSelector
+                      q={q}
+                      currentAns={currentAns}
+                      onAnswerChange={handleAnswerChange}
+                      isReviewUnlocked={isReviewUnlocked}
+                      isCorrect={isCorrect}
+                      allQuestions={detailedQuestions}
+                      answers={answers}
+                      onScrollToParagraph={scrollToParagraph}
+                    />
+                  ) : q.format === 'diagram-label' ? (
+                    <DiagramLabelItem
+                      q={q}
+                      currentAns={currentAns}
+                      onAnswerChange={handleAnswerChange}
+                      isReviewUnlocked={isReviewUnlocked}
+                      isCorrect={isCorrect}
+                      onScrollToParagraph={scrollToParagraph}
+                    />
+                  ) : q.format === 'summary-completion' ? (
+                    <SummaryCompletionItem
+                      q={q}
+                      currentAns={currentAns}
+                      onAnswerChange={handleAnswerChange}
+                      isReviewUnlocked={isReviewUnlocked}
+                      isCorrect={isCorrect}
+                      onScrollToParagraph={scrollToParagraph}
+                    />
                   ) : (
-                    <div>
+                    <div className="space-y-1.5">
+                      {q.format === 'short-answer' && (
+                        <div className="text-[11px] font-mono font-medium text-stone-500 uppercase tracking-wide">
+                          {q.metadata?.maxWords ? `NO MORE THAN ${q.metadata.maxWords} WORDS` : 'NO MORE THAN THREE WORDS'}
+                        </div>
+                      )}
                       <input
                         type="text"
                         disabled={isReviewUnlocked}
                         className="w-full px-3.5 py-2 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-600 text-xs"
-                        placeholder="Nhập 1 từ điền vào chỗ trống..."
+                        placeholder={
+                          q.format === 'short-answer'
+                            ? `Nhập câu trả lời ngắn (${q.metadata?.maxWords ? `tối đa ${q.metadata.maxWords} từ` : 'tối đa 3 từ'})...`
+                            : 'Nhập 1 từ điền vào chỗ trống...'
+                        }
                         value={currentAns}
                         onChange={(e) => handleAnswerChange(q._id, e.target.value)}
                       />
@@ -585,6 +1153,53 @@ export default function ReadingPracticeRoom({ isAuthenticated = false, onOpenAut
           )}
         </div>
       </div>
+
+      {/* ─── Linked Strategy & Theory Modal ─── */}
+      {showTheoryModal && (
+        <div
+          className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          onClick={() => setShowTheoryModal(false)}
+        >
+          <div
+            className="bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-2xl max-w-3xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-6 py-4 border-b border-stone-200 dark:border-stone-800">
+              <div className="flex items-center gap-2">
+                <Lightbulb size={18} className="text-amber-600 dark:text-amber-400" />
+                <h3 className="text-base font-semibold text-stone-800 dark:text-stone-100">
+                  {lesson?.relatedTheoryLesson?.title || 'Chiến lược & Lý thuyết làm bài'}
+                </h3>
+              </div>
+              <button
+                type="button"
+                className="p-1.5 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                onClick={() => setShowTheoryModal(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8">
+              <MarkdownView
+                content={
+                  lesson?.relatedTheoryLesson?.contentMarkdown ||
+                  lesson?.contentMarkdown ||
+                  'Chưa có tài liệu lý thuyết nào được gắn với bài tập này.'
+                }
+              />
+            </div>
+            <div className="px-6 py-3 border-t border-stone-200 dark:border-stone-800 flex justify-end">
+              <button
+                type="button"
+                className="px-4 py-2 bg-orange-700 hover:bg-orange-800 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
+                onClick={() => setShowTheoryModal(false)}
+              >
+                Quay lại làm bài đọc hiểu
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

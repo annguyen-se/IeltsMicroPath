@@ -28,6 +28,7 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
     boxParam && ['1', '2', '3', '4', '5'].includes(boxParam) ? boxParam : 'all'
   );
   const [selectedTopic, setSelectedTopic] = useState('all');
+  const [availableTopics, setAvailableTopics] = useState([]);
   const [dueCount, setDueCount] = useState(0);
   const [totalTracked, setTotalTracked] = useState(0);
 
@@ -35,6 +36,18 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
   const [isFlipped, setIsFlipped] = useState(false);
   const [notification, setNotification] = useState('');
   const [isEnrolling, setIsEnrolling] = useState(false);
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const res = await api.get('/vocabulary/topics');
+        setAvailableTopics(res?.topics || []);
+      } catch (err) {
+        console.warn('[Fetch Topics Error]:', err.message);
+      }
+    };
+    fetchTopics();
+  }, []);
 
   useEffect(() => {
     const b = searchParams.get('box');
@@ -190,32 +203,14 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
             {isAuthenticated && (
-              <>
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => handleEnrollTopic('listening-179', 'Listening 179')}
-                  disabled={isEnrolling}
-                  title="Enroll 179 Listening keywords into Box 1">
-                  <Plus size={13} />
-                  <span>+ Listening 179</span>
-                </button>
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => handleEnrollTopic('reading-538', 'Reading 538')}
-                  disabled={isEnrolling}
-                  title="Enroll 538 Reading keywords into Box 1">
-                  <Plus size={13} />
-                  <span>+ Reading 538</span>
-                </button>
-                <button
-                  className="btn btn-primary btn-sm"
-                  onClick={handleEnrollAll}
-                  disabled={isEnrolling}
-                  title="Enroll all available database lexis into Box 1">
-                  <Plus size={13} />
-                  <span>{isEnrolling ? 'Enrolling...' : 'Enroll All Lexis'}</span>
-                </button>
-              </>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={handleEnrollAll}
+                disabled={isEnrolling}
+                title="Enroll all available database lexis into Box 1">
+                <Plus size={13} />
+                <span>{isEnrolling ? 'Enrolling...' : 'Enroll All Lexis'}</span>
+              </button>
             )}
             {onBack && (
               <button className="btn btn-secondary btn-sm" onClick={onBack}>
@@ -299,18 +294,18 @@ export default function SrsReviewRoom({ onBack, isAuthenticated = false, onOpenA
                 onClick={() => setSelectedTopic('all')}>
                 All
               </button>
-              <button
-                className={`pill ${selectedTopic === 'listening-179' ? 'pill-cobalt' : 'pill-muted'}`}
-                style={{ cursor: 'pointer', padding: '3px 8px' }}
-                onClick={() => setSelectedTopic('listening-179')}>
-                Listening 179
-              </button>
-              <button
-                className={`pill ${selectedTopic === 'reading-538' ? 'pill-cobalt' : 'pill-muted'}`}
-                style={{ cursor: 'pointer', padding: '3px 8px' }}
-                onClick={() => setSelectedTopic('reading-538')}>
-                Reading 538
-              </button>
+              {availableTopics.map((t) => {
+                const topicKey = typeof t === 'object' ? t.topic : t;
+                return (
+                  <button
+                    key={topicKey}
+                    className={`pill ${selectedTopic === topicKey ? 'pill-cobalt' : 'pill-muted'}`}
+                    style={{ cursor: 'pointer', padding: '3px 8px' }}
+                    onClick={() => setSelectedTopic(topicKey)}>
+                    {topicKey}
+                  </button>
+                );
+              })}
 
               <span style={{ fontSize: 12, color: 'var(--color-ink-muted)', fontWeight: 600, marginLeft: 8 }}>Box:</span>
               <button

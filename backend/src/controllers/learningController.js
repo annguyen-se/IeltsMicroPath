@@ -38,9 +38,20 @@ const checkWriting = async (req, res, next) => {
   }
 };
 
+const evaluateEssay = async (req, res, next) => {
+  try {
+    const { taskType, taskSubtype, prompt, essayText } = req.body;
+    const result = await missionService.evaluateEssay({ taskType, taskSubtype, prompt, essayText });
+    return sendSuccess(res, 200, result, 'Essay evaluated against IELTS Band Descriptors');
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getTodayMission,
   submitSession,
   submitTyping,
-  checkWriting
+  checkWriting,
+  evaluateEssay
 };

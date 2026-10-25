@@ -64,7 +64,7 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
 
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(() => {
-    return localStorage.getItem('ieltstrain_typing_topic') || 'listening-179';
+    return localStorage.getItem('ieltstrain_typing_topic') || '';
   });
 
   const [words, setWords] = useState([]);
@@ -92,7 +92,7 @@ export default function TypingDrill({ isAuthenticated = false, onOpenAuth }) {
         const res = await api.get('/vocabulary/topics');
         const list = res?.topics || [];
         setTopics(list);
-        if (list.length > 0 && !list.some((t) => t.topic === selectedTopic)) {
+        if (list.length > 0 && (!selectedTopic || !list.some((t) => t.topic === selectedTopic))) {
           setSelectedTopic(list[0].topic);
         }
       } catch (err) {

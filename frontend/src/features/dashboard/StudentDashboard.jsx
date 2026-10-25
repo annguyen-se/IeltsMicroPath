@@ -13,8 +13,11 @@ import {
   Compass,
   Lock,
   BookmarkCheck,
-  BookMarked,
   CheckCircle2,
+  Headphones,
+  Mic,
+  Route,
+  Zap,
 } from 'lucide-react';
 import LeitnerBoxGrid from './LeitnerBoxGrid';
 
@@ -49,18 +52,17 @@ export default function StudentDashboard({
       {/* ─── 1. Academic Orientation & Workspace Welcome ─── */}
       <section className="flex flex-col gap-1">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-500 mb-1">
-          <Compass size={13} aria-hidden="true" /> Guided Writing Workspace
+          <Compass size={13} aria-hidden="true" /> IELTS Academic Master Studio
         </span>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-stone-800 dark:text-stone-100">
               {isAuthenticated && user.email
-                ? `Welcome back. Let's refine your academic writing today.`
-                : `Your dedicated IELTS writing coach workspace.`}
+                ? `Chào mừng trở lại! Tiếp tục hành trình chinh phục IELTS.`
+                : `Hệ thống luyện thi IELTS toàn diện 4 kỹ năng chuẩn quốc tế.`}
             </h1>
             <p className="text-sm text-stone-600 dark:text-stone-400 max-w-2xl mt-1.5 leading-relaxed">
-              Each session is structured as a focused 1-on-1 tutorial: activate core vocabulary, repair recent grammar
-              traps, and complete a targeted writing drill with instant diagnostic feedback.
+              Lộ trình 5 cấp độ từ Band 0 đến 8.0+: củng cố từ vựng học thuật qua hộp nhớ Leitner, làm chủ 11 dạng bài Reading, 4 Section Listening, viết luận Task 1 & 2 và luyện phản xạ Speaking phòng thu.
             </p>
           </div>
 
@@ -69,7 +71,7 @@ export default function StudentDashboard({
               <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg px-3.5 py-2 flex items-center gap-2.5 shadow-sm text-xs text-stone-600 dark:text-stone-300">
                 <Target size={15} className="text-orange-700 dark:text-orange-500" aria-hidden="true" />
                 <span>
-                  Target: <strong className="font-mono text-stone-800 dark:text-stone-100">Band {user.targetBand || '7.0+'}</strong> · Level <strong className="font-mono text-stone-800 dark:text-stone-100">{user.currentLevel ?? 1}</strong> (<span className="font-mono">{progressPercent}%</span>)
+                  Mục tiêu: <strong className="font-mono text-stone-800 dark:text-stone-100">Band {user.targetBand || '7.0+'}</strong> · Level <strong className="font-mono text-stone-800 dark:text-stone-100">{user.currentLevel ?? 1}</strong> (<span className="font-mono">{progressPercent}%</span>)
                 </span>
               </div>
             ) : (
@@ -78,10 +80,46 @@ export default function StudentDashboard({
                 onClick={onOpenAuth}
               >
                 <Lock size={13} aria-hidden="true" />
-                <span>Sign in to sync progress</span>
+                <span>Đăng nhập để đồng bộ lộ trình</span>
               </button>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* ─── 2. Interactive Roadmap Banner ─── */}
+      <section className="bg-gradient-to-r from-orange-50 via-amber-50 to-stone-50 dark:from-stone-900 dark:via-stone-900 dark:to-stone-850 border-2 border-orange-600/70 dark:border-orange-500/70 rounded-2xl p-5 sm:p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-orange-700 text-white flex items-center justify-center shrink-0 shadow-sm">
+              <Route size={22} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-orange-700 dark:text-orange-400">
+                  Lộ trình học tập cá nhân hóa (Curriculum Roadmap)
+                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-white dark:bg-stone-800 border border-orange-200 dark:border-orange-800 text-stone-700 dark:text-stone-300">
+                  5 Cấp độ · Level 0 đến Level 4
+                </span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+                {nextLesson ? `Bài học tiếp theo: ${nextLesson.title}` : 'Khám phá toàn bộ lộ trình học IELTS kết nối theo đồ thị tri thức (DAG)'}
+              </h2>
+              <p className="text-xs text-stone-600 dark:text-stone-400 mt-1">
+                Các bài học được nhóm theo từng chủ đề thực tế, kết hợp cặp đôi Lý thuyết chiến thuật & Thực hành luyện đề để mở khóa từng bước.
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="px-5 py-2.5 rounded-xl bg-orange-700 hover:bg-orange-800 text-white font-semibold text-xs shadow-sm transition-all flex items-center justify-center gap-2 shrink-0 active:scale-95"
+            onClick={() => onSwitchView('lessons')}
+          >
+            <span>Mở Bản đồ Lộ trình học</span>
+            <ArrowRight size={14} />
+          </button>
         </div>
       </section>
 
@@ -164,8 +202,8 @@ export default function StudentDashboard({
             className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-700 transition-all shadow-sm"
             onClick={() => onSwitchView('lessons')}
           >
-            <BookMarked size={15} aria-hidden="true" />
-            <span>Browse Curriculum</span>
+            <Route size={15} aria-hidden="true" />
+            <span>Xem Lộ trình học</span>
           </button>
 
           {dailyStatus.estimatedMinutes && (
@@ -176,83 +214,133 @@ export default function StudentDashboard({
         </div>
       </section>
 
-      {/* ─── 3. Practice Workstations (Dedicated Micro-Drills) ─── */}
+      {/* ─── 4. Specialized Practice Benches (6 Workstations) ─── */}
       <section>
         <div className="flex flex-col gap-1 mb-4">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-500 mb-1">
-            <PenLine size={13} aria-hidden="true" /> Specialized Practice Benches
+            <Zap size={13} aria-hidden="true" /> Trạm thực hành chuyên sâu theo kỹ năng
           </span>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-stone-800 dark:text-stone-100">
-                Select Your Focus Area
+                Chọn trạm kỹ năng bạn muốn rèn luyện
               </h2>
               <p className="text-sm text-stone-600 dark:text-stone-400 mt-1">
-                Dedicated micro-drills to strengthen sentence precision, discourse flow, and lexical recall.
+                Các phòng luyện thi chuyên biệt phục vụ từng kỹ năng chuẩn IELTS quốc tế.
               </p>
             </div>
             <button
               className="px-3 py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white rounded-md transition-colors inline-flex items-center gap-1 self-start sm:self-auto"
               onClick={() => onSwitchView('lessons')}
             >
-              <span>All Curriculum</span>
+              <span>Toàn bộ lộ trình</span>
               <ArrowRight size={13} aria-hidden="true" />
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Station 1: Writing Drill */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Station 1: Reading Studio */}
           <div
-            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 shadow-sm"
-            role="button"
-            tabIndex={0}
-            onClick={() => onSwitchView('writing')}
-            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('writing')}
-          >
-            <div>
-              <div className="w-9 h-9 rounded-md flex items-center justify-center bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 border border-stone-200 dark:border-stone-700" aria-hidden="true">
-                <PenLine size={18} />
-              </div>
-              <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
-                Sentence Translation Drill (100 Sentences)
-              </div>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Practice English translation across 12 core academic grammar patterns: participle clauses, conditionals, and inversion.
-              </p>
-            </div>
-            <div className="flex items-center justify-between text-xs font-semibold text-orange-700 dark:text-orange-500 pt-3 border-t border-stone-100 dark:border-stone-800">
-              <span>Open Translation Room</span>
-              <ArrowUpRight size={14} aria-hidden="true" />
-            </div>
-          </div>
-
-          {/* Station 2: Reading & Paraphrase Studio */}
-          <div
-            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 shadow-sm"
+            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-emerald-500 dark:hover:border-emerald-600 hover:-translate-y-0.5 shadow-sm"
             role="button"
             tabIndex={0}
             onClick={() => onSwitchView('lessons?skill=reading')}
             onKeyDown={(e) => e.key === 'Enter' && onSwitchView('lessons?skill=reading')}
           >
             <div>
-              <div className="w-9 h-9 rounded-md flex items-center justify-center bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 border border-stone-200 dark:border-stone-700" aria-hidden="true">
+              <div className="w-9 h-9 rounded-md flex items-center justify-center bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800" aria-hidden="true">
                 <BookOpen size={18} />
               </div>
               <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
-                Reading & Paraphrase Studio
+                Reading Studio (11 dạng bài đọc)
               </div>
               <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Examine Band 8.0+ model passages, identify lexical substitution traps, and build academic reading stamina.
+                Chiến lược làm bài True/False/Not Given, Matching Headings, Summary Completion kèm bảng đối chiếu từ đồng nghĩa Paraphrase.
               </p>
             </div>
-            <div className="flex items-center justify-between text-xs font-semibold text-orange-700 dark:text-orange-500 pt-3 border-t border-stone-100 dark:border-stone-800">
-              <span>Explore Paraphrases</span>
+            <div className="flex items-center justify-between text-xs font-semibold text-emerald-700 dark:text-emerald-400 pt-3 border-t border-stone-100 dark:border-stone-800">
+              <span>Mở phòng Đọc hiểu</span>
               <ArrowUpRight size={14} aria-hidden="true" />
             </div>
           </div>
 
-          {/* Station 3: Vocabulary Hub & SRS */}
+          {/* Station 2: Listening Lab */}
+          <div
+            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-sky-500 dark:hover:border-sky-600 hover:-translate-y-0.5 shadow-sm"
+            role="button"
+            tabIndex={0}
+            onClick={() => onSwitchView('lessons?skill=listening')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('lessons?skill=listening')}
+          >
+            <div>
+              <div className="w-9 h-9 rounded-md flex items-center justify-center bg-sky-100 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800" aria-hidden="true">
+                <Headphones size={18} />
+              </div>
+              <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
+                Listening Lab (4 Section chuẩn thi)
+              </div>
+              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                Trình phát audio sticky, tùy chỉnh tốc độ 0.8x-1.2x, luyện nghe bẫy số/đánh vần và mở khóa toàn văn Tape Script sau khi nộp.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs font-semibold text-sky-700 dark:text-sky-400 pt-3 border-t border-stone-100 dark:border-stone-800">
+              <span>Mở phòng Luyện nghe</span>
+              <ArrowUpRight size={14} aria-hidden="true" />
+            </div>
+          </div>
+
+          {/* Station 3: Writing Studio */}
+          <div
+            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-amber-500 dark:hover:border-amber-600 hover:-translate-y-0.5 shadow-sm"
+            role="button"
+            tabIndex={0}
+            onClick={() => onSwitchView('writing')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('writing')}
+          >
+            <div>
+              <div className="w-9 h-9 rounded-md flex items-center justify-center bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800" aria-hidden="true">
+                <PenLine size={18} />
+              </div>
+              <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
+                Writing Studio (Task 1 & Task 2)
+              </div>
+              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                Luyện viết báo cáo biểu đồ Task 1 (7 dạng), bài luận Task 2 (5 dạng), chấm điểm tự động theo 4 tiêu chí IELTS Band Descriptors.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs font-semibold text-amber-700 dark:text-amber-400 pt-3 border-t border-stone-100 dark:border-stone-800">
+              <span>Mở phòng Viết luận</span>
+              <ArrowUpRight size={14} aria-hidden="true" />
+            </div>
+          </div>
+
+          {/* Station 4: Speaking Studio */}
+          <div
+            className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-rose-500 dark:hover:border-rose-600 hover:-translate-y-0.5 shadow-sm"
+            role="button"
+            tabIndex={0}
+            onClick={() => onSwitchView('speaking')}
+            onKeyDown={(e) => e.key === 'Enter' && onSwitchView('speaking')}
+          >
+            <div>
+              <div className="w-9 h-9 rounded-md flex items-center justify-center bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800" aria-hidden="true">
+                <Mic size={18} />
+              </div>
+              <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
+                Speaking Studio (3 Part Simulator)
+              </div>
+              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                Phòng thu âm mô phỏng phòng thi thật: Part 1 phản xạ, Part 2 Cue card 1 phút chuẩn bị, Part 3 thảo luận học thuật chuyên sâu.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs font-semibold text-rose-700 dark:text-rose-400 pt-3 border-t border-stone-100 dark:border-stone-800">
+              <span>Mở phòng Luyện nói</span>
+              <ArrowUpRight size={14} aria-hidden="true" />
+            </div>
+          </div>
+
+          {/* Station 5: Vocabulary Hub & SRS */}
           <div
             className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 shadow-sm"
             role="button"
@@ -265,19 +353,19 @@ export default function StudentDashboard({
                 <Boxes size={18} />
               </div>
               <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
-                Lexical Bank & Leitner Boxes
+                Kho từ vựng & Hộp nhớ Leitner
               </div>
               <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Intelligent spaced repetition. Consolidate academic collocations for environmental, technological, and educational topics into long-term memory.
+                Kho từ vựng học thuật Oxford/AWL chia theo chủ đề. Tự động nhắc nhở ôn tập qua 5 ngăn hộp nhớ để ghi nhớ vĩnh viễn.
               </p>
             </div>
             <div className="flex items-center justify-between text-xs font-semibold text-orange-700 dark:text-orange-500 pt-3 border-t border-stone-100 dark:border-stone-800">
-              <span>Open Lexical Bank</span>
+              <span>Mở Kho từ vựng</span>
               <ArrowUpRight size={14} aria-hidden="true" />
             </div>
           </div>
 
-          {/* Station 4: Typing Drill */}
+          {/* Station 6: Typing Drill */}
           <div
             className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-5 flex flex-col justify-between gap-4 cursor-pointer text-left transition-all hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 shadow-sm"
             role="button"
@@ -290,14 +378,14 @@ export default function StudentDashboard({
                 <Keyboard size={18} />
               </div>
               <div className="text-[15px] font-semibold text-stone-800 dark:text-stone-100 mt-3 mb-1 tracking-tight">
-                Academic Typing Drill
+                Luyện gõ từ vựng (Typing Drill)
               </div>
               <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                Build keyboard muscle memory for spelling accuracy, reducing cognitive load during computer-delivered tests.
+                Rèn phản xạ cơ bắp và độ chính xác chính tả khi gõ phím, giảm áp lực khi thi IELTS trên máy tính (Computer-delivered IELTS).
               </p>
             </div>
             <div className="flex items-center justify-between text-xs font-semibold text-orange-700 dark:text-orange-500 pt-3 border-t border-stone-100 dark:border-stone-800">
-              <span>Launch Typing Drill</span>
+              <span>Bắt đầu Luyện gõ</span>
               <ArrowUpRight size={14} aria-hidden="true" />
             </div>
           </div>

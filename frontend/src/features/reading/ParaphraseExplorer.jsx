@@ -98,7 +98,7 @@ export default function ParaphraseExplorer({ isAuthenticated = false, onOpenAuth
           <div>
             <h1 style={{ fontSize: 20, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
               <BookOpen size={20} style={{ color: 'var(--color-accent)' }} />
-              <span>Reading Paraphrase & Lexical Traps (538 Pairs)</span>
+              <span>Reading Paraphrase & Lexical Traps {paraphrases.length > 0 ? `(${paraphrases.length} Pairs)` : ''}</span>
             </h1>
             <p style={{ color: 'var(--color-ink-muted)', fontSize: 13, margin: '2px 0 0' }}>
               Master high-frequency paraphrase pairs and synonym traps across IELTS academic passages.

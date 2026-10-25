@@ -14,16 +14,18 @@ import {
   Filter
 } from 'lucide-react';
 
-const TOPIC_NAMES_VI = {
-  'listening-179': 'IELTS Listening 179 (Từ khóa vàng)',
-  'reading-538': 'IELTS Reading 538 (Bẫy từ đồng nghĩa)',
-  'numbers': 'Chữ số & Đại lượng đo lường',
-  'daily-life': 'Đời sống & Sinh hoạt hàng ngày',
-  'geography': 'Địa lý & Quốc gia',
-  'environment': 'Môi trường & Sinh thái học',
-  'education': 'Giáo dục & Học đường',
-  'technology': 'Khoa học & Công nghệ',
-  'society': 'Xã hội & Kinh tế'
+const formatTopicName = (topic) => {
+  if (!topic) return '';
+  const known = {
+    'numbers': 'Chữ số & Đại lượng đo lường',
+    'daily-life': 'Đời sống & Sinh hoạt hàng ngày',
+    'geography': 'Địa lý & Quốc gia',
+    'environment': 'Môi trường & Sinh thái học',
+    'education': 'Giáo dục & Học đường',
+    'technology': 'Khoa học & Công nghệ',
+    'society': 'Xã hội & Kinh tế'
+  };
+  return known[topic] || topic.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 };
 
 const BOX_COLORS = {
@@ -203,7 +205,7 @@ export default function TopicVocabList({ isAuthenticated = false, onOpenAuth }) 
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {topics.map((t) => {
               const isSelected = selectedTopic === t.topic;
-              const displayTitle = TOPIC_NAMES_VI[t.topic] || t.topic.replace(/-/g, ' ').toUpperCase();
+              const displayTitle = formatTopicName(t.topic);
 
               return (
                 <button

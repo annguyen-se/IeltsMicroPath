@@ -7,7 +7,8 @@ const {
   updateLesson,
   getLessons,
   getLessonById,
-  createQuestion
+  createQuestion,
+  importCurriculumBundle
 } = require('../controllers/adminController');
 const authGuard = require('../middlewares/authGuard');
 const roleGuard = require('../middlewares/roleGuard');
@@ -17,6 +18,9 @@ const router = express.Router();
 // Strict RBAC: All admin CMS routes require valid token and 'admin' role
 router.use(authGuard);
 router.use(roleGuard('admin'));
+
+// Full Masterplan Curriculum Bundle Import
+router.post('/curriculum/bundle', importCurriculumBundle);
 
 // Vocabulary CMS
 router.post('/vocabularies', createVocabulary);

@@ -13,6 +13,9 @@ import {
   Moon,
   Keyboard,
   BookOpen,
+  Headphones,
+  Mic,
+  Route,
 } from 'lucide-react';
 
 export default function AppHeader({
@@ -98,10 +101,10 @@ export default function AppHeader({
           </div>
           <div className="flex flex-col leading-tight">
             <span className="font-sans font-semibold text-[15.5px] text-stone-800 dark:text-stone-100 tracking-tight">
-              IELTS Writing Hub
+              IELTS Master Studio
             </span>
             <span className="font-mono text-[10px] uppercase tracking-wider text-stone-500">
-              Studio & Guided Practice
+              4-Skill Adaptive Pathway
             </span>
           </div>
         </div>
@@ -110,7 +113,7 @@ export default function AppHeader({
         <nav className="hidden lg:flex items-center gap-1 bg-stone-100 dark:bg-stone-800/80 p-1 rounded-lg border border-stone-200 dark:border-stone-700/60 overflow-x-auto" aria-label="Primary Navigation">
           <button
             className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
-              isCurrent('/') && !location.search.includes('reading')
+              isCurrent('/') && !location.search.includes('reading') && !location.search.includes('listening')
                 ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
                 : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
             }`}
@@ -121,14 +124,14 @@ export default function AppHeader({
           </button>
           <button
             className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
-              isCurrent('/lessons') && !location.search.includes('reading')
+              isCurrent('/lessons') && !location.search.includes('reading') && !location.search.includes('listening')
                 ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
                 : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
             }`}
             onClick={() => navigate('/lessons')}
           >
-            <GraduationCap size={14} />
-            <span>Curriculum</span>
+            <Route size={14} />
+            <span>Lộ trình học</span>
           </button>
           <button
             className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
@@ -150,7 +153,29 @@ export default function AppHeader({
             onClick={() => navigate('/lessons?skill=reading')}
           >
             <BookOpen size={14} />
-            <span>Reading & Paraphrase</span>
+            <span>Reading</span>
+          </button>
+          <button
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/listening') || (isCurrent('/lessons') && location.search.includes('listening'))
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/lessons?skill=listening')}
+          >
+            <Headphones size={14} />
+            <span>Listening</span>
+          </button>
+          <button
+            className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+              isCurrent('/speaking')
+                ? 'bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-sm font-semibold'
+                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-200/50 dark:hover:bg-stone-700/50'
+            }`}
+            onClick={() => navigate('/speaking')}
+          >
+            <Mic size={14} />
+            <span>Speaking</span>
           </button>
           <button
             className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1.5 whitespace-nowrap ${

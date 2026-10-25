@@ -89,6 +89,7 @@ export default function AdminCms({ onBackToStudent }) {
   // Batch JSON state
   const [jsonInput, setJsonInput] = useState('');
   const [parsedItems, setParsedItems] = useState(null);
+  const [isBundle, setIsBundle] = useState(false);
   const [jsonError, setJsonError] = useState(null);
   const [isSubmittingBatch, setIsSubmittingBatch] = useState(false);
 
@@ -107,25 +108,37 @@ export default function AdminCms({ onBackToStudent }) {
     setJsonInput(text);
     if (!text.trim()) {
       setParsedItems(null);
+      setIsBundle(false);
       setJsonError(null);
       return;
     }
 
     try {
       const parsed = JSON.parse(text);
+
+      // Check if it's a full Masterplan Curriculum Bundle
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && (parsed.lessons || parsed.vocabulary)) {
+        setIsBundle(true);
+        setParsedItems(parsed);
+        setJsonError(null);
+        return;
+      }
+
+      setIsBundle(false);
       const items = Array.isArray(parsed)
         ? parsed
         : parsed?.vocabularies || parsed?.items || [parsed];
 
       if (!Array.isArray(items) || items.length === 0) {
         setParsedItems(null);
-        setJsonError('Dữ liệu JSON phải là một mảng danh sách từ vựng [ { ... }, { ... } ]');
+        setJsonError('Dữ liệu JSON phải là mảng từ vựng [ { ... } ] hoặc gói giáo trình { vocabulary, lessons, questions }');
       } else {
         setParsedItems(items);
         setJsonError(null);
       }
     } catch (err) {
       setParsedItems(null);
+      setIsBundle(false);
       setJsonError(`Lỗi cú pháp JSON: ${err.message}`);
     }
   };
@@ -149,15 +162,26 @@ export default function AdminCms({ onBackToStudent }) {
 
   // Submit Batch JSON to Backend
   const handleBatchSubmit = async () => {
-    if (!parsedItems || parsedItems.length === 0) return;
+    if (!parsedItems) return;
 
     setIsSubmittingBatch(true);
-    setStatusMsg({ text: 'Đang nạp dữ liệu từ vựng hàng loạt vào cơ sở dữ liệu...', isError: false });
+    setStatusMsg({
+      text: isBundle
+        ? 'Đang nạp toàn bộ gói giáo trình (Vocab + Lessons + Questions) vào Database...'
+        : 'Đang nạp dữ liệu từ vựng hàng loạt vào cơ sở dữ liệu...',
+      isError: false
+    });
 
     try {
-      const res = await api.post('/admin/vocabularies/batch', parsedItems);
-      const summary = `Nạp thành công ${res?.totalProcessed || parsedItems.length} từ vựng! (Mới thêm: ${res?.upsertedCount ?? 0}, Đã cập nhật: ${res?.modifiedCount ?? 0})`;
-      setStatusMsg({ text: summary, isError: false });
+      if (isBundle) {
+        const res = await api.post('/admin/curriculum/bundle', parsedItems);
+        const summary = `Nạp gói giáo trình thành công! (${res?.vocabCount ?? 0} từ vựng, ${res?.savedLessons ?? 0} bài học, ${res?.savedQuestions ?? 0} câu hỏi).`;
+        setStatusMsg({ text: summary, isError: false });
+      } else {
+        const res = await api.post('/admin/vocabularies/batch', parsedItems);
+        const summary = `Nạp thành công ${res?.totalProcessed || parsedItems.length} từ vựng! (Mới thêm: ${res?.upsertedCount ?? 0}, Đã cập nhật: ${res?.modifiedCount ?? 0})`;
+        setStatusMsg({ text: summary, isError: false });
+      }
     } catch (err) {
       setStatusMsg({ text: `Lỗi import hàng loạt: ${err.message}`, isError: true });
     } finally {
@@ -367,7 +391,11 @@ export default function AdminCms({ onBackToStudent }) {
             {parsedItems && !jsonError && (
               <span className="pill pill-success" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                 <CheckCircle2 size={13} />
-                <span>Hợp lệ: Đã nhận diện {parsedItems.length} từ vựng sẵn sàng nạp</span>
+                <span>
+                  {isBundle
+                    ? `Hợp lệ: Gói giáo trình (${parsedItems.vocabulary?.length || 0} từ, ${parsedItems.lessons?.length || 0} bài học, ${parsedItems.questions?.length || 0} câu hỏi)`
+                    : `Hợp lệ: Đã nhận diện ${parsedItems.length} từ vựng sẵn sàng nạp`}
+                </span>
               </span>
             )}
           </div>
@@ -388,8 +416,38 @@ export default function AdminCms({ onBackToStudent }) {
             }}
           />
 
-          {/* Preview of Parsed Items */}
-          {parsedItems && parsedItems.length > 0 && (
+          {/* Preview of Parsed Bundle Items */}
+          {isBundle && parsedItems && (
+            <div style={{ marginTop: 18 }}>
+              <h4 style={{ fontSize: 13, color: 'var(--fg-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 10 }}>
+                Xem trước gói giáo trình: {parsedItems.lessons?.length || 0} bài học
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 10 }}>
+                {(parsedItems.lessons || []).slice(0, 3).map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: '10px 14px',
+                      background: 'var(--surface-subtle)',
+                      borderRadius: 'var(--radius)',
+                      border: '1px solid var(--border)',
+                      fontSize: 13
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 13.5 }}>
+                      [{item.skill?.toUpperCase() || 'LESSON'}] {item.title}
+                    </div>
+                    <div style={{ color: 'var(--fg-muted)', fontSize: 11.5, marginTop: 4 }}>
+                      Slug: {item.slug} · Level {item.level}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Preview of Parsed Vocab Items */}
+          {!isBundle && Array.isArray(parsedItems) && parsedItems.length > 0 && (
             <div style={{ marginTop: 18 }}>
               <h4 style={{ fontSize: 13, color: 'var(--fg-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 10 }}>
                 Xem trước {Math.min(parsedItems.length, 3)} từ đầu tiên:
@@ -431,13 +489,15 @@ export default function AdminCms({ onBackToStudent }) {
               type="button"
               className="btn btn-primary btn-lg"
               onClick={handleBatchSubmit}
-              disabled={isSubmittingBatch || !parsedItems || parsedItems.length === 0 || !!jsonError}
+              disabled={isSubmittingBatch || !parsedItems || (!isBundle && (!Array.isArray(parsedItems) || parsedItems.length === 0)) || !!jsonError}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
             >
               <Plus size={18} />
               <span>
                 {isSubmittingBatch
                   ? 'Đang lưu vào Database...'
+                  : isBundle
+                  ? `Nạp toàn bộ gói giáo trình (${parsedItems?.lessons?.length || 0} bài học, ${parsedItems?.vocabulary?.length || 0} từ)`
                   : `Nạp ngay vào hệ thống (${parsedItems ? parsedItems.length : 0} từ)`}
               </span>
             </button>
@@ -580,10 +640,12 @@ export default function AdminCms({ onBackToStudent }) {
                 value={newLesson.skill}
                 onChange={(e) => setNewLesson({ ...newLesson, skill: e.target.value })}
               >
-                <option value="phonetics">Phonetics (Ngữ âm)</option>
-                <option value="syntax">Syntax (Ngữ pháp / Cú pháp)</option>
-                <option value="lexicon">Lexicon (Từ vựng)</option>
-                <option value="discourse">Discourse (Đoạn văn)</option>
+                <option value="listening">Listening (Nghe)</option>
+                <option value="reading">Reading (Đọc hiểu)</option>
+                <option value="writing">Writing (Viết Task 1 & 2)</option>
+                <option value="speaking">Speaking (Nói 3 Part)</option>
+                <option value="grammar">Academic Grammar (Ngữ pháp)</option>
+                <option value="phonetics">Phonetics & IPA (Phát âm)</option>
               </select>
             </div>
             <div>

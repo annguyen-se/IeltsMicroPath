@@ -187,10 +187,11 @@ const updateVocabulary = async (id, updateData) => {
 
 // ==================== LESSONS ====================
 
-const getLessons = async ({ level, skill, contentType, status = 'published' }) => {
+const getLessons = async ({ level, skill, topic, contentType, status = 'published' }) => {
   const query = {};
   if (level !== undefined) query.level = Number(level);
   if (skill) query.skill = skill;
+  if (topic) query.topic = topic;
   if (contentType) query.contentType = contentType;
   if (status) query.status = status;
 
@@ -201,7 +202,7 @@ const getLessons = async ({ level, skill, contentType, status = 'published' }) =
 
 const getLessonById = async (id, user = null) => {
   const lesson = await Lesson.findById(id)
-    .populate('prerequisites', 'title skill level slug')
+    .populate('prerequisites', 'title skill level slug contentType')
     .populate('vocabIds', 'word ipa pos meaningVi definitionEn exampleSentence collocations paraphrases media readingTier tier')
     .populate('vocabAnchors.vocabId', 'word ipa pos meaningVi definitionEn readingTier tier')
     .populate('paraphrasePairs.vocabId', 'word ipa pos meaningVi readingTier tier');
@@ -223,13 +224,17 @@ const getLessonById = async (id, user = null) => {
     }
   }
 
-  // 3. Check if user has unlocked review (either passed >= 75% or submitted >= 2 times or is admin)
+  // 3. Check if user has unlocked review and fetch latest attempt
   let isReviewUnlocked = false;
+  let lastAttempt = null;
   if (user) {
     if (user.role === 'admin') {
       isReviewUnlocked = true;
-    } else {
-      const attempts = await LessonAttempt.find({ userId: user._id, lessonId: lesson._id });
+    }
+    const attempts = await LessonAttempt.find({ userId: user._id, lessonId: lesson._id })
+      .sort({ attemptNumber: -1, createdAt: -1 });
+    if (attempts.length > 0) {
+      lastAttempt = attempts[0];
       const hasPassed = attempts.some(a => a.passed);
       if (hasPassed || attempts.length >= 2) {
         isReviewUnlocked = true;
@@ -237,24 +242,109 @@ const getLessonById = async (id, user = null) => {
     }
   }
 
-  const rawQuestions = await Question.find({ lessonId: id })
+  // 4. Find linked Theory / Practice lessons
+  let relatedTheoryLesson = null;
+  let relatedPracticeLessons = [];
+
+  if (lesson.contentType === 'practice') {
+    if (prereqs.length > 0) {
+      const prereqIds = prereqs.map(p => p._id || p);
+      relatedTheoryLesson = await Lesson.findOne(
+        { _id: { $in: prereqIds }, contentType: 'theory' },
+        '_id title slug contentMarkdown skill level topic'
+      );
+    }
+    if (!relatedTheoryLesson) {
+      relatedTheoryLesson = await Lesson.findOne(
+        { skill: lesson.skill, level: lesson.level, topic: lesson.topic, contentType: 'theory' },
+        '_id title slug contentMarkdown skill level topic'
+      );
+    }
+  } else if (lesson.contentType === 'theory') {
+    relatedPracticeLessons = await Lesson.find(
+      {
+        $or: [
+          { prerequisites: lesson._id },
+          { skill: lesson.skill, level: lesson.level, topic: lesson.topic, contentType: 'practice' }
+        ],
+        status: 'published'
+      },
+      '_id title slug skill level topic contentType orderIndex'
+    ).sort({ orderIndex: 1 });
+  }
+
+  const effectiveContentMarkdown =
+    lesson.contentMarkdown && lesson.contentMarkdown.trim()
+      ? lesson.contentMarkdown
+      : (relatedTheoryLesson?.contentMarkdown || '');
+
+  let effectivePracticeLessonId = lesson.contentType === 'practice' ? lesson._id : null;
+  let rawQuestions = await Question.find({ lessonId: id })
     .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media readingTier tier')
     .sort({ orderIndex: 1, createdAt: 1 });
 
+  // Direct Linking: If current lesson has 0 questions, seamlessly load questions from paired practice lesson
+  if (rawQuestions.length === 0 && relatedPracticeLessons.length > 0) {
+    const pairedPractice = relatedPracticeLessons[0];
+    effectivePracticeLessonId = pairedPractice._id;
+    rawQuestions = await Question.find({ lessonId: pairedPractice._id })
+      .populate('vocabId', 'word ipa pos meaningVi definitionEn exampleSentence collocations media readingTier tier')
+      .sort({ orderIndex: 1, createdAt: 1 });
+  }
+
+  // Direct Linking: If vocabularies is empty, seamlessly inherit from paired lesson
+  let vocabularies = lesson.vocabIds || [];
+  if (vocabularies.length === 0) {
+    if (relatedTheoryLesson?.vocabIds?.length) {
+      vocabularies = relatedTheoryLesson.vocabIds;
+    } else if (relatedPracticeLessons?.[0]?.vocabIds?.length) {
+      vocabularies = relatedPracticeLessons[0].vocabIds;
+    }
+  }
+
+  const effectivePassage =
+    (lesson.passage?.paragraphs?.length)
+      ? lesson.passage
+      : (relatedPracticeLessons[0]?.passage || lesson.passage);
+
+  const effectiveAudioTranscript =
+    (lesson.audioTranscript && lesson.audioTranscript.trim())
+      ? lesson.audioTranscript
+      : (relatedPracticeLessons[0]?.audioTranscript || '');
+
   if (isReviewUnlocked || lesson.contentType !== 'practice') {
     // Return full data with answers & explanations for modal theory/skill drills
-    const vocabularies = lesson.vocabIds || [];
     return {
-      lesson,
+      lesson: {
+        ...lesson.toObject(),
+        contentMarkdown: effectiveContentMarkdown,
+        passage: effectivePassage,
+        audioTranscript: effectiveAudioTranscript,
+        relatedTheoryLesson,
+        relatedPracticeLessons,
+        effectivePracticeLessonId
+      },
+      effectivePracticeLessonId,
       questions: rawQuestions,
       vocabularies,
-      isReviewUnlocked: isReviewUnlocked || lesson.contentType !== 'practice'
+      relatedTheoryLesson,
+      relatedPracticeLessons,
+      isReviewUnlocked: isReviewUnlocked || lesson.contentType !== 'practice',
+      lastAttempt: lastAttempt ? {
+        answers: lastAttempt.answers,
+        score: lastAttempt.score,
+        totalQuestions: lastAttempt.totalQuestions,
+        percentage: lastAttempt.percentage,
+        passed: lastAttempt.passed,
+        attemptNumber: lastAttempt.attemptNumber
+      } : null
     };
   }
 
   // Sanitized payload for test-taking mode (strict allowlist)
   const sanitizedLesson = {
     _id: lesson._id,
+    effectivePracticeLessonId,
     slug: lesson.slug,
     title: lesson.title,
     skill: lesson.skill,
@@ -264,8 +354,11 @@ const getLessonById = async (id, user = null) => {
     orderIndex: lesson.orderIndex,
     media: lesson.media,
     prerequisites: lesson.prerequisites,
-    contentMarkdown: lesson.contentType === 'theory' ? lesson.contentMarkdown : undefined,
-    passage: lesson.contentType === 'practice' ? lesson.passage : undefined
+    contentMarkdown: effectiveContentMarkdown,
+    passage: effectivePassage,
+    audioTranscript: effectiveAudioTranscript,
+    relatedTheoryLesson,
+    relatedPracticeLessons
   };
 
   const sanitizedQuestions = rawQuestions.map(q => {
@@ -279,14 +372,21 @@ const getLessonById = async (id, user = null) => {
       format: q.format || 'standard',
       prompt: q.prompt,
       options,
-      orderIndex: q.orderIndex
+      orderIndex: q.orderIndex,
+      metadata: q.metadata ? {
+        maxWords: q.metadata.maxWords,
+        requiredSelections: q.metadata.requiredSelections
+      } : undefined
     };
   });
 
   return {
     lesson: sanitizedLesson,
+    effectivePracticeLessonId,
     questions: sanitizedQuestions,
-    isReviewUnlocked: false
+    isReviewUnlocked: false,
+    relatedTheoryLesson,
+    relatedPracticeLessons
   };
 };
 

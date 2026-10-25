@@ -4,7 +4,7 @@ const { sendSuccess } = require('../utils/apiResponse');
 
 const getLessons = async (req, res, next) => {
   try {
-    const { skill, level, contentType } = req.query;
+    const { skill, level, topic, contentType } = req.query;
     const userId = req.user?._id;
     let masteredSet = new Set();
 
@@ -15,12 +15,24 @@ const getLessons = async (req, res, next) => {
       }
     }
 
-    const lessons = await contentService.getLessons({ skill, level, contentType, status: 'published' });
+    const lessons = await contentService.getLessons({ skill, level, topic, contentType, status: 'published' });
+
+    // Map pairs by topic + level + skill
+    const pairMap = new Map();
+    for (const l of lessons) {
+      const key = `${l.skill}_${l.level}_${l.topic}`;
+      if (!pairMap.has(key)) pairMap.set(key, {});
+      const item = pairMap.get(key);
+      if (l.contentType === 'theory') item.theory = l;
+      if (l.contentType === 'practice') item.practice = l;
+    }
 
     const mapped = lessons.map(l => {
       const isMastered = masteredSet.has(l._id.toString());
       const prereqs = l.prerequisites || [];
       const isUnlocked = prereqs.every(p => masteredSet.has(p._id ? p._id.toString() : p.toString()));
+      const pair = pairMap.get(`${l.skill}_${l.level}_${l.topic}`) || {};
+      const paired = l.contentType === 'theory' ? pair.practice : pair.theory;
 
       return {
         _id: l._id,
@@ -32,9 +44,18 @@ const getLessons = async (req, res, next) => {
         topic: l.topic,
         orderIndex: l.orderIndex,
         prerequisites: l.prerequisites,
+        hasPassage: !!(l.passage?.paragraphs?.length > 0),
+        hasAudio: !!(l.audioTranscript || l.media?.url),
         isMastered,
         isUnlocked,
-        status: isMastered ? 'mastered' : isUnlocked ? 'unlocked' : 'locked'
+        status: isMastered ? 'mastered' : isUnlocked ? 'unlocked' : 'locked',
+        pairedLesson: paired ? {
+          _id: paired._id,
+          title: paired.title,
+          slug: paired.slug,
+          contentType: paired.contentType,
+          skill: paired.skill
+        } : null
       };
     });
 

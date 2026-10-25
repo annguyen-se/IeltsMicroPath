@@ -12,7 +12,9 @@ import SkillCatalog from './features/lessons/SkillCatalog';
 import TypingDrill from './features/typing/TypingDrill';
 import ParaphraseExplorer from './features/reading/ParaphraseExplorer';
 import ReadingPracticeRoom from './features/reading/ReadingPracticeRoom';
+import ListeningPracticeRoom from './features/listening/ListeningPracticeRoom';
 import WritingDrill from './features/writing/WritingDrill';
+import SpeakingRoom from './features/speaking/SpeakingRoom';
 import AuthModal from './features/auth/AuthModal';
 
 export default function App() {
@@ -225,9 +227,29 @@ export default function App() {
           />
 
           <Route
+            path='/listening/:lessonId'
+            element={
+              <ListeningPracticeRoom
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route
             path='/writing'
             element={
               <WritingDrill
+                isAuthenticated={isAuthenticated}
+                onOpenAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+
+          <Route
+            path='/speaking'
+            element={
+              <SpeakingRoom
                 isAuthenticated={isAuthenticated}
                 onOpenAuth={() => setShowAuthModal(true)}
               />

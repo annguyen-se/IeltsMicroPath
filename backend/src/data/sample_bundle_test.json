@@ -1,0 +1,100 @@
+{
+  "vocabulary": [
+    {
+      "word": "mitigate",
+      "ipa": "/ˈmɪt.ɪ.ɡeɪt/",
+      "pos": "verb",
+      "meaningVi": "làm giảm bớt, xoa dịu tác hại hoặc rủi ro",
+      "definitionEn": "to make something less severe, serious, or painful",
+      "vocabType": "academic",
+      "level": 2,
+      "tier": 3,
+      "readingTier": 2,
+      "awlSublist": 3,
+      "collocations": ["mitigate the impact of", "mitigate environmental damage", "mitigate risks"],
+      "topicIdeaVi": "Sử dụng cho Writing Task 2 khi đề xuất biện pháp giảm nhẹ tác hại của biến đổi khí hậu.",
+      "wordFamily": { "noun": "mitigation", "verb": "mitigate", "adj": "unmitigated", "adv": null },
+      "paraphrases": ["alleviate", "lessen", "diminish"],
+      "exampleSentence": "Effective governmental policies can significantly mitigate environmental damage in urban zones.",
+      "topic": "Environment",
+      "status": "published"
+    }
+  ],
+  "lessons": [
+    {
+      "slug": "r-l2-environment-mitigation-strategy",
+      "title": "Urban Climate Adaptation & Mitigation Strategies",
+      "skill": "reading",
+      "contentType": "practice",
+      "level": 2,
+      "topic": "Environment",
+      "passage": {
+        "paragraphs": [
+          {
+            "label": "A",
+            "text": "Municipal leaders across industrialized capitals are establishing modern eco-districts to mitigate environmental damage caused by vehicular emissions. These specialized urban developments deploy dense vegetative buffers along major freeways to capture airborne particulates and moderate localized temperatures effectively."
+          },
+          {
+            "label": "B",
+            "text": "Nevertheless, civic planners acknowledge that green infrastructure alone cannot offset unchecked fossil fuel combustion. Transitioning public transit systems toward clean electric vehicles remains essential to achieve comprehensive atmospheric recovery."
+          }
+        ]
+      },
+      "vocabWords": ["mitigate"],
+      "vocabAnchors": [
+        {
+          "word": "mitigate",
+          "text": "mitigate environmental damage",
+          "paragraphLabel": "A"
+        }
+      ],
+      "paraphrasePairs": [
+        {
+          "questionText": "reduce ecological harm",
+          "passageText": "mitigate environmental damage",
+          "paragraphLabel": "A"
+        }
+      ],
+      "prerequisiteSlugs": [],
+      "orderIndex": 1,
+      "status": "published"
+    }
+  ],
+  "questions": [
+    {
+      "lessonSlug": "r-l2-environment-mitigation-strategy",
+      "orderIndex": 1,
+      "type": "choice",
+      "format": "mcq",
+      "prompt": "What is the primary function of vegetative buffers established along freeways in paragraph A?",
+      "options": [
+        "To capture airborne particulates and moderate localized temperatures",
+        "To expand vehicle lanes for commuter traffic",
+        "To eliminate all municipal funding deficits",
+        "To prevent pedestrians from walking near roadways"
+      ],
+      "correctAnswer": "To capture airborne particulates and moderate localized temperatures",
+      "evidence": {
+        "paragraphLabel": "A",
+        "text": "capture airborne particulates and moderate localized temperatures"
+      },
+      "explanation": "Đoạn A nêu rõ các vùng đệm thực vật được bố trí để hấp thụ bụi mịn và điều hòa nhiệt độ.",
+      "errorTaxonomy": "ERR_LEX"
+    },
+    {
+      "lessonSlug": "r-l2-environment-mitigation-strategy",
+      "orderIndex": 2,
+      "type": "choice",
+      "format": "tfng",
+      "prompt": "Civic planners believe green infrastructure is completely sufficient to solve fossil fuel emissions.",
+      "options": ["TRUE", "FALSE", "NOT GIVEN"],
+      "correctAnswer": "FALSE",
+      "evidence": {
+        "paragraphLabel": "B",
+        "text": "green infrastructure alone cannot offset unchecked fossil fuel combustion"
+      },
+      "explanation": "Đoạn B khẳng định hạ tầng xanh đơn lẻ KHÔNG THỂ bù đắp hoàn toàn khí thải hóa thạch, do đó nhận định là FALSE.",
+      "errorTaxonomy": "ERR_LOG"
+    }
+  ]
+}
