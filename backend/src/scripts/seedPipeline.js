@@ -7,13 +7,9 @@ const connectDB = require('../config/db');
 const Vocabulary = require('../models/Vocabulary');
 const Lesson = require('../models/Lesson');
 const Question = require('../models/Question');
-
+const env = require('../config/env');
 const { LEVELS, TOPICS, SKILL_MODULES, buildPromptA, buildPromptB } = require('./pipelineConfig');
-const {
-  validateLessonAndQuestions,
-  validateVocabularyBatch,
-  normalizeQuestionFormat,
-} = require('./pipelineValidator');
+const { validateLessonAndQuestions, validateVocabularyBatch, normalizeQuestionFormat } = require('./pipelineValidator');
 
 // CLI Arguments
 const args = process.argv.slice(2);
@@ -88,11 +84,14 @@ function normalizeErrorTaxonomy(raw) {
   if (typeof raw === 'string') {
     str = raw.trim().toUpperCase();
   } else if (typeof raw === 'object') {
-    str = String(raw.type || raw.code || raw.errorCode || '').trim().toUpperCase();
+    str = String(raw.type || raw.code || raw.errorCode || '')
+      .trim()
+      .toUpperCase();
   }
 
   if (CANONICAL.includes(str)) return str;
-  if (str.includes('PHO') || str.includes('PRONUN') || str.includes('SOUND') || str.includes('LISTEN')) return 'ERR_PHO';
+  if (str.includes('PHO') || str.includes('PRONUN') || str.includes('SOUND') || str.includes('LISTEN'))
+    return 'ERR_PHO';
   if (str.includes('SYN') || str.includes('GRAMMAR') || str.includes('STRUCT')) return 'ERR_SYN';
   if (str.includes('DIS') || str.includes('TRAP')) return 'ERR_DIS';
   if (str.includes('LOG') || str.includes('INFER')) return 'ERR_LOG';
@@ -108,7 +107,10 @@ function cleanAndParseJson(raw) {
 
   // Strip markdown fences
   if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+    cleaned = cleaned
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/, '')
+      .trim();
   }
 
   // Extract outermost JSON block
@@ -135,8 +137,8 @@ function cleanAndParseJson(raw) {
  * 9Router base: http://localhost:20128/v1
  */
 async function callLLM(prompt, retries = 3) {
-  const baseURL = 'http://localhost:20128/v1';
-  const apiKey = 'sk-c20289893034a894-ke9o9q-7da92cd3';
+  const baseURL = env.NINEROUTER_API_URL || 'http://localhost:20128/v1';
+  const apiKey = env.NINEROUTER_API_KEY;
   const model = 'ag/gemini-3.8-flash-high';
 
   if (!baseURL) {
@@ -195,7 +197,9 @@ async function processVocabularyBatch(vocabList = []) {
     if (!raw.word) continue;
     const cleanWord = String(raw.word).trim().toLowerCase();
 
-    let pos = String(raw.pos || 'noun').trim().toLowerCase();
+    let pos = String(raw.pos || 'noun')
+      .trim()
+      .toLowerCase();
     const posMap = {
       adjective: 'adj',
       adverb: 'adv',
@@ -279,7 +283,7 @@ async function processLessonAndQuestionsBatch(
   questions = [],
   defaultTopic = 'academic-general',
   defaultLevel = 2,
-  defaultSkill = null
+  defaultSkill = null,
 ) {
   let savedLessons = 0;
   let savedQuestions = 0;
@@ -434,7 +438,14 @@ async function processLessonAndQuestionsBatch(
 
     // 5. Upsert Questions via bulkWrite (1 round-trip thay vì N round-trips)
     const CHOICE_FORMATS = Question.CHOICE_FORMATS || [
-      'tfng', 'ynng', 'mcq', 'mcq-multiple', 'matching-headings', 'matching-info', 'matching-features', 'matching-endings'
+      'tfng',
+      'ynng',
+      'mcq',
+      'mcq-multiple',
+      'matching-headings',
+      'matching-info',
+      'matching-features',
+      'matching-endings',
     ];
 
     const bulkQuestionOps = [];
@@ -467,9 +478,15 @@ async function processLessonAndQuestionsBatch(
       if (type === 'reorder') {
         const rawAns = String(q.correctAnswer || '').trim();
         if (options.length === 1 && options[0].includes('/')) {
-          options = options[0].split('/').map((s) => s.trim()).filter(Boolean);
+          options = options[0]
+            .split('/')
+            .map((s) => s.trim())
+            .filter(Boolean);
         } else if (options.length <= 1 && rawAns) {
-          options = rawAns.replace(/[.?!;:]+$/, '').split(/\s+/).filter(Boolean);
+          options = rawAns
+            .replace(/[.?!;:]+$/, '')
+            .split(/\s+/)
+            .filter(Boolean);
         }
         for (let j = options.length - 1; j > 0; j--) {
           const k = Math.floor(Math.random() * (j + 1));
@@ -486,7 +503,11 @@ async function processLessonAndQuestionsBatch(
         const upper = correctAnswer.toUpperCase();
         if (['YES', 'NO', 'NOT GIVEN'].includes(upper)) correctAnswer = upper;
       } else if (format === 'mcq-multiple' && !correctAnswer.includes('|')) {
-        correctAnswer = correctAnswer.split(/[,;\n]+/).map((s) => s.trim()).filter(Boolean).join('|');
+        correctAnswer = correctAnswer
+          .split(/[,;\n]+/)
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .join('|');
       } else if (['writing-prompt', 'speaking-prompt'].includes(format) && !correctAnswer) {
         correctAnswer = q.metadata?.aiReferenceAnswer || 'Model answer provided.';
       }
@@ -501,8 +522,14 @@ async function processLessonAndQuestionsBatch(
         }
         if (!options.includes(correctAnswer)) {
           const matched = options.find((opt) => {
-            const cleanOpt = opt.replace(/^[A-D][.)]\s*/i, '').trim().toLowerCase();
-            const cleanAns = correctAnswer.replace(/^[A-D][.)]\s*/i, '').trim().toLowerCase();
+            const cleanOpt = opt
+              .replace(/^[A-D][.)]\s*/i, '')
+              .trim()
+              .toLowerCase();
+            const cleanAns = correctAnswer
+              .replace(/^[A-D][.)]\s*/i, '')
+              .trim()
+              .toLowerCase();
             return cleanOpt === cleanAns;
           });
           if (matched) {
@@ -514,7 +541,8 @@ async function processLessonAndQuestionsBatch(
       // Chuẩn hóa prompt (bắt các field alias: question, text, stem, promptText, instruction)
       let prompt = String(q.prompt || q.question || q.text || q.stem || q.promptText || q.instruction || '').trim();
       if (!prompt) {
-        if (format === 'tfng') prompt = 'Do the following statements agree with the information in the reading passage?';
+        if (format === 'tfng')
+          prompt = 'Do the following statements agree with the information in the reading passage?';
         else if (format === 'ynng') prompt = 'Do the following statements agree with the claims of the writer?';
         else if (format.startsWith('matching')) prompt = 'Choose the correct match from the options below.';
         else if (format.includes('completion')) prompt = 'Complete the blanks with words from the context.';
@@ -623,7 +651,7 @@ async function seedLessonStep(level, topic, skill) {
     // Nếu đã có bài practice và có câu hỏi (> 0) -> Coi như đã hoàn thiện, bỏ qua
     if (hasPractice && questionCount > 0) {
       console.log(
-        `   ⏩ [Skip] Skill "${skill}" cho "${topic}" (Level ${level}) đã hoàn thiện (${existing.length} bài, ${questionCount} câu hỏi).`
+        `   ⏩ [Skip] Skill "${skill}" cho "${topic}" (Level ${level}) đã hoàn thiện (${existing.length} bài, ${questionCount} câu hỏi).`,
       );
       return;
     }
@@ -631,14 +659,14 @@ async function seedLessonStep(level, topic, skill) {
     // Nếu đã có từ 2 bài trở lên và có câu hỏi -> bỏ qua
     if (existing.length >= 2 && questionCount > 0) {
       console.log(
-        `   ⏩ [Skip] Skill "${skill}" cho "${topic}" (Level ${level}) đã hoàn thiện (${existing.length} bài, ${questionCount} câu hỏi).`
+        `   ⏩ [Skip] Skill "${skill}" cho "${topic}" (Level ${level}) đã hoàn thiện (${existing.length} bài, ${questionCount} câu hỏi).`,
       );
       return;
     }
 
     // Nếu chỉ có bài theory hoặc bài practice rác 0 câu hỏi -> Tiếp tục gọi LLM để tạo bổ sung
     console.log(
-      `   🔄 [Chưa hoàn chỉnh] Skill "${skill}" cho "${topic}" (Level ${level}) hiện có ${existing.length} bài nhưng ${questionCount} câu hỏi. Đang tạo bổ sung...`
+      `   🔄 [Chưa hoàn chỉnh] Skill "${skill}" cho "${topic}" (Level ${level}) hiện có ${existing.length} bài nhưng ${questionCount} câu hỏi. Đang tạo bổ sung...`,
     );
   }
 
@@ -671,7 +699,7 @@ async function seedLessonStep(level, topic, skill) {
         questions,
         topic,
         level,
-        skill
+        skill,
       );
       if (savedLessons > 0) {
         success = true;
@@ -760,7 +788,7 @@ async function run() {
           } catch (err) {
             console.error(`[Pipeline Error] Lỗi topic "${top}" (Level ${lvl}):`, err.message);
           }
-        })
+        }),
       );
     }
   }
